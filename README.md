@@ -705,9 +705,12 @@ i.e. the image was tokenized), and cache accounting over exactly two identical
 and found three harness bugs (documented in the file) before the second run cost
 ¥0.0020 and passed.
 
-**Research probing** — 98 ledger rows / ~110 HTTP requests across 8 probe
-rounds plus two harness runs, **¥0.0201 (~$0.0030)** total, of which
-72 rows generated (8532 input + 850 output tokens bought in all).
+**Research probing, build round** — 98 ledger rows / ~110 HTTP requests across 8
+probe rounds plus two harness runs, **¥0.0201 (~$0.0030)**, of which 72 rows
+generated (8 532 input + 850 output tokens bought in all). (The billed round below
+added the rest; the ledger as a whole now stands at 239 rows / ¥0.5794 — read the
+generated summary in `research/probe-ledger.md`, not this sentence, for the current
+figure.)
 Bounds: `max_tokens` ≤ 8 for almost everything (200 for two tool probes, 64 for
 three thinking/vision probes, ~840-token prefixes for the cache pair), 3 s
 client-side abort guards on the cap probes, ~10 s pacing, and supervisor approval
