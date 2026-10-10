@@ -667,19 +667,21 @@ hit at ~10 s pacing over 90 requests.
 All dates are 2026-10 unless noted. "Free" means the gateway rejected the request
 or performed no inference; the ledger is the checkable form of that claim.
 
-**Offline suite** — 130 tests, 30 suites, ~1 s, green on 2026-10-11 under
+**Offline suite** — 139 tests, 31 suites, ~1 s, green on 2026-10-11 (re-run after
+the `prompt_cache_key` hook was added) under
 `node --test --import ./test/no-network.ts` with `globalThis.fetch` replaced by a
 throwing stub, so "offline" is a property of the suite rather than a claim about
 it. `npm run typecheck` (global `tsc` 7.1.0-dev.20260823.1) exit 0 against the
 symlinked pi 1.1.0 types. Per file (counts re-read from the runner on
 2026-10-11, not hand-maintained): catalog data invariants 12 (every number
-cross-checked against recorded fixtures), discovery 16, fake-pi entry wiring 19
-(incl. pi's in-place `message_end` → `turn_end` sequencing and the assertion that
-no payload hook exists), errors 17 (recorded bodies driven through pi's real
-adapters, then through pi's real classifiers), models/currency/surface/level-map
-22 (incl. pi's real `clampThinkingLevel`), no-network guard 2, provider/auth/
-wrapper 19, secret hygiene 6, wire format 17 (pi's real adapters × 2 surfaces ×
-7 thinking levels + the auto-detect negative control).
+cross-checked against recorded fixtures), discovery 16, fake-pi entry wiring 25
+(incl. pi's in-place `message_end` → `turn_end` sequencing, and the six scope tests
+for the `prompt_cache_key` hook that replaced the two absence assertions), errors 17
+(recorded bodies driven through pi's real adapters, then through pi's real
+classifiers), models/currency/surface/level-map 22 (incl. pi's real
+`clampThinkingLevel`), no-network guard 2, provider/auth/wrapper 19, secret hygiene
+6, wire format 20 (pi's real adapters × 2 surfaces × 7 thinking levels, the
+auto-detect negative control, and the hook's additive-only guarantee).
 
 **Live, free-mode harness** (`node live/check.ts`) — 11 checks, 12 ledger rows,
 **¥0.000000**, green on 2026-10-11: listing equals the curated catalog;
@@ -753,6 +755,11 @@ the replay test the house skill demands, and the zai format's lack of an encrypt
 reasoning item does not break it. pi's own loop also reported `cacheRead` 640/1024
 on a first turn in a fresh HOME (see [Prompt caching](#prompt-caching)).
 
+**Harness re-runs after the hook landed** — 2026-10-11: free mode on KEY7 (11
+checks, ¥0.000000) and `LONGCAT_SURFACE=responses --billed` on KEY8 (**18 of 18**
+checks, ¥0.0049), so both registered surfaces are green through the shipped stack
+with the new hook in place.
+
 **Billed round (operator-approved extended scope)** — 2026-10-11, four suites on
 five distinct keys so the ≤¥1-per-key cap and any per-key rate limit could not
 cross-contaminate: caching (¥0.0622, KEY1+KEY5), tool reliability N=5×4 cells
@@ -824,10 +831,13 @@ Stated plainly, so no untested claim reads as a tested one.
   prove it); whether `prompt_cache_key` routing is per-node or per-cluster is not
   observable from outside; and no invoice was consulted, so the ¥ figures are
   computed from published rates and reported usage.
-- **The Responses surface as a daily driver.** Its own cache and off-switch checks
-  pass, but no multi-turn agent loop was run on it, so reasoning-item replay there
-  (`include:["reasoning.encrypted_content"]` was accepted, not exercised over
-  turns) is unverified.
+- **The Responses surface as a daily driver.** All 18 harness checks pass with
+  `LONGCAT_SURFACE=responses` (2026-10-11, KEY8, ¥0.0049), including its own
+  thinking off/on readout (`reasoning:{effort:"none"}` → output 2 vs 27 with
+  `effort:"low"`) and confirmation that the `prompt_cache_key` hook is a no-op
+  there. What is still unverified on that surface: a **multi-turn** agent loop, so
+  reasoning-item replay (`include:["reasoning.encrypted_content"]` was accepted,
+  never exercised across turns) and its cap-validation gap under a real session.
 - **The Responses surface as a daily driver.** Its checks pass
   (`LONGCAT_SURFACE=responses node live/check.ts --billed` is supported), but no
   multi-turn session, reasoning-item replay, or tool loop was exercised on it.
@@ -925,7 +935,7 @@ catalog.ts    pure data + provenance, the exclusion list, isKnownId
 models.ts     catalog -> pi Model: currency, compat, surface/base-URL resolution
 discovery.ts  live overlay: never throws, bounded, additive, unknowns-only
 errors.ts     in-band re-statusing + three narrow rewrites
-test/         offline suite (130 tests) + the no-network preload + generated fixtures
+test/         offline suite (139 tests) + the no-network preload + generated fixtures
 live/check.ts the live harness (free by default, --billed opt-in, asserting ledger)
 research/     docs capture, probe bodies, notes, ledger, the research probe runners
 scripts/      link-pi, fixture/README/ledger generators

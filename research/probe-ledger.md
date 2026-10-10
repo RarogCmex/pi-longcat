@@ -16,11 +16,11 @@ Rules (pi-provider-plugin Phase 5, pitfalls L35/L41/L42):
 
 | | |
 |---|---|
-| ledger rows | 215 |
-| calls that generated (BILLED) | 176 |
-| input tokens bought | 175874 |
-| output tokens bought | 34169 |
-| **total spend** | **¥0.574545 ≈ $0.085432** |
+| ledger rows | 239 |
+| calls that generated (BILLED) | 188 |
+| input tokens bought | 177739 |
+| output tokens bought | 34305 |
+| **total spend** | **¥0.579425 ≈ $0.086157** |
 | accepted rows whose usage was never captured | 3 — C3b-microcoding-2.5-16k, CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
 | rows planned "free" that came back accepted and generated (L35 audit) | 2 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic |
 
@@ -49,7 +49,7 @@ an invalid `thinking.type` planned as a guaranteed rejection and accepted+billed
 | KEY7 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
 | KEY8 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
 | KEY9 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
-| LONGCAT_API_KEY|secret.env KEY1 | 22 | 10 | 2446 | 121 | 0.005896 | 0.000877 |
+| LONGCAT_API_KEY|secret.env KEY1 | 46 | 22 | 4311 | 257 | 0.010775 | 0.001602 |
 | garbage | 3 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | none | 4 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 
@@ -278,6 +278,30 @@ the two are never averaged together.
 | 0 | `live/cache-key-control-unkeyed` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 755 | 2 | 0 | 0.00152600 |
 | 0 | `live/cache-warm` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 359 | 2 | 0 | 0.00073400 |
 | 0 | `live/cache-hit` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/listing` | LONGCAT_API_KEY|secret.env KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | LONGCAT_API_KEY|secret.env KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | LONGCAT_API_KEY|secret.env KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/temperature-range` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | LONGCAT_API_KEY|secret.env KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/liveness` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-off` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-on` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 23 | 24 | 0 | 0.00023800 |
+| 0 | `live/tool-roundtrip` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 179 | 16 | 0 | 0.00048600 |
+| 0 | `live/image-colour` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 112 | 53 | 0 | 0.00064800 |
+| 0 | `live/cache-key-warm` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 756 | 2 | 0 | 0.00152800 |
+| 0 | `live/cache-key-changed-tail` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 116 | 2 | 640 | 0.00027360 |
+| 0 | `live/cache-key-control-unkeyed` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 116 | 2 | 640 | 0.00027360 |
+| 0 | `live/cache-warm` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 359 | 2 | 0 | 0.00073400 |
+| 0 | `live/cache-hit` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/responses-off` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/responses-on` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | BILLED | 23 | 27 | 0 | 0.00026200 |
 
 ## What each row was for
 
@@ -496,3 +520,27 @@ the two are never averaged together.
 - **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
 - **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
 - **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/listing`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts --billed run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/temperature-range`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts --billed run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/liveness`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/tool-roundtrip`** (cap asked: 200) — live/check.ts --billed run
+- **0 `live/image-colour`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/cache-key-warm`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-changed-tail`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/responses-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/responses-on`** (cap asked: 64) — live/check.ts --billed run
