@@ -98,6 +98,25 @@ function resolveKey(): string | undefined {
   return undefined;
 }
 const KEY = resolveKey();
+
+/**
+ * The KEY<n> id this run is using, for the ledger (the operator's budget cap is
+ * per key, so a row that cannot be attributed to a key cannot be audited against
+ * it). Resolved by exact match against secret.env; when the key came from the
+ * environment and matches nothing there, the row says so instead of guessing.
+ */
+function resolveKeyId(): string {
+  if (!KEY) return "none";
+  const secret = join(ROOT, "secret.env");
+  if (existsSync(secret)) {
+    for (const line of readFileSync(secret, "utf8").split("\n")) {
+      const m = /^\s*(KEY\d+)\s*=\s*(\S+)\s*$/.exec(line);
+      if (m && m[2] === KEY) return m[1]!;
+    }
+  }
+  return "LONGCAT_API_KEY (not one of secret.env's KEY1..KEY9)";
+}
+const KEY_ID = resolveKeyId();
 const BASE = process.env.LONGCAT_BASE_URL?.trim().replace(/\/+$/, "") || BASE_URL;
 /**
  * Probe paths are written from the host root (`/openai/v1/…`, `/anthropic/v1/…`)
@@ -690,7 +709,7 @@ test("live: spend ledger — every call itemized, no holes, total printed", { sk
           n: 0,
           ts: new Date().toISOString(),
           label: `live/${r.check}`,
-          key: "LONGCAT_API_KEY|secret.env KEY1",
+          key: KEY_ID,
           surface: r.surface,
           purpose: `live/check.ts ${BILLED_MODE ? "--billed" : "free"} run`,
           bound: `cap asked: ${r.capAsked}`,
