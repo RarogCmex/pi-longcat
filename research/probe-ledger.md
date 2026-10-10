@@ -16,11 +16,11 @@ Rules (pi-provider-plugin Phase 5, pitfalls L35/L41/L42):
 
 | | |
 |---|---|
-| ledger rows | 87 |
-| calls that generated (BILLED) | 62 |
-| input tokens bought | 7212 |
-| output tokens bought | 587 |
-| **total spend** | **¥0.015859 ≈ $0.002358** |
+| ledger rows | 98 |
+| calls that generated (BILLED) | 72 |
+| input tokens bought | 8532 |
+| output tokens bought | 850 |
+| **total spend** | **¥0.020101 ≈ $0.002989** |
 | accepted rows whose usage was never captured | 2 — CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
 | rows planned "free" that came back accepted and generated (L35 audit) | 2 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic |
 
@@ -122,6 +122,17 @@ this run carries an abort guard.
 | 85 | `free-anthropic-xapikey-noauth` | none | anthropic-messages | 401 | free (rejected) | – | – | – | 0 |
 | 86 | `R8-responses-pi-exact` | KEY1 | openai-responses | 200 | BILLED | 159 | 8 | 0 | 0.00038200 |
 | 87 | `R8-chat-pi-exact` | KEY1 | openai-completions | 200 | BILLED | 153 | 8 | 0 | 0.00037000 |
+| 88 | `R9-tools-thinking-off` | KEY1 | openai-completions | 200 | BILLED | 157 | 16 | 0 | 0.00044200 |
+| 89 | `R9-tools-thinking-on` | KEY1 | openai-completions | 200 | BILLED | 154 | 57 | 0 | 0.00076400 |
+| 90 | `LIVE-free-run-1` | KEY1 | mixed | 200 | free (no inference) | – | – | – | 0 |
+| 91 | `LIVE-billed-run-1` | KEY1 | openai-completions | 200 | BILLED | 582 | 68 | 256 | 0.00118600 |
+| 92 | `LIVE2-liveness` | KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 93 | `LIVE2-thinking-off` | KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 94 | `LIVE2-thinking-on` | KEY1 | openai-completions | 200 | BILLED | 23 | 42 | 0 | 0.00038200 |
+| 95 | `LIVE2-tool-roundtrip` | KEY1 | openai-completions | 200 | BILLED | 35 | 18 | – | 0.00021400 |
+| 96 | `LIVE2-image-colour` | KEY1 | openai-completions | 200 | BILLED | 111 | 54 | 0 | 0.00065400 |
+| 97 | `LIVE2-cache-warm` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 98 | `LIVE2-cache-hit` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
 
 ## What each row was for
 
@@ -212,3 +223,14 @@ this run carries an abort guard.
 - **85 `free-anthropic-xapikey-noauth`** (empty body) — control: same empty body without any credential
 - **86 `R8-responses-pi-exact`** (max_output_tokens 8, captured via onPayload then sent live) — pi's EXACT captured Responses body, incl. the unprobed include/store/prompt_cache_key/summary fields
 - **87 `R8-chat-pi-exact`** (max_tokens 8, captured via onPayload then sent live) — pi's EXACT captured chat body, incl. thinking{type:enabled,clear_thinking:false} + tools
+- **88 `R9-tools-thinking-off`** (max_tokens 120, one tool, no tool_choice) — do structured tool_calls survive thinking:{type:disabled}? (the harness had shown an inline <longcat_tool_call> text tag)
+- **89 `R9-tools-thinking-on`** (max_tokens 200, one tool, no tool_choice) — control: the same request with thinking enabled
+- **90 `LIVE-free-run-1`** (all rejections or GETs; 5 s pacing) — live/check.ts free-mode verification run (11 checks: listing, retrieve drift, cap sweep, unknown model, temperature, image floor, garbage key through the production wrapper, in-band remediation x2, origin guard)
+- **91 `LIVE-billed-run-1`** (6 accepted calls, max_tokens 4-200) — first --billed harness run: found three harness defects (tools in options not transcript, OpenAI-shaped image part instead of pi's {type:image}, cost formula double-subtracting the cache) and one real usage-semantics fact (pi's usage.input is net of cacheRead)
+- **92 `LIVE2-liveness`** (maxTokens 8) — live/check.ts --billed run 2, check 'liveness' (through the shipped wrapped adapter)
+- **93 `LIVE2-thinking-off`** (maxTokens 8) — live/check.ts --billed run 2, check 'thinking-off' (through the shipped wrapped adapter)
+- **94 `LIVE2-thinking-on`** (maxTokens 64) — live/check.ts --billed run 2, check 'thinking-on' (through the shipped wrapped adapter)
+- **95 `LIVE2-tool-roundtrip`** (maxTokens 200) — live/check.ts --billed run 2, check 'tool-roundtrip' (through the shipped wrapped adapter)
+- **96 `LIVE2-image-colour`** (maxTokens 64) — live/check.ts --billed run 2, check 'image-colour' (through the shipped wrapped adapter)
+- **97 `LIVE2-cache-warm`** (maxTokens 4) — live/check.ts --billed run 2, check 'cache-warm' (through the shipped wrapped adapter)
+- **98 `LIVE2-cache-hit`** (maxTokens 4) — live/check.ts --billed run 2, check 'cache-hit' (through the shipped wrapped adapter)

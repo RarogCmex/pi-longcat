@@ -109,6 +109,13 @@ describe("secret hygiene", () => {
     }
   });
 
+  test("the live harness's garbage key is not a real key, and is not a literal", () => {
+    const harness = readFileSync(join(ROOT, "live", "check.ts"), "utf8");
+    assert.match(harness, /GARBAGE_KEY = \["ak_", "definitely", "_not_a_real_key"\]\.join/, "the placeholder must stay constructed, not pasted");
+    const garbage = ["ak_", "definitely", "_not_a_real_key"].join("");
+    for (const key of realKeys()) assert.notEqual(garbage, key, "the deliberately-invalid key must not collide with a real one");
+  });
+
   test("no file the tests import contains a private path or a credential literal", () => {
     for (const file of FILES.filter((f) => f.endsWith(".ts") && !f.includes("/test/"))) {
       const text = readFileSync(file, "utf8");
