@@ -109,8 +109,12 @@ export async function keyLooksValid(
       headers: { Authorization: `Bearer ${key}` },
       signal: controller.signal,
     });
+    // Only the two credential statuses say anything about the key. A 5xx, a 429
+    // or an unexpected shape means "the gateway could not answer", not "the key
+    // is bad" — refusing to save a good key because our probe hit a bad minute is
+    // the worse failure.
     if (response.status === 401 || response.status === 403) return false;
-    return response.ok;
+    return true;
   } catch {
     return true;
   } finally {

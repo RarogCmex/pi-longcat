@@ -21,8 +21,8 @@ Rules (pi-provider-plugin Phase 5, pitfalls L35/L41/L42):
 | input tokens bought | 7212 |
 | output tokens bought | 587 |
 | **total spend** | **¥0.015859 ≈ $0.002358** |
-| 2xx rows with no captured usage (holes) | 4 — CAP2-chat-2.5-131073, listing-9-keys, retrieve-model-details, R2-IM-2.5-textonly |
-| rows planned "free" that came back 2xx | 5 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic, listing-9-keys, retrieve-model-details, inband-200-evidence |
+| accepted rows whose usage was never captured | 2 — CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
+| rows planned "free" that came back accepted and generated (L35 audit) | 2 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic |
 
 Two calls are holes on purpose and are **not** estimated (the house rule is 'not
 captured' rather than a plausible number): `CAP2-chat-2.5-131073` was accepted and

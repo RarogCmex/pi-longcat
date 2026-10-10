@@ -45,17 +45,27 @@ const rows: Row[] = readFileSync(JSONL, "utf8")
 
 /** A call that performed inference: 2xx AND usage captured. */
 const billed = rows.filter((r) => r.actualClass === "BILLED");
-/** 2xx with no usage — either an in-band error body or an aborted/uncaptured call. */
-const holes = rows.filter((r) => {
-  const status = typeof r.http === "number" ? r.http : 200;
-  const accepted = status >= 200 && status < 300;
-  return accepted && r.actualClass !== "BILLED" && !/not billed|response\.failed|in-band/i.test(r.actualClass);
-});
-/** Rows whose class claims free but whose status is 2xx — the L35 audit. */
-const suspicious = rows.filter((r) => {
+/**
+ * A row that performed no inference says so in its class ("no inference" for a
+ * listing GET, "not billed" for an in-band error body or an SSE
+ * `response.failed`). Those are not holes and not L35 misses: the audit is about
+ * calls that GENERATED without being itemized, and about a planned-free probe
+ * that came back accepted.
+ */
+const performedNoInference = (r: Row) => /no inference|not billed/i.test(r.actualClass);
+const accepted = (r: Row) => {
   const status = typeof r.http === "number" ? r.http : 0;
-  return r.plannedClass === "free" && status >= 200 && status < 300;
-});
+  return status >= 200 && status < 300;
+};
+
+/** 2xx that generated but whose usage we never captured. */
+const holes = rows.filter(
+  (r) => accepted(r) && r.actualClass !== "BILLED" && !performedNoInference(r) && !/ABORTED|ERR/i.test(String(r.http)),
+);
+/** Aborted/errored mid-stream: accepted, but the usage event never arrived. */
+const uncaptured = rows.filter((r) => /ABORTED|ERR:/i.test(String(r.http)));
+/** Rows planned "free" that came back accepted AND generated — the L35 audit. */
+const suspicious = rows.filter((r) => r.plannedClass === "free" && accepted(r) && !performedNoInference(r));
 const totalCny = billed.reduce((sum, r) => sum + (r.costCny || 0), 0);
 const totalIn = billed.reduce((sum, r) => sum + (r.in ?? 0), 0);
 const totalOut = billed.reduce((sum, r) => sum + (r.out ?? 0), 0);
@@ -84,8 +94,8 @@ const lines: string[] = [
   `| input tokens bought | ${totalIn} |`,
   `| output tokens bought | ${totalOut} |`,
   `| **total spend** | **¥${totalCny.toFixed(6)} ≈ $${(totalCny / CNY_PER_USD).toFixed(6)}** |`,
-  `| 2xx rows with no captured usage (holes) | ${holes.length}${holes.length ? " — " + holes.map((h) => h.label).join(", ") : ""} |`,
-  `| rows planned "free" that came back 2xx | ${suspicious.length}${suspicious.length ? " — " + suspicious.map((h) => h.label).join(", ") : ""} |`,
+  `| accepted rows whose usage was never captured | ${holes.length + uncaptured.length}${holes.length + uncaptured.length ? " — " + [...holes, ...uncaptured].map((h) => h.label).join(", ") : ""} |`,
+  `| rows planned "free" that came back accepted and generated (L35 audit) | ${suspicious.length}${suspicious.length ? " — " + suspicious.map((h) => h.label).join(", ") : ""} |`,
   "",
   "Two calls are holes on purpose and are **not** estimated (the house rule is 'not",
   "captured' rather than a plausible number): `CAP2-chat-2.5-131073` was accepted and",
@@ -113,4 +123,4 @@ writeFileSync(OUT, lines.join("\n"));
 console.log(
   `wrote ${OUT}: ${rows.length} rows, ${billed.length} billed, ¥${totalCny.toFixed(6)} (~$${(totalCny / CNY_PER_USD).toFixed(6)}), ${holes.length} holes, ${suspicious.length} suspicious`,
 );
-if (holes.length > 4) throw new Error(`too many uncaptured rows (${holes.length}) — the ledger would be decoration`);
+if (holes.length > 2) throw new Error(`too many uncaptured rows (${holes.length}) - the ledger would be decoration`);

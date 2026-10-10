@@ -72,6 +72,30 @@ export const BILLING_URL = "https://longcat.chat/platform";
 export const REWRITE_PREFIX = "LongCat: ";
 
 /**
+ * ASCII tags embedded in each rewrite so `classifyRewritten` can read the
+ * decision back from our OWN text.
+ *
+ * Why this exists (measured by a failing test, 2026-10-11): pi applies the
+ * `message_end` rewrite IN PLACE on the stored message, so `turn_end` sees the
+ * rewritten text rather than the gateway's. The auth rewrite explains that an
+ * empty balance is a *different* error and therefore contains the literals
+ * `402` and `insufficient_quota` — which the balance predicate matches, so an
+ * auth failure was about to be given the balance help entry. Classifying on a
+ * tag we control, before falling back to the raw-text predicates, is the fix
+ * (the same trick pi-bigmodel uses for its locale-independent `[auth]` tag).
+ */
+export const AUTH_TAG = "[longcat-auth]";
+export const QUOTA_TAG = "[longcat-balance]";
+
+/** Which of our rewrites produced this message, if any. */
+export function classifyRewritten(message: { errorMessage?: string }): "auth" | "balance" | undefined {
+  const text = message.errorMessage ?? "";
+  if (text.includes(AUTH_TAG)) return "auth";
+  if (text.includes(QUOTA_TAG)) return "balance";
+  return undefined;
+}
+
+/**
  * Documented overflow wordings. `context_length_exceeded` is the documented code
  * (FAQ, 2026-10-10) and pi already matches it; the rest are the CJK/English
  * phrasings this gateway family uses for the same condition. UNMEASURED — see the
@@ -201,6 +225,9 @@ export async function remediateInBandResponse(response: Response): Promise<Respo
 export function shouldClarifyAuth(message: { errorMessage?: string }): boolean {
   const text = message.errorMessage ?? "";
   if (!text) return false;
+  // Our own balance rewrite quotes the auth wording to explain the difference;
+  // the tag decides, so a balance failure is never re-classified as a key problem.
+  if (text.includes(QUOTA_TAG)) return false;
   if (RATE_LIMIT_RE.test(text)) return false;
   return /invalid_api_key|missing_api_key|incorrect api key|\b401\b|unauthorized|authentication_error/i.test(text);
 }
@@ -217,6 +244,9 @@ export function shouldClarifyAuth(message: { errorMessage?: string }): boolean {
 export function shouldClarifyQuota(message: { errorMessage?: string }): boolean {
   const text = message.errorMessage ?? "";
   if (!text) return false;
+  // Symmetric guard: the auth rewrite mentions 402/insufficient_quota to tell the
+  // user what a balance error looks like, and must not be read as one.
+  if (text.includes(AUTH_TAG)) return false;
   return /insufficient_quota|insufficient[_ -]balance|\b402\b|payment required|余额不足|请充值|欠费/i.test(text);
 }
 
@@ -230,7 +260,7 @@ export function clarifyAuthError(errorMessage: string): string | null {
   if (!errorMessage) return null;
   if (errorMessage.startsWith(REWRITE_PREFIX)) return null;
   return (
-    `${REWRITE_PREFIX}the API key was rejected (invalid, revoked, or not the key for this ` +
+    `${REWRITE_PREFIX}${AUTH_TAG} the API key was rejected (invalid, revoked, or not the key for this ` +
     `account). Create or copy a key at ${API_KEYS_URL}, then run \`/login longcat\` or set ` +
     `LONGCAT_API_KEY. Note that an empty balance is a DIFFERENT error (402 / ` +
     `insufficient_quota), so if the key is correct, check the balance instead. ` +
@@ -247,7 +277,7 @@ export function clarifyQuotaError(errorMessage: string): string | null {
   if (!errorMessage) return null;
   if (errorMessage.startsWith(REWRITE_PREFIX)) return null;
   return (
-    `${REWRITE_PREFIX}this account has no usable balance (insufficient_quota / 402). The key ` +
+    `${REWRITE_PREFIX}${QUOTA_TAG} this account has no usable balance (insufficient_quota / 402). The key ` +
     `itself was accepted, so rotating it will not help — and on this platform all keys of one ` +
     `account share its balance. Top up at ${BILLING_URL} (Billing → Recharge), or wait for a ` +
     `Token Pack / promotional credit to be applied. ` +

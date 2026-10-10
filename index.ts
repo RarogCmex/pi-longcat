@@ -53,6 +53,7 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import {
   clarifyAuthError,
   clarifyQuotaError,
+  classifyRewritten,
   normalizeOverflowError,
   shouldClarifyAuth,
   shouldClarifyQuota,
@@ -112,8 +113,12 @@ export default function (pi: ExtensionAPI) {
       errorMessage?: string;
     };
     if (msg.provider !== PROVIDER_ID) return;
-    const quota = shouldClarifyQuota(msg);
-    if (!quota && !shouldClarifyAuth(msg)) return;
+    // By now the message may already carry our own rewrite, in place, so ask the
+    // tag first and fall back to the raw-text predicates for a message this
+    // process never rewrote (a persisted session re-hydrated elsewhere).
+    const classified = classifyRewritten(msg);
+    const quota = classified ? classified === "balance" : shouldClarifyQuota(msg);
+    if (classified ? classified !== "auth" && classified !== "balance" : !quota && !shouldClarifyAuth(msg)) return;
     const customType = quota ? "longcat-balance-help" : "longcat-auth-help";
     if (event.entries.some((e) => (e as { customType?: string }).customType === customType)) return;
     const content = quota
