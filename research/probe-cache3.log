@@ -1,0 +1,20 @@
+      D1-keyed-alpha-Q1: prompt=1107 cached=0 cost=¥0.002230
+      D2-keyed-alpha-Q1-repeat: prompt=1107 cached=1024 cost=¥0.000223
+      D3-keyed-alpha-Q2-changedtail: prompt=1107 cached=1024 cost=¥0.000223
+      D4-nokey-Q1: prompt=1107 cached=0 cost=¥0.002230
+      D5-keyed-beta-Q1: prompt=1107 cached=0 cost=¥0.002230
+
+================ D-CELL TRUTH TABLE ================
+  D1-keyed-alpha-Q1                prompt=1107   cached=0      miss   (cold (first touch of a unique prefix))
+  D2-keyed-alpha-Q1-repeat         prompt=1107   cached=1024   HIT   (hit (identical repeat — the control; if this misses, the cell is void))
+  D3-keyed-alpha-Q2-changedtail    prompt=1107   cached=1024   HIT   (DISCRIMINATOR: hit ⇒ prefix-based + routing (b); miss ⇒ whole-request keying (a))
+  D4-nokey-Q1                      prompt=1107   cached=0      miss   (hit ⇒ the key is not needed for affinity; miss ⇒ the key is what routes)
+  D5-keyed-beta-Q1                 prompt=1107   cached=0      miss   (hit ⇒ the key does not partition; miss ⇒ it does (re-test of A4))
+
+verdict:
+  (a) whole-request keying:  REFUTED — a changed tail still hit
+  (b) routing/affinity:      SUPPORTED — a stable prompt_cache_key kept the prefix warm across a tail change
+  prompt_cache_key needed:   yes — removing the key lost the warm prefix
+  prompt_cache_key partitions: yes — a different key value missed
+
+D-cell spend: ¥0.007136 on KEY1

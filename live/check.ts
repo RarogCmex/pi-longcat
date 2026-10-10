@@ -76,7 +76,7 @@ import {
 } from "@earendil-works/pi-ai";
 import { CATALOG, CATALOG_BY_ID, MIN_IMAGE_AREA_PX } from "../catalog.ts";
 import { BASE_URL, buildModels, resolveSurface, type GatewayApi, type LongCatModel } from "../models.ts";
-import { remediateInBandResponse, clarifyAuthError, shouldClarifyAuth } from "../errors.ts";
+import { injectPromptCacheKey, remediateInBandResponse, clarifyAuthError, shouldClarifyAuth } from "../errors.ts";
 import { withGatewayErrorRemediation } from "../provider.ts";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -260,6 +260,13 @@ const streamsBySurface: Record<GatewayApi, ReturnType<typeof withGatewayErrorRem
   "openai-responses": withGatewayErrorRemediation(openAIResponsesApi()),
 };
 
+/**
+ * The session id this harness run pretends to be. Unique per run so a warm cache
+ * from a previous run cannot flatter the cache checks (journal J32), and passed to
+ * the hook at pi's own hook point (`onPayload`) exactly where `index.ts` gets it.
+ */
+const SESSION_ID = `live-check-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+
 function models(): LongCatModel[] {
   return buildModels(SURFACE, BASE);
 }
@@ -290,7 +297,7 @@ async function ask(
   check: string,
   model: LongCatModel,
   userContent: unknown,
-  options: { reasoning?: any; maxTokens?: number; tools?: any[]; toolChoice?: any; systemPrompt?: string } = {},
+  options: { reasoning?: any; maxTokens?: number; tools?: any[]; toolChoice?: any; systemPrompt?: string; sessionId?: string | null } = {},
 ): Promise<{ message: AssistantMessage; status: number | string }> {
   await pace();
   let status: number | string = "-";
@@ -302,6 +309,13 @@ async function ask(
     onResponse: (response: Response) => {
       status = response.status;
     },
+    // The shipped hook, applied where pi applies it. A harness that bypasses the
+    // extension's transform tests the adapter, not the plugin.
+    onPayload: (body: unknown) =>
+      injectPromptCacheKey(body, {
+        sessionId: options.sessionId === null ? undefined : SESSION_ID,
+        isChatSurface: model.api === "openai-completions",
+      }) as unknown,
     fetch: (async (input: any, init: any) => {
       const response = await fetch(input, init);
       return remediateInBandResponse(response);
@@ -582,6 +596,28 @@ test("live/billed: 2.5-Preview consumes an image and names a colour the prompt c
   assert.equal(message.stopReason, "stop", `image request failed: ${message.errorMessage ?? message.stopReason}`);
   assert.ok((message.usage?.input ?? 0) > 40, `the image was not tokenized: input ${message.usage?.input}`);
   assert.match(answer, /green/i, `vision readout failed: ${JSON.stringify(answer)}`);
+});
+
+test("live/billed: the injected prompt_cache_key makes a CHANGED-TAIL request hit the warm prefix", { skip: skipBilled }, async () => {
+  // End-to-end form of research cell D3, through the shipped stack: pi omits
+  // prompt_cache_key on chat routes, the gateway addresses its cache by that key
+  // (a warm prefix misses without it), and index.ts injects the session id. If
+  // this check ever fails, a multi-turn session is paying ¥2/1M instead of
+  // ¥0.04/1M on its whole prefix.
+  const model = modelById("LongCat-2.0");
+  const prefix = `Cache-routing check ${SESSION_ID}.\n` + "Verify the valve, log the reading, reset the counter.\n".repeat(60);
+  const first = await ask("cache-key-warm", model, "Reply with exactly one word: ok", { maxTokens: 16, systemPrompt: prefix, reasoning: undefined });
+  assert.equal(first.message.stopReason, "stop", String(first.message.errorMessage ?? ""));
+  const changed = await ask("cache-key-changed-tail", model, "Reply with exactly one word: fine", { maxTokens: 16, systemPrompt: prefix, reasoning: undefined });
+  assert.ok(
+    (changed.message.usage?.cacheRead ?? 0) > 0,
+    `a changed final message lost the warm prefix (cacheRead ${changed.message.usage?.cacheRead}) — the hook is not reaching the wire, or the gateway stopped routing by prompt_cache_key`,
+  );
+  // Control: the same request with the hook suppressed must NOT be assumed to hit.
+  // It is recorded, not asserted — an unkeyed request can land on a warm node, and
+  // a flaky control is worse than none.
+  const unkeyed = await ask("cache-key-control-unkeyed", model, "Reply with exactly one word: fine", { maxTokens: 16, systemPrompt: prefix, reasoning: undefined, sessionId: null });
+  console.log(`      control (no prompt_cache_key): cacheRead=${unkeyed.message.usage?.cacheRead ?? 0} vs keyed=${changed.message.usage?.cacheRead ?? 0}`);
 });
 
 test("live/billed: cache accounting is proven with exactly two identical long-prefix requests", { skip: skipBilled }, async () => {

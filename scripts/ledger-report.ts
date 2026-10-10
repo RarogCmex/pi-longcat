@@ -97,12 +97,42 @@ const lines: string[] = [
   `| accepted rows whose usage was never captured | ${holes.length + uncaptured.length}${holes.length + uncaptured.length ? " — " + [...holes, ...uncaptured].map((h) => h.label).join(", ") : ""} |`,
   `| rows planned "free" that came back accepted and generated (L35 audit) | ${suspicious.length}${suspicious.length ? " — " + suspicious.map((h) => h.label).join(", ") : ""} |`,
   "",
-  "Two calls are holes on purpose and are **not** estimated (the house rule is 'not",
-  "captured' rather than a plausible number): `CAP2-chat-2.5-131073` was accepted and",
-  "killed by the 3 s client-side abort guard before any usage event, and",
-  "`R2-IM-2.5-textonly` timed out at 45 s. Both were bounded prompts with",
-  "`max_tokens` 8/131073 respectively; the first is the reason every cap probe in",
-  "this run carries an abort guard.",
+  `Rows whose usage was never captured are named above and are **not** estimated —`,
+  `the house rule is "not captured" rather than a plausible number. Three classes`,
+  `produce them: a client-side abort guard firing mid-generation (the cap probes,`,
+  `and \`C3b-microcoding-2.5-16k\`, which a 120 s wall clock cut off while the model`,
+  `was still thinking — its class reads BILLED-uncaptured because the server kept`,
+  `generating after we hung up), a request timeout, and a stream that ended before`,
+  `the usage event. A row in this list is a hole in the accounting, not a free call.`,
+  `The 2 "suspicious" rows are the honest L35 misses from the first research round:`,
+  `an invalid \`thinking.type\` planned as a guaranteed rejection and accepted+billed.`,
+  "",
+  "### Spend per key (the operator's cap is per key, so the ledger reports per key)",
+  "",
+  "| key | rows | billed rows | input tokens | output tokens | ¥ | ~$ |",
+  "|---|---|---|---|---|---|---|",
+  ...Object.entries(
+    rows.reduce<Record<string, { rows: number; billed: number; in: number; out: number; cny: number }>>((acc, r) => {
+      const k = r.key ?? "?";
+      acc[k] ??= { rows: 0, billed: 0, in: 0, out: 0, cny: 0 };
+      acc[k]!.rows++;
+      if (r.actualClass === "BILLED") {
+        acc[k]!.billed++;
+        acc[k]!.in += r.in ?? 0;
+        acc[k]!.out += r.out ?? 0;
+        acc[k]!.cny += r.costCny || 0;
+      }
+      return acc;
+    }, {}),
+  )
+    .sort()
+    .map(([k, v]) => `| ${k} | ${v.rows} | ${v.billed} | ${v.in} | ${v.out} | ${v.cny.toFixed(6)} | ${(v.cny / CNY_PER_USD).toFixed(6)} |`),
+  "",
+  "### Latency (C5: every billed call of the round records TTFT and output tok/s)",
+  "",
+  "Full table: `node scripts/latency-report.ts`. Rows whose surface is `real-pi` carry",
+  "`elapsedMs` + first-stdout-byte instead of TTFT, because pi does not expose TTFT;",
+  "the two are never averaged together.",
   "",
   "## Rows",
   "",

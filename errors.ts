@@ -218,6 +218,67 @@ export async function remediateInBandResponse(response: Response): Promise<Respo
   });
 }
 
+// ── The one request-shape fix ────────────────────────────────────────────────
+//
+// This plugin shipped for its first day with NO `before_provider_request` hook,
+// and that absence was a measured result: every shape pi 1.1.0 produced was
+// captured offline and accepted live (parts arrays, role:"tool" with and without a
+// preceding assistant message, pi's full Responses body). What reopened it was a
+// question nobody had asked at build time — how the platform's implicit prompt
+// cache is addressed — and the answer is economic, not cosmetic (measured
+// 2026-10-11, cells D1-D5 in research/probe-cache3.log):
+//
+//   keyed cold                    → miss
+//   keyed, identical repeat       → HIT 1024/1107 cached
+//   keyed, only the LAST message changed → HIT 1024   (the cache is prefix-based)
+//   the same warm prefix sent WITHOUT prompt_cache_key → MISS
+//   the same prefix under a different key value        → MISS
+//
+// So `prompt_cache_key` is the routing/namespace handle, and pi omits it on chat
+// routes (pi-ai/dist/api/openai-completions.js:575-578 sends it only for
+// api.openai.com or its own long-retention mode) while the Responses adapter
+// fills it from the session id. Cached input is 50× cheaper (¥0.04 vs ¥2 per 1M),
+// so omitting it on the DEFAULT surface is a silent cost bug for any multi-turn
+// session. The fix is the one the house manual already prescribes
+// (streaming-and-errors.md § Usage accounting): inject a 64-char-clamped session
+// id. It adds no requests and declares no `promptCache`, so pi's cache warmer
+// stays off — it only routes requests pi was already sending.
+
+/** OpenAI-family `prompt_cache_key` length cap (pi-ai clamps the same way). */
+export const MAX_CACHE_KEY_LENGTH = 64;
+
+export function clampCacheKey(value: string): string {
+  return value.length > MAX_CACHE_KEY_LENGTH ? value.slice(0, MAX_CACHE_KEY_LENGTH) : value;
+}
+
+/**
+ * Add `prompt_cache_key` to a CHAT payload, or return `undefined` to leave the
+ * payload untouched (pi's `before_provider_request` contract: only a returned
+ * value replaces the payload).
+ *
+ * Guards, each one load-bearing:
+ *  - chat bodies only (`messages` present, no `input`): on the Responses surface
+ *    pi already sends the key, and a second writer would fight it;
+ *  - never overwrite: if pi (or a future pi) already set the field, this is a
+ *    no-op — that is what keeps the hook idempotent under a pi upgrade;
+ *  - no session id ⇒ no injection (a constant key would merge every session into
+ *    one namespace, which is worse than pi's default);
+ *  - copies the payload rather than mutating it, so the identity check in
+ *    `index.ts` can tell "changed" from "unchanged".
+ */
+export function injectPromptCacheKey(
+  payload: unknown,
+  options: { sessionId?: string; isChatSurface: boolean },
+): Record<string, unknown> | undefined {
+  if (!options.isChatSurface) return undefined;
+  if (!options.sessionId) return undefined;
+  if (!payload || typeof payload !== "object") return undefined;
+  const body = payload as Record<string, unknown>;
+  if (body.messages === undefined || body.input !== undefined) return undefined;
+  if (body.prompt_cache_key !== undefined) return undefined;
+  return { ...body, prompt_cache_key: clampCacheKey(options.sessionId) };
+}
+
 /**
  * True when an error-stopped assistant message looks like a LongCat credential
  * failure. Matches the measured 401 codes and the opaque shapes pi can end up

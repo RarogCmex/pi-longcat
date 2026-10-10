@@ -1,0 +1,30 @@
+      LongCat-2.0 / enabled #1: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=150 ttft=1676ms 73 tok/s)
+      LongCat-2.0 / enabled #2: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=71 ttft=1684ms 66.5 tok/s)
+      LongCat-2.0 / enabled #3: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=70 ttft=1597ms 65.2 tok/s)
+      LongCat-2.0 / enabled #4: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=157 ttft=2377ms 69 tok/s)
+      LongCat-2.0 / enabled #5: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=136 ttft=1405ms 69.9 tok/s)
+      LongCat-2.0 / disabled #1: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=1926ms 116.8 tok/s)
+      LongCat-2.0 / disabled #2: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=29 ttft=1633ms 51.5 tok/s)
+      LongCat-2.0 / disabled #3: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=1848ms 115.1 tok/s)
+      LongCat-2.0 / disabled #4: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=1867ms 115.1 tok/s)
+      LongCat-2.0 / disabled #5: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=1687ms 106 tok/s)
+      LongCat-2.5-Preview / enabled #1: TEXT — plain answer: "The current date and time depends on your timezone. You can retrieve it using the following tool call:" (in=192 out=24 ttft=2220ms 31.1 tok/s)
+      LongCat-2.5-Preview / enabled #2: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=65 ttft=2265ms 41.9 tok/s)
+      LongCat-2.5-Preview / enabled #3: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=65 ttft=2050ms 41.6 tok/s)
+      LongCat-2.5-Preview / enabled #4: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=79 ttft=1863ms 34.3 tok/s)
+      LongCat-2.5-Preview / enabled #5: STRUCTURED — get_current_time({"zone":"UTC"}) (in=192 out=123 ttft=2513ms 40.7 tok/s)
+      LongCat-2.5-Preview / disabled #1: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=2445ms 85.1 tok/s)
+      LongCat-2.5-Preview / disabled #2: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=2158ms 76.9 tok/s)
+      LongCat-2.5-Preview / disabled #3: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=2173ms 77.3 tok/s)
+      LongCat-2.5-Preview / disabled #4: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=11856ms 73.7 tok/s)
+      LongCat-2.5-Preview / disabled #5: STRUCTURED — get_current_time({"zone":"UTC"}) (in=195 out=16 ttft=34232ms 128 tok/s)
+
+================ TOOL RELIABILITY (N per cell = 5) ================
+| model | switch | structured tool_calls | inline text tag | plain text | error |
+|---|---|---|---|---|---|
+| LongCat-2.0 | thinking enabled | 5/5 | 0 | 0 | 0 |
+| LongCat-2.0 | thinking disabled | 5/5 | 0 | 0 | 0 |
+| LongCat-2.5-Preview | thinking enabled | 4/5 | 0 | 1 | 0 |
+| LongCat-2.5-Preview | thinking disabled | 5/5 | 0 | 0 | 0 |
+
+Total spend: ¥0.012128 on KEY2

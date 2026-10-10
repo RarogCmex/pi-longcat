@@ -4,10 +4,12 @@
  * Three things only this layer can prove:
  *  1. the extension registers exactly one provider, on the surface the env var
  *     asks for, and constructs only that adapter;
- *  2. the hook set is the intended one — in particular that **no
- *     `before_provider_request` handler exists** (pi 1.1.0's shapes were all
- *     measured accepted; see the wire-format test for the payloads), so adding a
- *     hook later is a deliberate act that turns this test red;
+ *  2. the hook set is exactly the intended one, and the single
+ *     `before_provider_request` handler does one thing (inject `prompt_cache_key`
+ *     on chat payloads for this provider) and nothing else. This test used to
+ *     assert the hook's ABSENCE — that was the measured answer on 2026-10-11 at
+ *     build time; the cache-routing measurement later the same day reopened it and
+ *     the flip changed this test, the wire test and the README together;
  *  3. the two error layers behave under pi's real sequencing: `message_end`,
  *     then pi's IN-PLACE replacement of the stored message, then `turn_end` —
  *     which is why the persistent-entry predicates must recognize our own
@@ -169,15 +171,12 @@ describe("registration", () => {
     } finally { loaded.restore(); }
   });
 
-  test("the hook set is exactly message_end + turn_end: NO before_provider_request", async () => {
+  test("the hook set is exactly the three intended events, and no commands", async () => {
     loaded = await load();
     try {
       const events = [...loaded.pi.handlers.keys()].sort();
-      assert.deepEqual(events, ["message_end", "turn_end"]);
-      // The absence is the result: every shape pi 1.1.0 produces was sent to the
-      // live gateway and accepted (parts arrays PA1, role:tool TL3 and
-      // R7-tool-result-no-assistant, blank tool results substituted by pi).
-      assert.equal(loaded.pi.handlers.has("before_provider_request"), false);
+      assert.deepEqual(events, ["before_provider_request", "message_end", "turn_end"]);
+      assert.equal(loaded.pi.handlers.get("before_provider_request")?.length, 1, "exactly one payload handler");
       assert.deepEqual(Object.keys(loaded.pi.commands), [], "no commands: this plugin is a provider, not a UI");
     } finally { loaded.restore(); }
   });
@@ -189,6 +188,74 @@ describe("registration", () => {
       // PI_CODING_AGENT_DIR contains a space on purpose; nothing may have
       // re-created ~/.pi/agent behind pi's back.
       assert.ok(process.env.PI_CODING_AGENT_DIR?.includes("custom agent dir"));
+    } finally { loaded.restore(); }
+  });
+});
+
+describe("the prompt_cache_key hook (added 2026-10-11 after the cache-routing measurement)", () => {
+  let loaded: Awaited<ReturnType<typeof load>>;
+  beforeEach(() => { loaded?.restore(); });
+
+  const chatPayload = () => ({
+    model: "LongCat-2.0",
+    messages: [{ role: "user", content: "hi" }],
+    max_tokens: 16,
+    thinking: { type: "disabled" },
+  });
+  const ctxFor = (api: string, sessionId: string | undefined, provider = "longcat") =>
+    ({ model: { provider, api }, sessionManager: sessionId === undefined ? undefined : { getSessionId: () => sessionId } }) as any;
+
+  test("injects the clamped session id into a chat payload for this provider", async () => {
+    loaded = await load();
+    try {
+      const before: Record<string, unknown> = chatPayload();
+      const result = loaded.pi.emit("before_provider_request", { payload: before }, ctxFor("openai-completions", "sess-abc"));
+      assert.equal(result.prompt_cache_key, "sess-abc");
+      assert.deepEqual(Object.keys(result).sort(), ["max_tokens", "messages", "model", "prompt_cache_key", "thinking"]);
+      assert.equal(before.prompt_cache_key, undefined, "the original payload must not be mutated");
+      assert.deepEqual({ ...result, prompt_cache_key: undefined }, { ...before, prompt_cache_key: undefined }, "every other byte is unchanged");
+    } finally { loaded.restore(); }
+  });
+
+  test("clamps a long session id to 64 characters", async () => {
+    loaded = await load();
+    try {
+      const long = "s".repeat(200);
+      const result = loaded.pi.emit("before_provider_request", { payload: chatPayload() }, ctxFor("openai-completions", long));
+      assert.equal(result.prompt_cache_key.length, 64);
+    } finally { loaded.restore(); }
+  });
+
+  test("leaves a Responses payload alone — pi already sends the key there", async () => {
+    loaded = await load({ LONGCAT_SURFACE: "responses" });
+    try {
+      const payload = { model: "LongCat-2.0", input: [{ role: "user", content: "hi" }], store: false, prompt_cache_key: "pi-set-this" };
+      assert.equal(loaded.pi.emit("before_provider_request", { payload }, ctxFor("openai-responses", "sess-abc")), undefined);
+    } finally { loaded.restore(); }
+  });
+
+  test("never overwrites a key pi already sent (idempotent under a pi upgrade)", async () => {
+    loaded = await load();
+    try {
+      const payload = { ...chatPayload(), prompt_cache_key: "already-there" };
+      assert.equal(loaded.pi.emit("before_provider_request", { payload }, ctxFor("openai-completions", "sess-abc")), undefined);
+    } finally { loaded.restore(); }
+  });
+
+  test("does nothing without a session id, for another provider, or for a non-object payload", async () => {
+    loaded = await load();
+    try {
+      assert.equal(loaded.pi.emit("before_provider_request", { payload: chatPayload() }, ctxFor("openai-completions", undefined)), undefined);
+      assert.equal(loaded.pi.emit("before_provider_request", { payload: chatPayload() }, ctxFor("openai-completions", "sess-abc", "somebody-else")), undefined);
+      assert.equal(loaded.pi.emit("before_provider_request", { payload: undefined }, ctxFor("openai-completions", "sess-abc")), undefined);
+      assert.equal(loaded.pi.emit("before_provider_request", { payload: "nope" }, ctxFor("openai-completions", "sess-abc")), undefined);
+    } finally { loaded.restore(); }
+  });
+
+  test("ignores a body that is not a chat request even on the chat surface", async () => {
+    loaded = await load();
+    try {
+      assert.equal(loaded.pi.emit("before_provider_request", { payload: { model: "LongCat-2.0", input: "hi" } }, ctxFor("openai-completions", "sess-abc")), undefined);
     } finally { loaded.restore(); }
   });
 });

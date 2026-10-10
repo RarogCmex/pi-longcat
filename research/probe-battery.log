@@ -1,0 +1,89 @@
+
+### C1 — strong-constraint instruction following (review: techgogogo.com 2026-09-26), N=3 on 2.5-Preview + N=1 control on 2.0
+      cumulative battery spend on KEY4: ¥0.008980 of ¥5
+      C1 LongCat-2.5-Preview #1: FULL COMPLIANCE [一 二 三 四 五 六 七 八 九 十] (out=1088 ttft=2784ms 39.4 tok/s)
+
+### C1 LongCat-2.5-Preview trial 1: FULL COMPLIANCE. SUBJECTIVE (N=1, 2026-10-11, judged by the agent reading the output, not by a native-speaker panel): sentences 6-9 were produced; grammaticality assessment recorded in research/probes/C1-*.json for a human to re-read.
+      cumulative battery spend on KEY4: ¥0.016293 of ¥5
+      C1 LongCat-2.5-Preview #2: FULL COMPLIANCE [一 二 三 四 五 六 七 八 九 十] (out=911 ttft=2602ms 33.9 tok/s)
+      cumulative battery spend on KEY4: ¥0.028318 of ¥5
+      C1 LongCat-2.5-Preview #3: FULL COMPLIANCE [一 二 三 四 五 六 七 八 九 十] (out=1500 ttft=5440ms 28.3 tok/s)
+      cumulative battery spend on KEY4: ¥0.044978 of ¥5
+      C1 LongCat-2.0 #1: 0/10 numerals in place, 0 lines [1:∅ 2:∅ 3:∅ 4:∅ 5:∅ 6:∅ 7:∅ 8:∅ 9:∅ 10:∅] (out=2048 ttft=1444ms 67.6 tok/s)
+
+### C1 LongCat-2.0 trial 1: 0/10 numerals in place, 0 lines. SUBJECTIVE (N=1, 2026-10-11, judged by the agent reading the output, not by a native-speaker panel): sentences 6-9 missing.
+
+### C2 — language consistency: English prompt, answer language scored by CJK ratio, N=5 on 2.5-Preview
+      cumulative battery spend on KEY4: ¥0.045576 of ¥5
+      C2 #1: ENGLISH (cjk 0.0%) "A mutex (short for \"mutual exclusion\") is a synchronization primitive that ensures only on"
+      cumulative battery spend on KEY4: ¥0.047546 of ¥5
+      C2 #2: ENGLISH (cjk 0.0%) "Here are three effective ways to reduce latency in a REST API:\n\n1. **Implement Caching**\n "
+      cumulative battery spend on KEY4: ¥0.049986 of ¥5
+      C2 #3: ENGLISH (cjk 0.0%) "In networking, **TTL** most commonly stands for **Time to Live**.\n\nIt's a field in the hea"
+      cumulative battery spend on KEY4: ¥0.050232 of ¥5
+      C2 #4: ENGLISH (cjk 0.0%) "Git rebase moves or replays commits from one branch onto another, creating a linear histor"
+      cumulative battery spend on KEY4: ¥0.052364 of ¥5
+      C2 #5: ENGLISH (cjk 0.0%) "Here are two key differences between TCP (Transmission Control Protocol) and UDP (User Dat"
+
+### C2 verdict: 5/5 answers in English (mechanical, N=5, 2026-10-11). The launch-day complaint was Chinese answers to English questions.
+
+### C7 — thinking has only on/off: what happens to effort-style fields (accepted vs honoured, read from reasoning_tokens)
+      cumulative battery spend on KEY4: ¥0.053380 of ¥5
+      C7 none-baseline: status=200 reasoning_tokens=39 out=122
+      cumulative battery spend on KEY4: ¥0.054428 of ¥5
+      C7 reasoning_effort-low: status=200 reasoning_tokens=43 out=126
+      cumulative battery spend on KEY4: ¥0.055484 of ¥5
+      C7 reasoning_effort-high: status=200 reasoning_tokens=44 out=127
+      cumulative battery spend on KEY4: ¥0.056468 of ¥5
+      C7 thinking-budget_tokens-32: status=200 reasoning_tokens=35 out=118
+
+### C7 verdict: none-baseline: status=200 reasoning_tokens=39 out=122 | reasoning_effort-low: status=200 reasoning_tokens=43 out=126 | reasoning_effort-high: status=200 reasoning_tokens=44 out=127 | thinking-budget_tokens-32: status=200 reasoning_tokens=35 out=118 ⇒ a field that returns 200 and does not move reasoning_tokens is accepted-and-ignored, which is why supportsReasoningEffort is false and no thinkingTokenBudgetField is declared.
+
+### C3 — verifiable micro-coding: identical prompt to both models, generated code EXECUTED with node --test (objective pass/fail)
+      cumulative battery spend on KEY4: ¥0.089604 of ¥5
+
+### C3 LongCat-2.5-Preview: NO CODE BLOCK in the answer (out=4096, finish=length) — scored FAIL without execution.
+      cumulative battery spend on KEY4: ¥0.109972 of ¥5
+      C3 LongCat-2.0: their tests → exit 1, fail ?: AssertionError [ERR_ASSERTION]: Missing expected exception (RangeError).; independent 9-case suite → exit 1, fail ?: SyntaxError: missing ) after argument list
+
+### C3 LongCat-2.0 (2026-10-11, mechanical): model-supplied tests FAIL (exit 1, fail ?: AssertionError [ERR_ASSERTION]: Missing expected exception (RangeError).); independent 9-case suite FAIL (exit 1, fail ?: SyntaxError: missing ) after argument list). Code kept in /var/folders/dh/x17bbbyx27v91fps24dc0jvr0000gn/T/longcat-c3-nYFikt.
+
+### C4 — harness dependence (review: eesel.ai on 2.0): the ONE-SHOT side of the task the pi agent loop also gets
+      cumulative battery spend on KEY4: ¥0.111858 of ¥5
+      C4 LongCat-2.5-Preview: exact=true DONE=5 produced="1: a much longer line here\n2: medium line\n3: alpha\n4: bb\n5: x"
+
+### C4 one-shot LongCat-2.5-Preview (2026-10-11, mechanical): output.txt content EXACT MATCH, report line correct. Compare with the agent-loop result in the README table.
+      cumulative battery spend on KEY4: ¥0.115440 of ¥5
+      C4 LongCat-2.0: exact=true DONE=5 produced="1: a much longer line here\n2: medium line\n3: alpha\n4: bb\n5: x"
+
+### C4 one-shot LongCat-2.0 (2026-10-11, mechanical): output.txt content EXACT MATCH, report line correct. Compare with the agent-loop result in the README table.
+
+### C6 — mid-context coherence: ~50K-token input with a unique needle (also a large-input acceptance data point, without a 1M fill)
+      cumulative battery spend on KEY4: ¥0.221542 of ¥5
+      C6 middle: prompt=53011 ttft=7092ms answer="ZQX-7734-MIDDLE" exact=true
+
+### C6 needle at 50% depth (2026-10-11, mechanical): prompt_tokens=53011, answer EXACT, TTFT 7092ms, 26.1 tok/s, cost ¥0.1061.
+      cumulative battery spend on KEY4: ¥0.327654 of ¥5
+      C6 end: prompt=53012 ttft=5449ms answer="ZQX-7734-ENDTAIL" exact=true
+
+### C6 needle at 98% depth (2026-10-11, mechanical): prompt_tokens=53012, answer EXACT, TTFT 5449ms, 23.5 tok/s, cost ¥0.1061.
+
+================ BATTERY SUMMARY ================
+• C1 — strong-constraint instruction following (review: techgogogo.com 2026-09-26), N=3 on 2.5-Preview + N=1 control on 2.0
+• C1 LongCat-2.5-Preview trial 1: FULL COMPLIANCE. SUBJECTIVE (N=1, 2026-10-11, judged by the agent reading the output, not by a native-speaker panel): sentences 6-9 were produced; grammaticality assessment recorded in research/probes/C1-*.json for a human to re-read.
+• C1 LongCat-2.0 trial 1: 0/10 numerals in place, 0 lines. SUBJECTIVE (N=1, 2026-10-11, judged by the agent reading the output, not by a native-speaker panel): sentences 6-9 missing.
+• C2 — language consistency: English prompt, answer language scored by CJK ratio, N=5 on 2.5-Preview
+• C2 verdict: 5/5 answers in English (mechanical, N=5, 2026-10-11). The launch-day complaint was Chinese answers to English questions.
+• C7 — thinking has only on/off: what happens to effort-style fields (accepted vs honoured, read from reasoning_tokens)
+• C7 verdict: none-baseline: status=200 reasoning_tokens=39 out=122 | reasoning_effort-low: status=200 reasoning_tokens=43 out=126 | reasoning_effort-high: status=200 reasoning_tokens=44 out=127 | thinking-budget_tokens-32: status=200 reasoning_tokens=35 out=118 ⇒ a field that returns 200 and does not move reasoning_tokens is accepted-and-ignored, which is why supportsReasoningEffort is false and no thinkingTokenBudgetField is declared.
+• C3 — verifiable micro-coding: identical prompt to both models, generated code EXECUTED with node --test (objective pass/fail)
+• C3 LongCat-2.5-Preview: NO CODE BLOCK in the answer (out=4096, finish=length) — scored FAIL without execution.
+• C3 LongCat-2.0 (2026-10-11, mechanical): model-supplied tests FAIL (exit 1, fail ?: AssertionError [ERR_ASSERTION]: Missing expected exception (RangeError).); independent 9-case suite FAIL (exit 1, fail ?: SyntaxError: missing ) after argument list). Code kept in /var/folders/dh/x17bbbyx27v91fps24dc0jvr0000gn/T/longcat-c3-nYFikt.
+• C4 — harness dependence (review: eesel.ai on 2.0): the ONE-SHOT side of the task the pi agent loop also gets
+• C4 one-shot LongCat-2.5-Preview (2026-10-11, mechanical): output.txt content EXACT MATCH, report line correct. Compare with the agent-loop result in the README table.
+• C4 one-shot LongCat-2.0 (2026-10-11, mechanical): output.txt content EXACT MATCH, report line correct. Compare with the agent-loop result in the README table.
+• C6 — mid-context coherence: ~50K-token input with a unique needle (also a large-input acceptance data point, without a 1M fill)
+• C6 needle at 50% depth (2026-10-11, mechanical): prompt_tokens=53011, answer EXACT, TTFT 7092ms, 26.1 tok/s, cost ¥0.1061.
+• C6 needle at 98% depth (2026-10-11, mechanical): prompt_tokens=53012, answer EXACT, TTFT 5449ms, 23.5 tok/s, cost ¥0.1061.
+
+Total battery spend: ¥0.327654 (~$0.048720) on KEY4, hard budget ¥5

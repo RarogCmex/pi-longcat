@@ -16,20 +16,48 @@ Rules (pi-provider-plugin Phase 5, pitfalls L35/L41/L42):
 
 | | |
 |---|---|
-| ledger rows | 98 |
-| calls that generated (BILLED) | 72 |
-| input tokens bought | 8532 |
-| output tokens bought | 850 |
-| **total spend** | **¥0.020101 ≈ $0.002989** |
-| accepted rows whose usage was never captured | 2 — CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
+| ledger rows | 215 |
+| calls that generated (BILLED) | 176 |
+| input tokens bought | 175874 |
+| output tokens bought | 34169 |
+| **total spend** | **¥0.574545 ≈ $0.085432** |
+| accepted rows whose usage was never captured | 3 — C3b-microcoding-2.5-16k, CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
 | rows planned "free" that came back accepted and generated (L35 audit) | 2 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic |
 
-Two calls are holes on purpose and are **not** estimated (the house rule is 'not
-captured' rather than a plausible number): `CAP2-chat-2.5-131073` was accepted and
-killed by the 3 s client-side abort guard before any usage event, and
-`R2-IM-2.5-textonly` timed out at 45 s. Both were bounded prompts with
-`max_tokens` 8/131073 respectively; the first is the reason every cap probe in
-this run carries an abort guard.
+Rows whose usage was never captured are named above and are **not** estimated —
+the house rule is "not captured" rather than a plausible number. Three classes
+produce them: a client-side abort guard firing mid-generation (the cap probes,
+and `C3b-microcoding-2.5-16k`, which a 120 s wall clock cut off while the model
+was still thinking — its class reads BILLED-uncaptured because the server kept
+generating after we hung up), a request timeout, and a stream that ended before
+the usage event. A row in this list is a hole in the accounting, not a free call.
+The 2 "suspicious" rows are the honest L35 misses from the first research round:
+an invalid `thinking.type` planned as a guaranteed rejection and accepted+billed.
+
+### Spend per key (the operator's cap is per key, so the ledger reports per key)
+
+| key | rows | billed rows | input tokens | output tokens | ¥ | ~$ |
+|---|---|---|---|---|---|---|
+| KEY1 | 127 | 110 | 55489 | 1043 | 0.074415 | 0.011065 |
+| KEY1..KEY9 | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
+| KEY1/garbage/none | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
+| KEY2 | 21 | 21 | 3884 | 1117 | 0.012188 | 0.001812 |
+| KEY3 | 5 | 5 | 4804 | 801 | 0.016354 | 0.002432 |
+| KEY4 | 25 | 24 | 108049 | 31065 | 0.463113 | 0.068862 |
+| KEY5 | 2 | 2 | 1146 | 6 | 0.002340 | 0.000348 |
+| KEY6 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
+| KEY7 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
+| KEY8 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
+| KEY9 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
+| LONGCAT_API_KEY|secret.env KEY1 | 22 | 10 | 2446 | 121 | 0.005896 | 0.000877 |
+| garbage | 3 | 0 | 0 | 0 | 0.000000 | 0.000000 |
+| none | 4 | 0 | 0 | 0 | 0.000000 | 0.000000 |
+
+### Latency (C5: every billed call of the round records TTFT and output tok/s)
+
+Full table: `node scripts/latency-report.ts`. Rows whose surface is `real-pi` carry
+`elapsedMs` + first-stdout-byte instead of TTFT, because pi does not expose TTFT;
+the two are never averaged together.
 
 ## Rows
 
@@ -133,6 +161,123 @@ this run carries an abort guard.
 | 96 | `LIVE2-image-colour` | KEY1 | openai-completions | 200 | BILLED | 111 | 54 | 0 | 0.00065400 |
 | 97 | `LIVE2-cache-warm` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
 | 98 | `LIVE2-cache-hit` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 99 | `A1-cache-chat-call1` | KEY1 | openai-completions | 200 | BILLED | 1057 | 2 | 0 | 0.00213000 |
+| 100 | `A1-cache-chat-call2` | KEY1 | openai-completions | 200 | BILLED | 1057 | 2 | 1024 | 0.00012296 |
+| 101 | `A1-cache-chat-call3` | KEY1 | openai-completions | 200 | BILLED | 1057 | 2 | 1024 | 0.00012296 |
+| 102 | `A1-cache-chat-call4` | KEY1 | openai-completions | 200 | BILLED | 1057 | 2 | 1024 | 0.00012296 |
+| 103 | `A2-minprefix-6x-call1` | KEY1 | openai-completions | 200 | BILLED | 308 | 2 | 0 | 0.00063200 |
+| 104 | `A2-minprefix-6x-call2` | KEY1 | openai-completions | 200 | BILLED | 308 | 2 | 256 | 0.00013024 |
+| 105 | `A2-minprefix-12x-call1` | KEY1 | openai-completions | 200 | BILLED | 593 | 2 | 0 | 0.00120200 |
+| 106 | `A2-minprefix-12x-call2` | KEY1 | openai-completions | 200 | BILLED | 593 | 2 | 512 | 0.00019848 |
+| 107 | `A2-minprefix-24x-call1` | KEY1 | openai-completions | 200 | BILLED | 1157 | 2 | 0 | 0.00233000 |
+| 108 | `B-tools-2.0-enabled-1of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 150 | 0 | 0.00158400 |
+| 108 | `A2-minprefix-24x-call2` | KEY1 | openai-completions | 200 | BILLED | 1157 | 2 | 1152 | 0.00007208 |
+| 109 | `B-tools-2.0-enabled-2of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 71 | 128 | 0.00070112 |
+| 109 | `A2-minprefix-48x-call1` | KEY1 | openai-completions | 200 | BILLED | 2285 | 2 | 0 | 0.00458600 |
+| 110 | `B-tools-2.0-enabled-3of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 70 | 128 | 0.00069312 |
+| 110 | `A2-minprefix-48x-call2` | KEY1 | openai-completions | 200 | BILLED | 2285 | 2 | 2176 | 0.00032104 |
+| 111 | `B-tools-2.0-enabled-4of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 157 | 128 | 0.00138912 |
+| 111 | `A3-ttl-gap0` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 0 | 0.00228000 |
+| 112 | `B-tools-2.0-enabled-5of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 136 | 128 | 0.00122112 |
+| 113 | `B-tools-2.0-disabled-1of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 114 | `B-tools-2.0-disabled-2of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 29 | 128 | 0.00037112 |
+| 115 | `B-tools-2.0-disabled-3of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 116 | `B-tools-2.0-disabled-4of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 112 | `A3-ttl-gap1min` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 1024 | 0.00027296 |
+| 117 | `B-tools-2.0-disabled-5of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 118 | `B-tools-2.5-enabled-1of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 24 | 0 | 0.00057600 |
+| 119 | `B-tools-2.5-enabled-2of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 65 | 128 | 0.00065312 |
+| 120 | `B-tools-2.5-enabled-3of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 65 | 128 | 0.00065312 |
+| 121 | `B-tools-2.5-enabled-4of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 79 | 128 | 0.00076512 |
+| 122 | `B-tools-2.5-enabled-5of5` | KEY2 | openai-completions | 200 | BILLED | 192 | 123 | 128 | 0.00111712 |
+| 123 | `B-tools-2.5-disabled-1of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 124 | `B-tools-2.5-disabled-2of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 125 | `B-tools-2.5-disabled-3of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 126 | `B-tools-2.5-disabled-4of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 127 | `C1-constraints-2.5-trial1` | KEY4 | openai-completions | 200 | BILLED | 138 | 1088 | 0 | 0.00898000 |
+| 127 | `B-tools-2.5-disabled-5of5` | KEY2 | openai-completions | 200 | BILLED | 195 | 16 | 128 | 0.00026712 |
+| 128 | `C1-constraints-2.5-trial2` | KEY4 | openai-completions | 200 | BILLED | 138 | 911 | 128 | 0.00731312 |
+| 129 | `C1-constraints-2.5-trial3` | KEY4 | openai-completions | 200 | BILLED | 138 | 1500 | 128 | 0.01202512 |
+| 113 | `A3-ttl-gap5min` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 1024 | 0.00027296 |
+| 130 | `C1-constraints-2.0-trial1` | KEY4 | openai-completions | 200 | BILLED | 138 | 2048 | 0 | 0.01666000 |
+| 131 | `C2-language-1of5` | KEY4 | openai-completions | 200 | BILLED | 19 | 70 | 0 | 0.00059800 |
+| 132 | `C2-language-2of5` | KEY4 | openai-completions | 200 | BILLED | 21 | 241 | 0 | 0.00197000 |
+| 133 | `C2-language-3of5` | KEY4 | openai-completions | 200 | BILLED | 20 | 300 | 0 | 0.00244000 |
+| 134 | `C2-language-4of5` | KEY4 | openai-completions | 200 | BILLED | 19 | 26 | 0 | 0.00024600 |
+| 135 | `C2-language-5of5` | KEY4 | openai-completions | 200 | BILLED | 18 | 262 | 0 | 0.00213200 |
+| 136 | `C7-effort-none-baseline` | KEY4 | openai-completions | 200 | BILLED | 20 | 122 | 0 | 0.00101600 |
+| 137 | `C7-effort-reasoning_effort-low` | KEY4 | openai-completions | 200 | BILLED | 20 | 126 | 0 | 0.00104800 |
+| 138 | `C7-effort-reasoning_effort-high` | KEY4 | openai-completions | 200 | BILLED | 20 | 127 | 0 | 0.00105600 |
+| 139 | `C7-effort-thinking-budget_tokens-32` | KEY4 | openai-completions | 200 | BILLED | 20 | 118 | 0 | 0.00098400 |
+| 140 | `B-realpi-generation-2.0` | KEY3 | real-pi (openai-completions) | 200 | BILLED | 819 | 19 | 640 | 0.00181560 |
+| 141 | `B-realpi-generation-2.5` | KEY3 | real-pi (openai-completions) | 200 | BILLED | 435 | 18 | 1024 | 0.00105496 |
+| 142 | `B-realpi-toolloop-2.0` | KEY3 | real-pi (openai-completions) | 200 | BILLED | 2036 | 382 | 3200 | 0.00725600 |
+| 140 | `C3-microcoding-2.5` | KEY4 | openai-completions | 200 | BILLED | 184 | 4096 | 0 | 0.03313600 |
+| 143 | `B-realpi-toolloop-2.5` | KEY3 | real-pi (openai-completions) | 200 | BILLED | 1500 | 378 | 3584 | 0.00616736 |
+| 141 | `C3-microcoding-2.0` | KEY4 | openai-completions | 200 | BILLED | 184 | 2500 | 0 | 0.02036800 |
+| 142 | `C4-oneshot-2.5` | KEY4 | openai-completions | 200 | BILLED | 111 | 208 | 0 | 0.00188600 |
+| 143 | `C4-oneshot-2.0` | KEY4 | openai-completions | 200 | BILLED | 111 | 420 | 0 | 0.00358200 |
+| 144 | `C6-needle-middle` | KEY4 | openai-completions | 200 | BILLED | 53011 | 10 | 0 | 0.10610200 |
+| 145 | `C6-needle-end` | KEY4 | openai-completions | 200 | BILLED | 53012 | 11 | 0 | 0.10611200 |
+| 146 | `C1b-constraints-2.0-8k` | KEY4 | openai-completions | 200 | BILLED | 138 | 1359 | 128 | 0.01089712 |
+| 147 | `C3b-microcoding-2.5-16k` | KEY4 | openai-completions | 200 | BILLED-uncaptured (aborted mid-generation, usage never arrived) | – | – | – | 0 |
+| 148 | `C3b-microcoding-2.0-16k` | KEY4 | openai-completions | 200 | BILLED | 184 | 6403 | 128 | 0.05134112 |
+| 149 | `C3c-microcoding-2.5-off-4k` | KEY4 | openai-completions | 200 | BILLED | 187 | 676 | 128 | 0.00553112 |
+| 114 | `A3-ttl-gap15min` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 1024 | 0.00027296 |
+| 115 | `A4-prompt-cache-key-alpha` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 0 | 0.00228000 |
+| 116 | `A4-prompt-cache-key-alpha-again` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 1024 | 0.00027296 |
+| 117 | `A4-prompt-cache-key-beta` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 0 | 0.00228000 |
+| 118 | `A5-accounting-cold` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 0 | 0.00223000 |
+| 119 | `A5-accounting-warm` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 1024 | 0.00022296 |
+| 120 | `A6-responses-cache-call1` | KEY1 | openai-responses | 200 | BILLED | 1154 | 16 | 0 | 0.00243600 |
+| 121 | `A6-responses-cache-call2` | KEY1 | openai-responses | 200 | BILLED | 1154 | 16 | 1152 | 0.00017808 |
+| 122 | `A7-cache-thinking-call1` | KEY1 | openai-completions | 200 | BILLED | 1154 | 64 | 0 | 0.00282000 |
+| 123 | `A7-cache-thinking-call2` | KEY1 | openai-completions | 200 | BILLED | 1154 | 45 | 1152 | 0.00041008 |
+| 124 | `A8-cross-on-2.0` | KEY1 | openai-completions | 200 | BILLED | 1082 | 2 | 0 | 0.00218000 |
+| 125 | `A9-cross-on-2.5` | KEY1 | openai-completions | 200 | BILLED | 1082 | 2 | 0 | 0.00218000 |
+| 126 | `A8-2.5-cache-call1` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 0 | 0.00223000 |
+| 127 | `A8-2.5-cache-call2` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 1024 | 0.00022296 |
+| 150 | `C3d-microcoding-2.5-16k-600s` | KEY4 | openai-completions | 200 | BILLED | 184 | 8439 | 128 | 0.06762912 |
+| 151 | `B1-cross-2.0-cold` | KEY1 | openai-completions | 200 | BILLED | 1082 | 2 | 0 | 0.00218000 |
+| 152 | `B1-cross-2.0-warm` | KEY1 | openai-completions | 200 | BILLED | 1082 | 2 | 1024 | 0.00017296 |
+| 153 | `B1-cross-2.5-sameprefix` | KEY1 | openai-completions | 200 | BILLED | 1082 | 2 | 0 | 0.00218000 |
+| 154 | `B2-subblock-r1-call1` | KEY1 | openai-completions | 200 | BILLED | 85 | 2 | 0 | 0.00018600 |
+| 155 | `B2-subblock-r1-call2` | KEY1 | openai-completions | 200 | BILLED | 85 | 2 | 0 | 0.00018600 |
+| 156 | `B2-subblock-r2-call1` | KEY1 | openai-completions | 200 | BILLED | 131 | 2 | 0 | 0.00027800 |
+| 157 | `B2-subblock-r2-call2` | KEY1 | openai-completions | 200 | BILLED | 131 | 2 | 128 | 0.00002712 |
+| 158 | `B3-tail-call1` | KEY1 | openai-completions | 200 | BILLED | 1182 | 2 | 0 | 0.00238000 |
+| 159 | `B3-tail-call2-same` | KEY1 | openai-completions | 200 | BILLED | 1182 | 2 | 1152 | 0.00012208 |
+| 160 | `B3-tail-call3-changed` | KEY1 | openai-completions | 200 | BILLED | 1182 | 2 | 0 | 0.00238000 |
+| 161 | `B4-key-call1` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 0 | 0.00228000 |
+| 162 | `B4-key-call2-samekey` | KEY1 | openai-completions | 200 | BILLED | 1132 | 2 | 1024 | 0.00027296 |
+| 163 | `B4-key-call3-KEY5` | KEY5 | openai-completions | 200 | BILLED | 1132 | 2 | 0 | 0.00228000 |
+| 164 | `D1-keyed-alpha-Q1` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 0 | 0.00223000 |
+| 165 | `D2-keyed-alpha-Q1-repeat` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 1024 | 0.00022296 |
+| 166 | `D3-keyed-alpha-Q2-changedtail` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 1024 | 0.00022296 |
+| 167 | `D4-nokey-Q1` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 0 | 0.00223000 |
+| 168 | `D5-keyed-beta-Q1` | KEY1 | openai-completions | 200 | BILLED | 1107 | 2 | 0 | 0.00223000 |
+| 0 | `live/listing` | LONGCAT_API_KEY|secret.env KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | LONGCAT_API_KEY|secret.env KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | LONGCAT_API_KEY|secret.env KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/temperature-range` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | LONGCAT_API_KEY|secret.env KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | LONGCAT_API_KEY|secret.env KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/liveness` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-off` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-on` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 23 | 38 | 0 | 0.00035000 |
+| 0 | `live/tool-roundtrip` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 173 | 16 | 0 | 0.00047400 |
+| 0 | `live/image-colour` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 111 | 53 | 0 | 0.00064600 |
+| 0 | `live/cache-key-warm` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 755 | 2 | 0 | 0.00152600 |
+| 0 | `live/cache-key-changed-tail` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 115 | 2 | 640 | 0.00027160 |
+| 0 | `live/cache-key-control-unkeyed` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 755 | 2 | 0 | 0.00152600 |
+| 0 | `live/cache-warm` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 359 | 2 | 0 | 0.00073400 |
+| 0 | `live/cache-hit` | LONGCAT_API_KEY|secret.env KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
 
 ## What each row was for
 
@@ -234,3 +379,120 @@ this run carries an abort guard.
 - **96 `LIVE2-image-colour`** (maxTokens 64) — live/check.ts --billed run 2, check 'image-colour' (through the shipped wrapped adapter)
 - **97 `LIVE2-cache-warm`** (maxTokens 4) — live/check.ts --billed run 2, check 'cache-warm' (through the shipped wrapped adapter)
 - **98 `LIVE2-cache-hit`** (maxTokens 4) — live/check.ts --billed run 2, check 'cache-hit' (through the shipped wrapped adapter)
+- **99 `A1-cache-chat-call1`** (max_tokens 16, unique prefix, 10 s pacing) — implicit prefix cache, identical call 1/4 on a unique ~1K prefix
+- **100 `A1-cache-chat-call2`** (max_tokens 16, unique prefix, 10 s pacing) — implicit prefix cache, identical call 2/4 on a unique ~1K prefix
+- **101 `A1-cache-chat-call3`** (max_tokens 16, unique prefix, 10 s pacing) — implicit prefix cache, identical call 3/4 on a unique ~1K prefix
+- **102 `A1-cache-chat-call4`** (max_tokens 16, unique prefix, 10 s pacing) — implicit prefix cache, identical call 4/4 on a unique ~1K prefix
+- **103 `A2-minprefix-6x-call1`** (max_tokens 16, unique prefix per size) — cache bracket: 6 repeats, call 1/2
+- **104 `A2-minprefix-6x-call2`** (max_tokens 16, unique prefix per size) — cache bracket: 6 repeats, call 2/2
+- **105 `A2-minprefix-12x-call1`** (max_tokens 16, unique prefix per size) — cache bracket: 12 repeats, call 1/2
+- **106 `A2-minprefix-12x-call2`** (max_tokens 16, unique prefix per size) — cache bracket: 12 repeats, call 2/2
+- **107 `A2-minprefix-24x-call1`** (max_tokens 16, unique prefix per size) — cache bracket: 24 repeats, call 1/2
+- **108 `B-tools-2.0-enabled-1of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking enabled, trial 1/5 (tool_choice left at the default so willingness is what is measured)
+- **108 `A2-minprefix-24x-call2`** (max_tokens 16, unique prefix per size) — cache bracket: 24 repeats, call 2/2
+- **109 `B-tools-2.0-enabled-2of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking enabled, trial 2/5 (tool_choice left at the default so willingness is what is measured)
+- **109 `A2-minprefix-48x-call1`** (max_tokens 16, unique prefix per size) — cache bracket: 48 repeats, call 1/2
+- **110 `B-tools-2.0-enabled-3of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking enabled, trial 3/5 (tool_choice left at the default so willingness is what is measured)
+- **110 `A2-minprefix-48x-call2`** (max_tokens 16, unique prefix per size) — cache bracket: 48 repeats, call 2/2
+- **111 `B-tools-2.0-enabled-4of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking enabled, trial 4/5 (tool_choice left at the default so willingness is what is measured)
+- **111 `A3-ttl-gap0`** (max_tokens 16, one unique prefix for the whole cell) — cache persistence after a 0 (warm)-minute gap
+- **112 `B-tools-2.0-enabled-5of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking enabled, trial 5/5 (tool_choice left at the default so willingness is what is measured)
+- **113 `B-tools-2.0-disabled-1of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking disabled, trial 1/5 (tool_choice left at the default so willingness is what is measured)
+- **114 `B-tools-2.0-disabled-2of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking disabled, trial 2/5 (tool_choice left at the default so willingness is what is measured)
+- **115 `B-tools-2.0-disabled-3of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking disabled, trial 3/5 (tool_choice left at the default so willingness is what is measured)
+- **116 `B-tools-2.0-disabled-4of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking disabled, trial 4/5 (tool_choice left at the default so willingness is what is measured)
+- **112 `A3-ttl-gap1min`** (max_tokens 16, one unique prefix for the whole cell) — cache persistence after a 1-minute gap
+- **117 `B-tools-2.0-disabled-5of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.0 with thinking disabled, trial 5/5 (tool_choice left at the default so willingness is what is measured)
+- **118 `B-tools-2.5-enabled-1of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking enabled, trial 1/5 (tool_choice left at the default so willingness is what is measured)
+- **119 `B-tools-2.5-enabled-2of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking enabled, trial 2/5 (tool_choice left at the default so willingness is what is measured)
+- **120 `B-tools-2.5-enabled-3of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking enabled, trial 3/5 (tool_choice left at the default so willingness is what is measured)
+- **121 `B-tools-2.5-enabled-4of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking enabled, trial 4/5 (tool_choice left at the default so willingness is what is measured)
+- **122 `B-tools-2.5-enabled-5of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking enabled, trial 5/5 (tool_choice left at the default so willingness is what is measured)
+- **123 `B-tools-2.5-disabled-1of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking disabled, trial 1/5 (tool_choice left at the default so willingness is what is measured)
+- **124 `B-tools-2.5-disabled-2of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking disabled, trial 2/5 (tool_choice left at the default so willingness is what is measured)
+- **125 `B-tools-2.5-disabled-3of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking disabled, trial 3/5 (tool_choice left at the default so willingness is what is measured)
+- **126 `B-tools-2.5-disabled-4of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking disabled, trial 4/5 (tool_choice left at the default so willingness is what is measured)
+- **127 `C1-constraints-2.5-trial1`** (max_tokens 2048, thinking enabled) — ten sentences ending 一…十 in order: mechanical compliance score, trial 1/3
+- **127 `B-tools-2.5-disabled-5of5`** (max_tokens 256, one tool, no forced tool_choice) — tool-call reliability: LongCat-2.5-Preview with thinking disabled, trial 5/5 (tool_choice left at the default so willingness is what is measured)
+- **128 `C1-constraints-2.5-trial2`** (max_tokens 2048, thinking enabled) — ten sentences ending 一…十 in order: mechanical compliance score, trial 2/3
+- **129 `C1-constraints-2.5-trial3`** (max_tokens 2048, thinking enabled) — ten sentences ending 一…十 in order: mechanical compliance score, trial 3/3
+- **113 `A3-ttl-gap5min`** (max_tokens 16, one unique prefix for the whole cell) — cache persistence after a 5-minute gap
+- **130 `C1-constraints-2.0-trial1`** (max_tokens 2048, thinking enabled) — ten sentences ending 一…十 in order: mechanical compliance score, trial 1/1
+- **131 `C2-language-1of5`** (max_tokens 300, thinking disabled) — English prompt → answer language (CJK ratio): "Explain in two sentences what a mutex is…"
+- **132 `C2-language-2of5`** (max_tokens 300, thinking disabled) — English prompt → answer language (CJK ratio): "List three ways to reduce latency in a R…"
+- **133 `C2-language-3of5`** (max_tokens 300, thinking disabled) — English prompt → answer language (CJK ratio): "What does the acronym TTL usually mean i…"
+- **134 `C2-language-4of5`** (max_tokens 300, thinking disabled) — English prompt → answer language (CJK ratio): "Write one sentence describing what git r…"
+- **135 `C2-language-5of5`** (max_tokens 300, thinking disabled) — English prompt → answer language (CJK ratio): "Name two differences between TCP and UDP…"
+- **136 `C7-effort-none-baseline`** (max_tokens 256) — 2.5-Preview: is none-baseline accepted, and is it HONOURED (reasoning_tokens)?
+- **137 `C7-effort-reasoning_effort-low`** (max_tokens 256) — 2.5-Preview: is reasoning_effort-low accepted, and is it HONOURED (reasoning_tokens)?
+- **138 `C7-effort-reasoning_effort-high`** (max_tokens 256) — 2.5-Preview: is reasoning_effort-high accepted, and is it HONOURED (reasoning_tokens)?
+- **139 `C7-effort-thinking-budget_tokens-32`** (max_tokens 256) — 2.5-Preview: is thinking-budget_tokens-32 accepted, and is it HONOURED (reasoning_tokens)?
+- **140 `B-realpi-generation-2.0`** (pi -p --no-session --thinking low, 600 s timeout, isolated HOME) — real-pi successful generation on LongCat-2.0
+- **141 `B-realpi-generation-2.5`** (pi -p --no-session --thinking low, 600 s timeout, isolated HOME) — real-pi successful generation on LongCat-2.5-Preview
+- **142 `B-realpi-toolloop-2.0`** (pi -p --no-session --thinking low, 600 s timeout, isolated HOME) — real-pi multi-turn tool loop (read -> write -> reply) on LongCat-2.0 with thinking ON: exercises tool-result and reasoning replay across turns
+- **140 `C3-microcoding-2.5`** (max_tokens 4096, thinking enabled) — parseDuration module + tests, then executed locally: LongCat-2.5-Preview
+- **143 `B-realpi-toolloop-2.5`** (pi -p --no-session --thinking low, 600 s timeout, isolated HOME) — real-pi multi-turn tool loop (read -> write -> reply) on LongCat-2.5-Preview with thinking ON: exercises tool-result and reasoning replay across turns
+- **141 `C3-microcoding-2.0`** (max_tokens 4096, thinking enabled) — parseDuration module + tests, then executed locally: LongCat-2.0
+- **142 `C4-oneshot-2.5`** (max_tokens 600, thinking enabled) — one-shot harness-dependence task, LongCat-2.5-Preview: exact-match scoring
+- **143 `C4-oneshot-2.0`** (max_tokens 600, thinking enabled) — one-shot harness-dependence task, LongCat-2.0: exact-match scoring
+- **144 `C6-needle-middle`** (max_tokens 64, thinking disabled, one call per position) — ~50K-token context with a unique needle at 50% depth: retrieved exactly?
+- **145 `C6-needle-end`** (max_tokens 64, thinking disabled, one call per position) — ~50K-token context with a unique needle at 98% depth: retrieved exactly?
+- **146 `C1b-constraints-2.0-8k`** (max_tokens 8192, thinking enabled) — re-run of C1 on LongCat-2.0 with an adequate output cap (round 1 was truncated by reasoning at 2048)
+- **147 `C3b-microcoding-2.5-16k`** (max_tokens 16384) — micro-coding re-run: LongCat-2.5-Preview, thinking enabled, max_tokens 16384
+- **148 `C3b-microcoding-2.0-16k`** (max_tokens 16384) — micro-coding re-run: LongCat-2.0, thinking enabled, max_tokens 16384
+- **149 `C3c-microcoding-2.5-off-4k`** (max_tokens 4096) — micro-coding re-run: LongCat-2.5-Preview, thinking disabled, max_tokens 4096
+- **114 `A3-ttl-gap15min`** (max_tokens 16, one unique prefix for the whole cell) — cache persistence after a 15-minute gap
+- **115 `A4-prompt-cache-key-alpha`** (max_tokens 16, one unique prefix, three key values) — does prompt_cache_key="alpha-session" partition the implicit cache? (call alpha)
+- **116 `A4-prompt-cache-key-alpha-again`** (max_tokens 16, one unique prefix, three key values) — does prompt_cache_key="alpha-session" partition the implicit cache? (call alpha-again)
+- **117 `A4-prompt-cache-key-beta`** (max_tokens 16, one unique prefix, three key values) — does prompt_cache_key="beta-session" partition the implicit cache? (call beta)
+- **118 `A5-accounting-cold`** (max_tokens 16, unique prefix) — cold call: does it report cache_write_tokens, and at what implied price?
+- **119 `A5-accounting-warm`** (max_tokens 16, same unique prefix) — warm call: cached_tokens and the resulting cost delta
+- **120 `A6-responses-cache-call1`** (max_output_tokens 16, reasoning effort none) — Responses surface cache readout, call 1/2 on a unique ~1K prefix
+- **121 `A6-responses-cache-call2`** (max_output_tokens 16, reasoning effort none) — Responses surface cache readout, call 2/2 on a unique ~1K prefix
+- **122 `A7-cache-thinking-call1`** (max_tokens 64, thinking enabled) — thinking ON with a repeated unique prefix, call 1/2: is reasoning served from cache or regenerated?
+- **123 `A7-cache-thinking-call2`** (max_tokens 64, thinking enabled) — thinking ON with a repeated unique prefix, call 2/2: is reasoning served from cache or regenerated?
+- **124 `A8-cross-on-2.0`** (max_tokens 16) — warm a unique prefix on LongCat-2.0 (control for the cross-model test)
+- **125 `A9-cross-on-2.5`** (max_tokens 16) — same unique prefix on LongCat-2.5-Preview: does one model's cache serve the other?
+- **126 `A8-2.5-cache-call1`** (max_tokens 16) — 2.5-Preview implicit cache, call 1/2 on its own unique prefix
+- **127 `A8-2.5-cache-call2`** (max_tokens 16) — 2.5-Preview implicit cache, call 2/2 (same unique prefix)
+- **150 `C3d-microcoding-2.5-16k-600s`** (max_tokens 16384, thinking enabled, 600 s timeout) — micro-coding re-run on LongCat-2.5-Preview with a 600 s wall clock (round 2 was cut off at 120 s mid-generation)
+- **151 `B1-cross-2.0-cold`** (max_tokens 16, unique prefix per cell) — cross-model cell, control step 1: 2.0 cold
+- **152 `B1-cross-2.0-warm`** (max_tokens 16, unique prefix per cell) — cross-model cell, control step 2: 2.0 warm — MUST hit or the cell is void
+- **153 `B1-cross-2.5-sameprefix`** (max_tokens 16, unique prefix per cell) — cross-model cell, step 3: the same prefix on 2.5-Preview
+- **154 `B2-subblock-r1-call1`** (max_tokens 16, unique prefix per cell) — minimum cacheable prefix: 1 repeat(s), call 1/2
+- **155 `B2-subblock-r1-call2`** (max_tokens 16, unique prefix per cell) — minimum cacheable prefix: 1 repeat(s), call 2/2
+- **156 `B2-subblock-r2-call1`** (max_tokens 16, unique prefix per cell) — minimum cacheable prefix: 2 repeat(s), call 1/2
+- **157 `B2-subblock-r2-call2`** (max_tokens 16, unique prefix per cell) — minimum cacheable prefix: 2 repeat(s), call 2/2
+- **158 `B3-tail-call1`** (max_tokens 16, unique prefix per cell) — changed-tail cell: warm the prefix with question 1
+- **159 `B3-tail-call2-same`** (max_tokens 16, unique prefix per cell) — changed-tail cell: identical request (control, must hit)
+- **160 `B3-tail-call3-changed`** (max_tokens 16, unique prefix per cell) — changed-tail cell: SAME prefix, DIFFERENT final user message — does the prefix still hit?
+- **161 `B4-key-call1`** (max_tokens 16, unique prefix per cell) — cross-key cell: warm with the primary key
+- **162 `B4-key-call2-samekey`** (max_tokens 16, unique prefix per cell) — cross-key cell: confirm the prefix is warm for the primary key
+- **163 `B4-key-call3-KEY5`** (max_tokens 16, unique prefix per cell) — cross-key cell: the same warm prefix sent with KEY5
+- **164 `D1-keyed-alpha-Q1`** (max_tokens 16, one unique prefix for the whole cell, 10 s pacing) — cold (first touch of a unique prefix)
+- **165 `D2-keyed-alpha-Q1-repeat`** (max_tokens 16, one unique prefix for the whole cell, 10 s pacing) — hit (identical repeat — the control; if this misses, the cell is void)
+- **166 `D3-keyed-alpha-Q2-changedtail`** (max_tokens 16, one unique prefix for the whole cell, 10 s pacing) — DISCRIMINATOR: hit ⇒ prefix-based + routing (b); miss ⇒ whole-request keying (a)
+- **167 `D4-nokey-Q1`** (max_tokens 16, one unique prefix for the whole cell, 10 s pacing) — hit ⇒ the key is not needed for affinity; miss ⇒ the key is what routes
+- **168 `D5-keyed-beta-Q1`** (max_tokens 16, one unique prefix for the whole cell, 10 s pacing) — hit ⇒ the key does not partition; miss ⇒ it does (re-test of A4)
+- **0 `live/listing`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts --billed run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/temperature-range`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts --billed run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/liveness`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/tool-roundtrip`** (cap asked: 200) — live/check.ts --billed run
+- **0 `live/image-colour`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/cache-key-warm`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-changed-tail`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run

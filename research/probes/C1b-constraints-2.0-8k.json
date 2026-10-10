@@ -1,0 +1,892 @@
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"role":"assistant","content":""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"We"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" are asked: \""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"Write exactly ten sentences"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" about the history of"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the Great Wall of"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" China. Requirements:"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" (1) exactly"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ten sentences, each"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" on its own line"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"; (2)"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence 1 must"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" end with the character"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 一, sentence"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 2 with "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"二, sentence "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667225,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"3 with 三"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", sentence 4"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with 四,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence 5 with"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 五, sentence"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 6 with "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"六, sentence "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"7 with 七"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", sentence 8"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with 八,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence 9 with"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 九, sentence"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 10 with"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 十; ("},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"3) each line"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" must end with that"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" character and nothing after"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" it; (4"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":") no numbering,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" no bullets.\"\n\nSo"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" I need to produce"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ten sentences, each"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ending with the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667226,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Chinese numeral character"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" for"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" through 10"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". The sentences must"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" be about the history"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of the Great Wall"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of China. Each"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" on"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" its own line,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" no numbering, no"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" bullets. The ending"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" character must be exactly"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" that character, nothing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" after it. So"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" I'll"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" craft sentences that naturally"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" end with those characters"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". For"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" example,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence 1 ends"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with 一,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667227,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence 2 with"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 二, etc"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". I need to"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" make sure"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the sentences are historically"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" accurate and flow"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" logically"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". I'll write"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" them"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" in English, but"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ending"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" character is Chinese"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". The requirement"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" says \"sentence"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 1 must end"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with the character "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"一\", so the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" last"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" character of the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence is that Chinese"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" character"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". So the sentence"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667228,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" will be in"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" English, but"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" final"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" punctuation"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" is"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" that character. No"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" period after"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" it? It"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" says \"each line"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" must end with that"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" character and nothing after"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" it.\" So no"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" period"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", just the character"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". So I'll"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" write: \"The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Great Wall's"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" construction began during"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the War"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"ring States period,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" first unified"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667229,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" wall"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" built by"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Qin Shi Huang "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"一\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" but"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" that might"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" be awkward. I"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" need to make the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence end naturally"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with that character."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Perhaps I can incorporate"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the number into"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the sentence,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" like \"The first"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" major"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" unified"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" wall was built by"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the first"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" emperor, Qin"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Shi Huang 一"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"\" but that's"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" not a full"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence. I need"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667230,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" a"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" complete sentence. I"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"'ll try"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" to craft"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentences where"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the final"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" word"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" is that"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" numeral"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". For example:"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" \"The Great"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Wall's history"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" spans"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" over two"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" thousand"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" years, beginning"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with the first"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" unified"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" construction"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 一\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" That"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ends"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with 一."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667231,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" But \""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"一\" means"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" one"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", so it"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" could"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" be \"the first"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" but"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" I need"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the character itself"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". I'll just"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" end"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence with the character"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". So:"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" \"The earliest"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sections"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of the Great Wall"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" were built by various"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" states,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" but the first unified"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" wall was ordered"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" by Qin Shi Huang"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667232,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 一\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" That works. Then"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 2 ends"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with 二:"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" \"The wall"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" was expanded"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" and connected"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" during the Han Dynasty"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", which"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ruled"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" for"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" over"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" four hundred"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" years, but the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" second major phase"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of construction came"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" later 二\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" That's a bit"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" forced. I need"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" to make it natural"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". Maybe I can"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" use the numeral"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667233,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" as"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" part"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of a phrase"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" like \"the second"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" but the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" character is "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"二. So I"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"'ll"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" write: \"The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" second"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" major rebuilding"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" occurred"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" during the Ming Dynasty"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", which created"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the most iconic"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sections"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 二\" That"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ends with 二"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". I'll do"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" similar"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" for others"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". I need ten"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667234,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentences,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" each ending"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" corresponding numeral. I"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"'ll plan a chronological"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" history:"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"1. Qin"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" unification"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" (一"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"),"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 2. Han"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" expansion (二),"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 3. Northern"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Wei"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"/S"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"ui repairs (三"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"), 4."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Jin"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Dynasty"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" wall"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" (四), "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"5. Ming major"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667235,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" construction (五),"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 6. Qing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" abandonment"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" (六), "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"7. Modern restoration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" (七), "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"8. UNESCO World"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Heritage (八),"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 9. Tourism"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" boom"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" (九), "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"10. Ong"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"oing preservation (十"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"). But I need"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" to make sure"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" each"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sentence ends with the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" numeral. I'll"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" craft them carefully"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":".\n\nLet"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"'s write:\n\n1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". The first"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" emperor"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667236,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" China, Qin Shi"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Huang, ordered the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" connection of existing walls"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" to form a"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" unified defense against northern"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" invasions 一"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"2. The Han"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Dynasty extended the wall"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" far"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" into the Gobi"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Desert, creating"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the second major expansion"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of the frontier"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" barrier"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 二\n3"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". During the Northern"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" and Southern Dynasties"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", the Northern"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Wei and Sui"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" dyn"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"asties undertook"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667237,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" third significant"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" round"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of repairs and extensions"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 三\n4"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". The Jin Dynasty"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" built extensive"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" walls in"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the north to resist"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the Mong"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"ols, marking"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the fourth major phase"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of construction "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"四\n5."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" The Ming Dynasty constructed"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the most famous"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" and well-preserved"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" sections, representing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the fifth and largest"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" building"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" campaign"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667238,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" 五\n6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". The Qing Dynasty halted"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" major"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" construction"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", as their"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" empire extended beyond the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" wall, leading"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" to the sixth period"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" of neglect "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"六\n7."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" In the "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"20th century"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", large"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" portions"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" fell"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" into ruin until"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the seventh major"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" restoration effort began in"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"1980"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"s 七"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"\n8. UNESCO"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" designated the Great Wall"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667239,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" a World Heritage Site"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" in 19"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"87, the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" eighth milestone"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" in its long"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" history 八\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"9. Tourism"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" exploded"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" in the 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"990s"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", making the wall"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the ninth most visited"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" cultural"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" site"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" in"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the world 九"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"\n10."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" Today, ongoing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" preservation battles"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" erosion"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" and human"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" damage, marking"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667240,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the tenth chapter in"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the wall's enduring"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" story 十\n\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"Check: each sentence"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ends with the numeral"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" character"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":", no"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" punctuation after"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". They"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" are about"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" history"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". Exactly"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ten sentences. No"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" numbering. I'll"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" output them as plain"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" text"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" lines."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"content":"The first emperor"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"content":" of China, Qin"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"content":" Shi Huang, ordered"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"content":" the connection of existing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"content":" walls to form a"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"content":" unified defense against northern"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667241,"model":"LongCat-2.0","choices":[{"delta":{"content":" invasions 一"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":"\nThe Han Dynasty"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" extended the wall far"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" into the Gobi"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" Desert, creating the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" second major expansion of"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" the frontier barrier "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":"二\nDuring the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" Northern and Southern Dyn"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":"asties, the Northern"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" Wei and Sui"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" dynasties undertook the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" third significant round"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" of repairs and extensions"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" 三\nThe"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" Jin Dynasty built extensive"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" walls in the north"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" to resist the Mong"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":"ols, marking the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" fourth major phase of"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" construction 四\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":"The Ming Dynasty constructed"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" the most famous and"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667242,"model":"LongCat-2.0","choices":[{"delta":{"content":" well-preserved sections"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":", representing the fifth"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" and largest building campaign"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" 五\nThe"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" Qing Dynasty halted major"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" construction, as their"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" empire extended beyond the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" wall, leading to"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" the sixth period of"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" neglect 六\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":"In the 2"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":"0th century,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" large portions fell into"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" ruin until the seventh"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" major restoration effort began"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" in the 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":"980s"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" 七\nUN"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":"ESCO designated the Great"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" Wall a World Heritage"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" Site in 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":"987,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" the eighth milestone"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667243,"model":"LongCat-2.0","choices":[{"delta":{"content":" in its long history"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" 八\nTour"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":"ism exploded in the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" 199"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":"0s, making"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" the wall the ninth"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" most visited cultural"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" site in"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" the world 九"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":"\nToday, ongoing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" preservation battles erosion"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" and human damage,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" marking the tenth chapter"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" in the wall's"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{"content":" enduring story 十"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[{"delta":{},"index":0,"finish_reason":"stop","matched_stop":2,"logprobs":null}],"lastOne":false}
+
+data: {"id":"db6e77c13cde4e6ca5317d77212b9101","object":"chat.completion.chunk","created":1791667244,"model":"LongCat-2.0","choices":[],"usage":{"completion_tokens":1359,"prompt_tokens":138,"total_tokens":1497,"completion_tokens_details":{"reasoning_tokens":1095},"prompt_tokens_details":{"cached_tokens":128,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}},"lastOne":true}
+
+data: [DONE]
+

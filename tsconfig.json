@@ -32,5 +32,5 @@
       ]
     }
   },
-  "include": ["*.ts", "test/*.ts", "live/*.ts"]
+  "include": ["*.ts", "test/*.ts", "live/*.ts", "research/lib.ts", "research/probe-cache.ts", "research/probe-battery.ts", "research/probe-tools.ts", "scripts/*.ts"]
 }

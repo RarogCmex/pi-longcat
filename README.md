@@ -24,7 +24,9 @@ research notes (`research/notes.md`) and the spend ledger
 - [Wire surfaces and routing](#wire-surfaces-and-routing)
 - [Non-chat modalities](#non-chat-modalities)
 - [Compat flags, and why each one is pinned](#compat-flags-and-why-each-one-is-pinned)
-- [Request shapes: why there is no payload hook](#request-shapes-why-there-is-no-payload-hook)
+- [Prompt caching](#prompt-caching)
+- [Request shapes: the one payload hook, and the measurement that added it](#request-shapes-the-one-payload-hook-and-the-measurement-that-added-it)
+- [Model behaviour battery](#model-behaviour-battery)
 - [Error paths](#error-paths)
 - [Auth, keys and entitlements](#auth-keys-and-entitlements)
 - [Verification log](#verification-log)
@@ -325,13 +327,47 @@ Responses-surface flags (`RESPONSES_COMPAT`) follow the same rule from the same
 `supportsMidConvoSystemMessages` all `false`; `supportsMaxOutputTokens` `true`
 (echoed back and used as a bound).
 
-## Request shapes: why there is no payload hook
+## Prompt caching
 
-**This plugin has no `before_provider_request` hook, and that is a measured
-result rather than an omission.** Three of the thirteen sibling plugins needed
-one (parts arrays, blank tool results, a missing reasoning field); the shapes pi
-1.1.0 produces here were captured offline through `onPayload` and then sent to
-the live gateway:
+Measured 2026-10-11 in a dedicated suite (42 accepted calls, **¥0.062** on KEY1
+plus 2 calls on KEY5), after the operator named caching the priority and overrode
+the house default of "prove it once with two short requests". Every cell used a
+**unique UUID-seeded prefix**, so a hit can only come from that cell's own previous
+call — cross-run warmth cannot fake a result. Reproduce the numbers with
+`node scripts/cache-report.ts` (reads the ledger, no API calls).
+
+| question | verdict | evidence |
+|---|---|---|
+| does the chat surface cache implicitly? | **yes** — `usage.prompt_tokens_details.cached_tokens`, no opt-in field, and an identical repeat needs no `prompt_cache_key` | `A1`: cold 0 → 1024/1057 on calls 2, 3, 4 |
+| minimum cacheable prefix | **one 128-token block**: 85 prompt tokens → 0 cached; 131 → 128; 308 → 256 | `B2`, `A2` |
+| granularity | **`cached = floor(prompt/128) × 128`** — fits 105 of 109 warm rows across independent rounds (the 4 exceptions are multi-turn aggregates and one Anthropic row; the report excludes and names them) | `scripts/cache-report.ts` |
+| TTL / persistence | **longer than 15 minutes**, not bounded by the suite: the same unique prefix hit for 1024 tokens at +1, +5 and +15 min | `A3` |
+| does `prompt_cache_key` matter? | **yes — it is the routing/namespace handle.** A prefix warm under a key **misses** when the same bytes are sent without one, and misses under a different value; with a stable key a *changed final message* still hits | `D1-D5`, `A4` |
+| prefix-based or whole-request? | **prefix-based** — only the last user message changed and the hit survived (1024/1107) | `D3`, which refutes round 2's first reading of `B3` |
+| Responses surface | **caches and reports it** (`input_tokens_details.cached_tokens`): 0 → 1152 on a repeated ~1.2K prefix | `A6` |
+| both models? | yes — 2.5-Preview 0 → 1024 on its own prefix | `A8` |
+| shared across models? | **no — model-scoped**: a prefix warm on 2.0 (control hit 1024) was cold on 2.5-Preview | `B1`, with the control round 1 lacked |
+| shared across keys of one account? | **no — key-scoped**: KEY5 missed a prefix KEY1 had warm (control satisfied) | `B4` |
+| cache × thinking | **reasoning is regenerated, the prefix cache survives**: the warm call reported `cached` 1152 *and* `reasoning_tokens` 41 with different reasoning text | `A7` |
+| is a cache WRITE charged at a premium? | **nothing observable**: `cache_write_tokens` stayed 0 on cold calls and no write rate is published. The deduction is server-side and no balance/usage API exists for a model key, so every CNY figure here is computed from published rates and reported usage — not read off an invoice | `A5` |
+| what is a hit worth? | **5-46× cheaper input** across the measured cells (¥2/1M → ¥0.04/1M on the cached part); e.g. `A1` ¥0.002114 → ¥0.000107 | `scripts/cache-report.ts` |
+| does pi benefit with no help? | partly: pi's agent loop reported `cacheRead` 640/1024 on the **first** turn of a fresh isolated HOME (its system prompt is a long, stable, widely-shared prefix), but pi omits `prompt_cache_key` on chat routes, so a changed tail missed until the hook below was added | `B-realpi-*`, `D4`, `cache-key-control-unkeyed` |
+
+**One corrected result, left visible on purpose.** Round 2 sent the same prefix with
+a changed final message and *no* `prompt_cache_key`, got 0 cached, and printed "the
+cache is whole-request, not prefix-based". Round 3 varied one variable at a time and
+showed that was a **routing** miss, not a keying one. A cache miss has at least four
+causes — never cached, expired, different namespace, different node — and a single
+miss cannot distinguish them. Left uncorrected, the README would have said caching
+is useless for agents and the plugin would have shipped without the hook that makes
+it work.
+
+## Request shapes: the one payload hook, and the measurement that added it
+
+**State 1 — 2026-10-11, at build time: no hook.** Three of the thirteen sibling
+plugins needed one (parts arrays, blank tool results, a missing reasoning field).
+The shapes pi 1.1.0 produces here were captured offline through `onPayload` and then
+sent to the live gateway; all were accepted:
 
 | pi's shape | live result | ledger row |
 |---|---|---|
@@ -342,16 +378,168 @@ the live gateway:
 | the full captured chat body (tools, `stream_options`, `thinking`) | 200, completed | `R8-chat-pi-exact` |
 | the full captured Responses body (`store:false`, `prompt_cache_key`, `reasoning:{effort,summary}`, `include:["reasoning.encrypted_content"]`) | 200, completed | `R8-responses-pi-exact` |
 
-Two tests keep the absence deliberate:
+That absence was asserted by two tests, and it was the right answer to the question
+that had been asked: *does the gateway reject anything pi sends?*
 
-- `test/entry.test.ts` asserts the registered hook set is exactly
-  `["message_end","turn_end"]` — adding a payload hook turns it red;
-- `test/wire-format.test.ts` asserts the parts array survives to the wire
-  unflattened, i.e. nothing in this plugin rewrites what pi built.
+**State 2 — 2026-10-11, billed round: one hook.** A different question (*how is the
+implicit cache addressed?*) produced a measurement with money attached, and the
+operator had prioritized caching, so the absence was reversed:
 
-Copying a sibling's hook here would fix nothing and would hide a regression if the
-gateway ever *started* rejecting one of these shapes; the wire test is where that
-would show up first, and the live harness re-checks it against the real gateway.
+```ts
+pi.on("before_provider_request", (event, ctx) => {
+  if (ctx.model?.provider !== PROVIDER_ID) return undefined;
+  return injectPromptCacheKey(event.payload, {
+    sessionId: ctx.sessionManager?.getSessionId?.(),
+    isChatSurface: ctx.model?.api === "openai-completions",
+  }) as typeof event.payload | undefined;
+});
+```
+
+It injects `prompt_cache_key` (the pi session id, clamped to 64) into **chat**
+payloads only, only when the field is absent, and copies rather than mutates. It
+adds no requests and declares no `promptCache`, so pi's cache warmer stays off — it
+only routes requests pi was already sending. The reversal updated the tests
+(`test/entry.test.ts` § "the prompt_cache_key hook": six scope tests; the
+wire-format catalog audit now permits exactly one extra field), this section, and
+the journal: an asserted absence is an answer to the questions asked, not a
+permanent verdict.
+
+End-to-end proof through the shipped stack (`live/check.ts --billed`, 2026-10-11,
+three ledger rows): warm 755 prompt tokens / `cacheRead` 0 → **changed final
+message** with the hook-injected key: `cacheRead` **640 of 755** → the same request
+with the hook suppressed: `cacheRead` **0**. One variable changed per step.
+
+What is still *not* rewritten: nothing flattens a parts array, reorders messages,
+or strips a field. The two tests that used to assert the hook's absence now assert
+its exact scope, so adding a second transform is still a deliberate act.
+
+## Model behaviour battery
+
+Run 2026-10-11 as an operator-approved billed round: a LongCat-2.5-Preview battery
+derived from published third-party reviews (**¥0.463** on KEY4, budget ¥5), a
+tool-reliability set (**¥0.012** on KEY2) and the billed half of the real-pi pass
+(**¥0.016** on KEY3). Each published complaint was converted into a **mechanical
+score** or labelled subjective with N and date. Re-score without spending:
+`node scripts/battery-report.ts` and `node scripts/rescore-c3.ts` (both read the
+recorded bodies).
+
+### 1. Strong-constraint instruction following (review: techgogogo.com, 2026-09-26)
+
+Task: ten sentences about the Great Wall, sentence *i* ending with the numeral
+一…十, nothing after it, no numbering. Scored by regex over the last character of
+each line; punctuation density is the mechanical proxy for the review's "sentences
+6-9 ungrammatical".
+
+| run | model | max_tokens | lines | numerals in place | punctuation/line |
+|---|---|---|---|---|---|
+| C1 t1-t3 | 2.5-Preview | 2048 | 10 | **10/10** | **0.00** |
+| C1b | 2.0 | 8192 | 10 | **10/10** | 1.30 |
+| C1 t1 | 2.0 | 2048 | 0 | 0/10 | – (**invalid**: `reasoning_tokens` 2047 of 2048, no visible answer) |
+
+The review's "constraints kept" reproduces (N=4 valid runs, 2026-10-11), and its
+grammar complaint has a mechanical correlate: 2.5-Preview emitted **no commas or
+full stops at all** in 3/3 runs while 2.0 kept 1.3 per line. SUBJECTIVE (N=3,
+2026-10-11, read by the build agent, not a native-speaker panel): the 2.5-Preview
+sentences are comprehensible but comma-starved to the point of reading as run-ons —
+consistent with the review, except that punctuation was suppressed across all ten
+sentences rather than only 6-9.
+
+### 2. Language consistency (launch-day complaint: Chinese answers to English questions)
+
+Five English prompts, scored by CJK character ratio: **5/5 ENGLISH, 0.0 % CJK in
+every answer** (mechanical, N=5, 2026-10-11). The complaint does not reproduce.
+
+### 3. Verifiable micro-coding — the generated code was EXECUTED
+
+Same prompt to both models: a `parseDuration` ES module plus its own `node:test`
+file. Scored by running (a) the model's own tests and (b) an **independent 9-case
+suite** (compounds, case-insensitivity, whitespace, two `RangeError` cases), so a
+vacuous self-test cannot produce a pass.
+
+| cell | model | thinking | max_tokens | result |
+|---|---|---|---|---|
+| C3b | 2.0 | on | 16384 | own tests 5 pass/1 fail; **independent 9/9 PASS** (out 6403, reasoning 5720) |
+| C3 r1 | 2.0 | on | 4096 | independent 8/9 — no `RangeError` for garbage |
+| C3d | 2.5-Preview | on | 16384 | own tests **11/11**; **independent 9/9 PASS** (out 8439, reasoning 7692, 217 s) |
+| C3c | 2.5-Preview | **off** | 4096 | independent 8/9 — its module throws `Invalid duration part: "1h30m"` (compounds unsupported) |
+| C3 r1 | 2.5-Preview | on | 4096 | **invalid**: reasoning 4095 of 4096, no code block |
+
+Two honest readings: both models can produce a correct module, but only when the
+output budget covers the reasoning; and the cheap setting (2.5-Preview with thinking
+off, ¥0.005 vs ¥0.068) is the one that got compounds wrong — a ~13× cost difference
+between the two cells that both "produce code".
+
+### 4. Harness dependence (review: eesel.ai on 2.0 — "quality depends on the harness")
+
+One task, exact-string scoring: sort five lines by length, prefix `N: `, then reply
+`DONE 5`.
+
+| harness | 2.0 | 2.5-Preview |
+|---|---|---|
+| one-shot (`C4`) | **exact match**, `DONE 5` | **exact match**, `DONE 5` |
+| real pi agent loop, 3 turns, tools `read → write` | **exact match** on the file it wrote, `DONE 5`, a thinking block on every turn | same |
+
+At this task size the complaint does not reproduce. What the agent loop did show is
+the replay property the house skill cares about: three assistant turns with
+`stopReason` `toolUse → toolUse → stop`, a thinking block on each, and correct reuse
+of the earlier tool result — so the zai format having no encrypted reasoning item is
+not a problem here.
+
+### 5. Latency and throughput (review: aichina.news, 2026-10-08 — "capable and cheap, but slow")
+
+Every billed call of the round records TTFT (request start → first content or
+reasoning delta) and output tokens/second; `node scripts/latency-report.ts`
+aggregates them. 55 timed calls, 2026-10-11:
+
+| model | calls | TTFT ms min/median/max | output tok/s min/median/max |
+|---|---|---|---|
+| LongCat-2.0 | 29 | 1405 / 1719 / 4979 | 11.5 / 12.7 / 116.8 |
+| LongCat-2.5-Preview | 26 | 1673 / 2602 / 34232 | 23.5 / 41.6 / 128 |
+
+Large-input calls are reported separately because prefill dominates them: a
+**53 011-token** prompt reached first token in 7.1 s and 5.4 s. Whole-task wall
+clocks: a 3-turn pi agent tool loop in **11 s** (2.0) and **19 s** (2.5-Preview).
+The only slow thing measured was a 16K-token thinking generation at **217 s** — slow
+because it spent 7 692 tokens reasoning, not because the gateway is slow. The
+review's ">30 min per coding task" does not reproduce at this scale; the honest form
+is "slow when thinking is on and the budget is large" (N=55 calls, 2026-10-11).
+
+### 6. Mid-context coherence (operator-optional, ≤¥1)
+
+A ~53K-token unique document with a needle (`ZQX-7734-MIDDLE` / `ZQX-7734-ENDTAIL`)
+at 50 % and 98 % depth: **both retrieved exactly**, thinking off, `max_tokens` 64,
+¥0.106 per call. Also a large-input acceptance data point: 53K tokens needs no
+special handling, which is as far as this build went toward the 1M window without
+paying ≈¥2 for a full fill.
+
+### 7. Effort-style fields (thinking is on/off only)
+
+`reasoning_effort: low` and `high` and `thinking.budget_tokens: 32` were all
+**accepted (200) and not honoured**: `reasoning_tokens` 43 / 44 / 35 against the
+no-extra-field baseline of 39 — noise, not a scale. This independently confirms the
+review's reading and is why `supportsReasoningEffort: false` is pinned and no
+`thinkingTokenBudgetField` is declared.
+
+### 8. Tool-call reliability across the thinking switch (N=5 per cell, pitfalls T29)
+
+`tool_choice` left at the default so *willingness* is what is measured; the prompt
+states the condition that makes the tool shape observable ("you must call …, do not
+answer in text"). Scored mechanically: STRUCTURED (a `tool_calls` entry with
+parseable arguments) / INLINE (a text tag) / TEXT (a plain answer).
+
+| model | switch | structured | inline | text |
+|---|---|---|---|---|
+| LongCat-2.0 | thinking on | **5/5** | 0 | 0 |
+| LongCat-2.0 | thinking off | **5/5** | 0 | 0 |
+| LongCat-2.5-Preview | thinking on | **4/5** | 0 | 1 |
+| LongCat-2.5-Preview | thinking off | **5/5** | 0 | 0 |
+
+No measurable degradation from the off switch at N=5 — the single failure was in the
+thinking-**on** cell (2.5-Preview answered in prose *about* calling the tool). That
+is the opposite direction from the T29 case in the pitfalls catalog and from this
+plugin's own vision finding, so it is reported with its N rather than as "tools are
+fine": one cell in five is within noise, and the same switch measurably *does*
+change vision quality and compound-duration correctness.
 
 ## Error paths
 
@@ -553,9 +741,30 @@ of it cost anything:
   level LongCat has). That is the tristate behaviour `test/models.test.ts` asserts
   against pi's functions, observed end to end.
 
-The billed half — a real generation, a multi-turn agent run with tools, thinking
-on/off inside a session, and the TUI paths — is listed under
-[What is not verified](#what-is-not-verified-and-what-remains).
+**Real-pi pass (billed half)** — run on 2026-10-11 with KEY3 in an isolated
+`HOME`/`PI_CODING_AGENT_DIR` (a path with a space, on purpose), the plugin
+installed into it, `--no-session`, and stderr captured into the ledger row:
+**¥0.0163** for four runs. One successful generation per model (`stopReason: stop`,
+a thinking block, output "ok"); and one **multi-turn tool loop per model** — three
+assistant turns, tool calls `read → write`, stop reasons `toolUse → toolUse →
+stop`, a thinking block on **every** turn, `output.txt` an exact match, reply
+`DONE 5`, and the later turns correctly reusing the earlier tool result. That is
+the replay test the house skill demands, and the zai format's lack of an encrypted
+reasoning item does not break it. pi's own loop also reported `cacheRead` 640/1024
+on a first turn in a fresh HOME (see [Prompt caching](#prompt-caching)).
+
+**Billed round (operator-approved extended scope)** — 2026-10-11, four suites on
+five distinct keys so the ≤¥1-per-key cap and any per-key rate limit could not
+cross-contaminate: caching (¥0.0622, KEY1+KEY5), tool reliability N=5×4 cells
+(¥0.0121, KEY2), real-pi billed half (¥0.0163, KEY3), 2.5-Preview battery rounds
+1-3 (¥0.4632, KEY4). Results in [Prompt caching](#prompt-caching) and
+[Model behaviour battery](#model-behaviour-battery); every accepted call is a
+ledger row with its key id, usage, cost, TTFT and throughput.
+
+Still listed under [What is not verified](#what-is-not-verified-and-what-remains):
+the TUI paths (the persistent `turn_end` entry is covered only by the fake-pi
+test), and thinking on/off *inside an interactive session* rather than via
+`--thinking`.
 
 **Honesty notes on two rows.** Two probes were planned as free and were accepted
 and billed (`thinking:{"type":"bogus"}` on two surfaces, ¥0.000108 total): an
@@ -601,17 +810,24 @@ Stated plainly, so no untested claim reads as a tested one.
 
 **Not verified at all**
 
-- **The billed half of the real-pi pass.** Install, `--list-models`, the print/json
-  error paths, `auth check` and the thinking-level clamping were all run for free
-  (see the verification log). What was **not** run: a successful generation inside
-  real pi, a multi-turn agent run with tools (read → write → reply — the run that
-  exercises reasoning-item and tool-call *replay* across turns, which a
-  single-turn probe passes with the replay broken), thinking on/off inside a
-  session, and every TUI path including the persistent `turn_end` entry (covered
-  only by the fake-pi test). On a prepaid platform with no free id an agent run is
-  the largest single spend in the plan, so it was left for an explicitly approved
-  session; when it happens, use a clean `HOME` plus `-e <plugin>/index.ts` and
-  remember a stored credential from `/login` wins over `LONGCAT_API_KEY`.
+- **The TUI half of the real-pi pass.** The free half (install, `--list-models`,
+  print/json error paths, `auth check`, level clamping) and the billed half
+  (generations, multi-turn tool loops with thinking on) both ran on 2026-10-11 —
+  see the verification log. What is still unverified: every TUI path, including
+  the persistent `turn_end` help entry (covered only by the fake-pi test, which
+  reproduces pi's in-place replacement sequencing), an interactive `/login`
+  against the real gateway, and thinking switched *inside* a session rather than
+  via `--thinking`.
+- **Caching, remaining unknowns.** The TTL lower bound is 15 minutes (not an upper
+  bound); whether the unkeyed namespace is shared beyond this account is
+  unproven (the first-turn hits in a fresh HOME are consistent with it but do not
+  prove it); whether `prompt_cache_key` routing is per-node or per-cluster is not
+  observable from outside; and no invoice was consulted, so the ¥ figures are
+  computed from published rates and reported usage.
+- **The Responses surface as a daily driver.** Its own cache and off-switch checks
+  pass, but no multi-turn agent loop was run on it, so reasoning-item replay there
+  (`include:["reasoning.encrypted_content"]` was accepted, not exercised over
+  turns) is unverified.
 - **The Responses surface as a daily driver.** Its checks pass
   (`LONGCAT_SURFACE=responses node live/check.ts --billed` is supported), but no
   multi-turn session, reasoning-item replay, or tool loop was exercised on it.
@@ -681,8 +897,21 @@ node live/check.ts            # live, FREE checks only (spends nothing)
 node live/check.ts --billed   # + the accepted-call checks, each itemized in the ledger
 node scripts/extract-fixtures.ts   # regenerate test/fixtures/ from research/probes/
 node scripts/readme-models.ts      # regenerate the model table above
-node scripts/ledger-report.ts      # regenerate research/probe-ledger.md from the JSONL
+node scripts/ledger-report.ts      # regenerate research/probe-ledger.md (incl. per-key spend)
+node scripts/latency-report.ts     # TTFT / tokens-per-second table per model (C5)
+node scripts/cache-report.ts       # verify the 128-token block model + the cache economics
+node scripts/battery-report.ts     # re-score the battery from recorded bodies (no API calls)
+node scripts/rescore-c3.ts         # re-run the generated code's tests offline (no API calls)
 ```
+
+The billed research rounds are separate, explicit scripts — each states its cost
+class, bounds and key in its header, and appends its own ledger rows through
+`research/lib.ts` (which records key id, usage, cost, TTFT and tok/s per call):
+`research/probe-cache{,2,3}.ts` (caching, KEY1), `research/probe-tools.ts`
+(tool reliability, KEY2), `research/probe-realpi.ts` (the real-pi billed half,
+KEY3), `research/probe-battery{,2,3}.ts` (the review-driven battery, KEY4).
+`LONGCAT_LIVE_LEDGER=<path>` makes `live/check.ts` append its rows to the same
+ledger.
 
 Layout and dependency direction (`catalog → models → provider → index`); only
 `index.ts` touches the pi runtime, everything else loads under plain `node --test`,
@@ -723,7 +952,10 @@ and tests quote redacted prefixes only (`ak_2uz…`).
 | `research/probe-ledger.jsonl` | the same rows as data (the markdown is generated from it, never edited) |
 | `research/probes/*.json` | every response body verbatim, including the SSE streams |
 | `research/doc-*.html`, `research/doc-*.txt` | the platform docs as captured on 2026-10-10 (VitePress SSR) plus `html2txt.py` |
-| `research/probe*.ts` | the eight probe rounds as run, with the cost class of every call in its header |
+| `research/probe*.ts` | the eleven probe rounds as run, with the cost class of every call in its header |
+| `research/lib.ts` | shared instrumentation for the billed rounds: key loading, ledger rows (key id, usage, cost, TTFT, tok/s), unique-prefix generator, streaming SSE parser |
+| `research/scoring.ts` | the mechanical scorers (constraint task, code execution, block extraction) shared by battery rounds so a re-run cannot score differently |
+| `research/probe-cache*.log`, `probe-tools.log`, `probe-realpi.log`, `probe-battery*.log` | the runs' console output, including each cell's verdict line |
 | `test/fixtures/*.json` + `SOURCES.md` | the subset of recorded bodies the offline suite asserts on, regenerated by `scripts/extract-fixtures.ts` |
 
 Provenance legend used throughout: **measured** = a recorded request/response in

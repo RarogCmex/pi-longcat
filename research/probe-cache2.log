@@ -1,0 +1,32 @@
+      B1-cross-2.0-cold: prompt=1082 cached=0 cost=¥0.002180
+      B1-cross-2.0-warm: prompt=1082 cached=1024 cost=¥0.000173
+      B1-cross-2.5-sameprefix: prompt=1082 cached=0 cost=¥0.002180
+
+### B1 cross-model: 2.0 cold cached=0 → 2.0 warm cached=1024 (control SATISFIED) → 2.5-Preview same prefix cached=0 ⇒ the cache is MODEL-SCOPED (warm on 2.0, cold on 2.5-Preview for the identical prefix)
+      B2-subblock-r1-call1: prompt=85 cached=0 cost=¥0.000186
+      B2-subblock-r1-call2: prompt=85 cached=0 cost=¥0.000186
+
+### B2 1 repeat(s): prompt=85 cached=[0, 0]; floor(prompt/128)*128 predicts 0 ⇒ MODEL HOLDS
+      B2-subblock-r2-call1: prompt=131 cached=0 cost=¥0.000278
+      B2-subblock-r2-call2: prompt=131 cached=128 cost=¥0.000027
+
+### B2 2 repeat(s): prompt=131 cached=[0, 128]; floor(prompt/128)*128 predicts 128 ⇒ MODEL HOLDS
+      B3-tail-call1: prompt=1182 cached=0 cost=¥0.002380
+      B3-tail-call2-same: prompt=1182 cached=1152 cost=¥0.000122
+      B3-tail-call3-changed: prompt=1182 cached=0 cost=¥0.002380
+
+### B3 changed tail: identical repeat cached=1152, changed final question cached=0 (prompt 1182) ⇒ a changed tail MISSES — the cache is whole-request, not prefix-based, and is worth much less to an agent
+      B4-key-call1: prompt=1132 cached=0 cost=¥0.002280
+      B4-key-call2-samekey: prompt=1132 cached=1024 cost=¥0.000273
+      B4-key-call3-KEY5: prompt=1132 cached=0 cost=¥0.002280
+
+### B4 cross-key: primary warm cached=1024 → KEY5 on the same prefix cached=0 ⇒ the cache IS key-scoped (KEY5 missed) — rotating keys would throw away the cache
+
+================ CACHE ROUND 2 SUMMARY ================
+• B1 cross-model: 2.0 cold cached=0 → 2.0 warm cached=1024 (control SATISFIED) → 2.5-Preview same prefix cached=0 ⇒ the cache is MODEL-SCOPED (warm on 2.0, cold on 2.5-Preview for the identical prefix)
+• B2 1 repeat(s): prompt=85 cached=[0, 0]; floor(prompt/128)*128 predicts 0 ⇒ MODEL HOLDS
+• B2 2 repeat(s): prompt=131 cached=[0, 128]; floor(prompt/128)*128 predicts 128 ⇒ MODEL HOLDS
+• B3 changed tail: identical repeat cached=1152, changed final question cached=0 (prompt 1182) ⇒ a changed tail MISSES — the cache is whole-request, not prefix-based, and is worth much less to an agent
+• B4 cross-key: primary warm cached=1024 → KEY5 on the same prefix cached=0 ⇒ the cache IS key-scoped (KEY5 missed) — rotating keys would throw away the cache
+
+Round-2 spend: ¥0.014925 on KEY1/KEY5

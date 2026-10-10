@@ -1,0 +1,25 @@
+
+### real-pi generation LongCat-2.0: turns=1 stop=stop thinkingBlocks=1 usage in=819 out=19 cost=¥0.0018156 elapsed=3445ms firstByte=573ms output="ok"
+
+### real-pi generation LongCat-2.5-Preview: turns=1 stop=stop thinkingBlocks=1 usage in=435 out=18 cost=¥0.00105496 elapsed=3697ms firstByte=593ms output="ok"
+
+### real-pi tool loop LongCat-2.0: assistant turns=3, tool calls=[read → write], stop reasons=[toolUse, toolUse, stop], thinking blocks per turn=[1, 1, 1], usage in=2036 out=382 cached=3200 cost=¥0.007256, elapsed=11143ms.
+      scored mechanically: output.txt EXACT MATCH; reply correct (DONE 5)
+      replay verdict: multi-turn replay WORKS (a later turn reused the earlier tool result)
+
+### real-pi tool loop LongCat-2.5-Preview: assistant turns=3, tool calls=[read → write], stop reasons=[toolUse, toolUse, stop], thinking blocks per turn=[1, 1, 1], usage in=1500 out=378 cached=3584 cost=¥0.00616736, elapsed=19017ms.
+      scored mechanically: output.txt EXACT MATCH; reply correct (DONE 5)
+      replay verdict: multi-turn replay WORKS (a later turn reused the earlier tool result)
+
+================ REAL-PI BILLED HALF SUMMARY ================
+• real-pi generation LongCat-2.0: turns=1 stop=stop thinkingBlocks=1 usage in=819 out=19 cost=¥0.0018156 elapsed=3445ms firstByte=573ms output="ok"
+• real-pi generation LongCat-2.5-Preview: turns=1 stop=stop thinkingBlocks=1 usage in=435 out=18 cost=¥0.00105496 elapsed=3697ms firstByte=593ms output="ok"
+• real-pi tool loop LongCat-2.0: assistant turns=3, tool calls=[read → write], stop reasons=[toolUse, toolUse, stop], thinking blocks per turn=[1, 1, 1], usage in=2036 out=382 cached=3200 cost=¥0.007256, elapsed=11143ms.
+      scored mechanically: output.txt EXACT MATCH; reply correct (DONE 5)
+      replay verdict: multi-turn replay WORKS (a later turn reused the earlier tool result)
+• real-pi tool loop LongCat-2.5-Preview: assistant turns=3, tool calls=[read → write], stop reasons=[toolUse, toolUse, stop], thinking blocks per turn=[1, 1, 1], usage in=1500 out=378 cached=3584 cost=¥0.00616736, elapsed=19017ms.
+      scored mechanically: output.txt EXACT MATCH; reply correct (DONE 5)
+      replay verdict: multi-turn replay WORKS (a later turn reused the earlier tool result)
+
+Total spend: ¥0.016294 (~$0.002423) on KEY3, budget ¥1
+isolated HOME: /var/folders/dh/x17bbbyx27v91fps24dc0jvr0000gn/T/pi-longcat-realpi-Xoq4hh (workdir /var/folders/dh/x17bbbyx27v91fps24dc0jvr0000gn/T/pi-longcat-realpi-Xoq4hh/work, agent dir "/var/folders/dh/x17bbbyx27v91fps24dc0jvr0000gn/T/pi-longcat-realpi-Xoq4hh/pi agent dir")

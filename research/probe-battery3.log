@@ -1,0 +1,4 @@
+status=200 out=8439 reasoning=7692 finish=stop cost=¥0.06762912 elapsed=216960ms ttft=3396ms 39.5 tok/s
+blocks=2 their tests: exit 0, pass 11, fail 0
+independent 9-case suite: exit 0, pass 9, fail 0
+code kept in /var/folders/dh/x17bbbyx27v91fps24dc0jvr0000gn/T/longcat-c3-UM8ijL

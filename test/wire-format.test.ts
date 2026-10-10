@@ -33,6 +33,7 @@ import type {
 import { normalizeContext, Type } from "@earendil-works/pi-ai";
 import { openAIResponsesApi as responsesApi } from "@earendil-works/pi-ai/api/openai-responses.lazy";
 import { CATALOG } from "../catalog.ts";
+import { injectPromptCacheKey } from "../errors.ts";
 import { BASE_URL, buildModels, type GatewayApi } from "../models.ts";
 
 const chatApi = openAICompletionsApi();
@@ -123,6 +124,8 @@ async function capture(
     transcript?: TranscriptContext;
     compat?: Model<any>["compat"] | undefined;
     sessionId?: string;
+    /** Apply the extension's payload transform at pi's hook point (`onPayload`). */
+    applyHook?: boolean;
   } = {},
 ): Promise<Record<string, any>> {
   let payload: Record<string, any> | undefined;
@@ -140,7 +143,18 @@ async function capture(
     maxTokens: options.maxTokens ?? 2048,
     sessionId: options.sessionId,
     onPayload: (body: any) => {
-      payload = body as Record<string, any>;
+      if (!options.applyHook) {
+        payload = body as Record<string, any>;
+        return undefined;
+      }
+      // Exactly where pi applies `before_provider_request`: after buildParams,
+      // before the SDK call. The transform is the one index.ts registers.
+      const rewritten = injectPromptCacheKey(body, {
+        sessionId: options.sessionId,
+        isChatSurface: api === "openai-completions",
+      });
+      payload = ((rewritten ?? body) as Record<string, any>);
+      return rewritten as any;
     },
     fetch: ((url: any) => {
       requestedUrl = String(url);
@@ -316,15 +330,14 @@ describe("negative control: what auto-detection would have sent", () => {
   });
 });
 
-describe("the payload hook this plugin does not have", () => {
-  test("pi's own shapes are accepted as-is, so no before_provider_request rewrite exists", async () => {
+describe("the one payload hook: prompt_cache_key on chat, and nothing else", () => {
+  test("pi's own shapes need no rewriting — the parts array and tool results go out as pi built them", async () => {
     // The three shapes that made three of thirteen sibling plugins write a hook:
     // a parts-array user message, a tool result with blank text, and a missing
     // reasoning field. All were sent to the live gateway (2026-10-11) and
     // accepted: PA1 (parts array, 200), TL3 and R7-tool-result-no-assistant
     // (role:tool, 200). pi 1.1.0 also substitutes "(no tool output)" for a blank
-    // tool result itself. So the absence of a hook is a measured result, and this
-    // test plus test/entry.test.ts are what keep it deliberate.
+    // tool result itself. So nothing here flattens, reorders or rewrites content.
     const partsBody = await capture("openai-completions", models("openai-completions")[0]!, {
       transcript: normalizeContext({
         systemPrompt: "You are pi.",
@@ -345,5 +358,37 @@ describe("the payload hook this plugin does not have", () => {
     const toolMessage = blankBody.messages.find((m: any) => m.role === "tool");
     assert.ok(toolMessage, "a blank tool result still produces a tool message");
     assert.equal(CATALOG.length, 2, "the catalog this claim was measured against");
+  });
+
+  test("the hook adds prompt_cache_key to a chat body and changes no other byte", async () => {
+    const target = models("openai-completions")[0]!;
+    const before = await capture("openai-completions", target, { maxTokens: 16 });
+    const after = await capture("openai-completions", target, { maxTokens: 16, sessionId: "sess-1", applyHook: true });
+    assert.equal(after.prompt_cache_key, "sess-1");
+    const { prompt_cache_key: _ignored, ...rest } = after;
+    assert.deepEqual(rest, before, "the hook must be additive only");
+  });
+
+  test("the hook is a no-op on the Responses surface, where pi already sends the key", async () => {
+    const target = models("openai-responses")[0]!;
+    const body = await capture("openai-responses", target, { sessionId: "sess-1", applyHook: true });
+    assert.equal(body.prompt_cache_key, "sess-1", "pi's own value, not the hook's");
+    const withoutHook = await capture("openai-responses", target, { sessionId: "sess-1" });
+    assert.deepEqual(body, withoutHook, "the hook must not alter a Responses body at all");
+  });
+
+  test("catalog-wide: with the hook applied, every model × level body still only contains contract fields (+ the cache key)", async () => {
+    const allowed = new Set([
+      "model", "messages", "max_tokens", "temperature", "top_p", "stream",
+      "stream_options", "tools", "tool_choice", "thinking", "prompt_cache_key",
+    ]);
+    for (const model of models("openai-completions")) {
+      for (const level of LEVELS) {
+        const body = await capture("openai-completions", model, { reasoning: level, tools: [weatherTool], sessionId: "sess-1", applyHook: true });
+        for (const field of Object.keys(body)) {
+          assert.ok(allowed.has(field), `${model.id}/${level}: unexpected field ${field}`);
+        }
+      }
+    }
   });
 });

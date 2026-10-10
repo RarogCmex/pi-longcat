@@ -1,0 +1,46 @@
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667654,"model":"LongCat-2.0","choices":[{"delta":{"role":"assistant","content":""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667654,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667654,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"We"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667654,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" are asked: \""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667654,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":"Reply with exactly one"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667654,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" word:"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ok\". The instruction"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" is straightforward"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":". We must reply"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" word \"ok\"."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" The reference document content"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" is just multiple"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" clauses repeating"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" the same instruction,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" but the user's prompt is"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" simply \"Reply with"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" exactly one word:"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" ok\". So we should comply"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{"reasoning_content":" with that.\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[{"delta":{},"index":0,"finish_reason":"length","matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"de53ee168b764bcf91ac37cb53a0ef4a","object":"chat.completion.chunk","created":1791667655,"model":"LongCat-2.0","choices":[],"usage":{"completion_tokens":64,"prompt_tokens":1154,"total_tokens":1218,"completion_tokens_details":{"reasoning_tokens":63},"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}},"lastOne":true}
+
+data: [DONE]
+

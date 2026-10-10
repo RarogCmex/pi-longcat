@@ -1,0 +1,125 @@
+
+### A1 — implicit prefix caching on chat (no prompt_cache_key sent, as pi does), ~1K-token prefix, 4 identical calls
+      A1 call1: prompt_tokens=1057 cached_tokens=0
+      cumulative spend on KEY1: ¥0.002130 of ¥1.00
+
+### A1 cold call: prompt_tokens=1057 cached=0 cache_write=0 cost=¥0.00213 ttft=2524ms
+      A1 call2: prompt_tokens=1057 cached_tokens=1024
+      cumulative spend on KEY1: ¥0.002253 of ¥1.00
+      A1 call3: prompt_tokens=1057 cached_tokens=1024
+      cumulative spend on KEY1: ¥0.002376 of ¥1.00
+      A1 call4: prompt_tokens=1057 cached_tokens=1024
+      cumulative spend on KEY1: ¥0.002499 of ¥1.00
+
+### A1 verdict: cached_tokens series = [0, 1024, 1024, 1024] → 3/4 calls reported a hit (first call cold, as expected)
+
+### A2 — minimum cacheable prefix: 6/12/24/48 repeats (≈256/512/1K/2K measured), 2 calls each, fresh unique prefix per size
+      cumulative spend on KEY1: ¥0.003131 of ¥1.00
+      A2 r6 call1: prompt_tokens=308 cached_tokens=0
+      cumulative spend on KEY1: ¥0.003261 of ¥1.00
+      A2 r6 call2: prompt_tokens=308 cached_tokens=256
+      cumulative spend on KEY1: ¥0.004463 of ¥1.00
+      A2 r12 call1: prompt_tokens=593 cached_tokens=0
+      cumulative spend on KEY1: ¥0.004662 of ¥1.00
+      A2 r12 call2: prompt_tokens=593 cached_tokens=512
+      cumulative spend on KEY1: ¥0.006992 of ¥1.00
+      A2 r24 call1: prompt_tokens=1157 cached_tokens=0
+      cumulative spend on KEY1: ¥0.007064 of ¥1.00
+      A2 r24 call2: prompt_tokens=1157 cached_tokens=1152
+      cumulative spend on KEY1: ¥0.011650 of ¥1.00
+      A2 r48 call1: prompt_tokens=2285 cached_tokens=0
+      cumulative spend on KEY1: ¥0.011971 of ¥1.00
+      A2 r48 call2: prompt_tokens=2285 cached_tokens=2176
+
+### A2 verdict: first size whose 2nd call hit = 308 prompt_tokens (6 repeats, cached 256); sizes that did NOT hit on the 2nd call: none
+
+### A2 hit granularity (cached/prompt per size): [0.83, 0.86, 1.00, 0.95] — a ratio < 1 means the cache is block-aligned, not whole-prefix
+
+### A3 — TTL/persistence: one unique ~1K prefix re-sent after ~1, ~5 and ~15 minute gaps (waiting costs nothing)
+      cumulative spend on KEY1: ¥0.014251 of ¥1.00
+      A3 gap 0min: prompt_tokens=1132 cached_tokens=0
+      …waiting 1 min before the next call (no spend while waiting)
+      cumulative spend on KEY1: ¥0.014524 of ¥1.00
+      A3 gap 1min: prompt_tokens=1132 cached_tokens=1024
+      …waiting 5 min before the next call (no spend while waiting)
+      cumulative spend on KEY1: ¥0.014797 of ¥1.00
+      A3 gap 5min: prompt_tokens=1132 cached_tokens=1024
+      …waiting 15 min before the next call (no spend while waiting)
+      cumulative spend on KEY1: ¥0.015070 of ¥1.00
+      A3 gap 15min: prompt_tokens=1132 cached_tokens=1024
+
+### A3 verdict: cached_tokens at [warm, +1min, +5min, +15min] = [0, 1024, 1024, 1024] → decayed at -1 step(s)
+
+### A4 — prompt_cache_key: pi fills it from the session id on Responses and omits it on chat. Same unique prefix, three key values
+      cumulative spend on KEY1: ¥0.017350 of ¥1.00
+      A4 alpha: status=200 cached=0 prompt=1132
+      cumulative spend on KEY1: ¥0.017623 of ¥1.00
+      A4 alpha-again: status=200 cached=1024 prompt=1132
+      cumulative spend on KEY1: ¥0.019903 of ¥1.00
+      A4 beta: status=200 cached=0 prompt=1132
+
+### A4 verdict: alpha=0 → alpha-again=1024 → beta=0 (prompt 1132) ⇒ a different prompt_cache_key MISSED ⇒ the key does partition the cache
+
+### A5 — accounting: is a cache hit priced at ¥0.04/1M and does a WRITE carry a premium? (from the gateway's own usage fields)
+      cumulative spend on KEY1: ¥0.022133 of ¥1.00
+      cumulative spend on KEY1: ¥0.022356 of ¥1.00
+
+### A5 cold: prompt=1107 cached=0 cache_write=0 input-cost=¥0.002214
+      A5 warm: prompt=1107 cached=1024 cache_write=0 input-cost=¥0.000207
+      ratio warm/cold input cost = 0.093 (the documented rate ratio is 0.04/2 = 0.020 for a fully-cached prefix)
+      cache-write premium observable? no cache_write_tokens on the cold call — nothing to price
+
+### A5 caveat (honesty): the platform deducts server-side and exposes no balance/usage API to a model key, so the CNY figures here are COMPUTED from the documented rates and the gateway's own usage fields — not read off an invoice. The Usage page is behind a web login and was not consulted.
+
+### A6 — does cached_tokens appear on /openai/v1/responses at all? (pi sends prompt_cache_key there)
+      cumulative spend on KEY1: ¥0.024792 of ¥1.00
+      A6 call1: status=200 prompt=1154 cached=0
+      cumulative spend on KEY1: ¥0.024970 of ¥1.00
+      A6 call2: status=200 prompt=1154 cached=1152
+
+### A6 verdict: Responses cached_tokens = [0, 1152] ⇒ the Responses surface DOES report cache hits
+
+### A7 — cache × thinking: is reasoning regenerated on a warm prefix, and does thinking break the cache?
+      cumulative spend on KEY1: ¥0.027790 of ¥1.00
+      A7 call1: cached=0 reasoning_tokens=63 reasoning="\nWe are asked: \"Reply with exactly one word: ok\". The instruction is straightfor"
+      cumulative spend on KEY1: ¥0.028200 of ¥1.00
+      A7 call2: cached=1152 reasoning_tokens=41 reasoning="\nThe user has shared a document containing 24 clauses, each outlining identical "
+
+### A7 verdict: cached=[0, 1152], reasoning_tokens=[63, 41], identical reasoning text: false ⇒ reasoning IS regenerated on a warm prefix (reasoning_tokens 41 on call 2) — the cache covers the prompt, not the thoughts; the prefix cache survives thinking being on
+
+### A8/A9 — LongCat-2.5-Preview cache, and whether the two models share one cache
+      cumulative spend on KEY1: ¥0.030380 of ¥1.00
+      cumulative spend on KEY1: ¥0.032560 of ¥1.00
+      cumulative spend on KEY1: ¥0.034790 of ¥1.00
+      cumulative spend on KEY1: ¥0.035013 of ¥1.00
+
+### A8 verdict (2.5-Preview, own prefix): cached=[0, 1024] on prompt=[1107, 1107] ⇒ 2.5-Preview caches like 2.0
+
+### A9 verdict (cross-model): 2.0 warmed cached=0, then the SAME prefix on 2.5-Preview reported cached=0 ⇒ the cache is model-scoped: a prefix warm on 2.0 is cold on 2.5-Preview
+
+================ CACHING SUITE SUMMARY ================
+• A1 — implicit prefix caching on chat (no prompt_cache_key sent, as pi does), ~1K-token prefix, 4 identical calls
+• A1 cold call: prompt_tokens=1057 cached=0 cache_write=0 cost=¥0.00213 ttft=2524ms
+• A1 verdict: cached_tokens series = [0, 1024, 1024, 1024] → 3/4 calls reported a hit (first call cold, as expected)
+• A2 — minimum cacheable prefix: 6/12/24/48 repeats (≈256/512/1K/2K measured), 2 calls each, fresh unique prefix per size
+• A2 verdict: first size whose 2nd call hit = 308 prompt_tokens (6 repeats, cached 256); sizes that did NOT hit on the 2nd call: none
+• A2 hit granularity (cached/prompt per size): [0.83, 0.86, 1.00, 0.95] — a ratio < 1 means the cache is block-aligned, not whole-prefix
+• A3 — TTL/persistence: one unique ~1K prefix re-sent after ~1, ~5 and ~15 minute gaps (waiting costs nothing)
+• A3 verdict: cached_tokens at [warm, +1min, +5min, +15min] = [0, 1024, 1024, 1024] → decayed at -1 step(s)
+• A4 — prompt_cache_key: pi fills it from the session id on Responses and omits it on chat. Same unique prefix, three key values
+• A4 verdict: alpha=0 → alpha-again=1024 → beta=0 (prompt 1132) ⇒ a different prompt_cache_key MISSED ⇒ the key does partition the cache
+• A5 — accounting: is a cache hit priced at ¥0.04/1M and does a WRITE carry a premium? (from the gateway's own usage fields)
+• A5 cold: prompt=1107 cached=0 cache_write=0 input-cost=¥0.002214
+      A5 warm: prompt=1107 cached=1024 cache_write=0 input-cost=¥0.000207
+      ratio warm/cold input cost = 0.093 (the documented rate ratio is 0.04/2 = 0.020 for a fully-cached prefix)
+      cache-write premium observable? no cache_write_tokens on the cold call — nothing to price
+• A5 caveat (honesty): the platform deducts server-side and exposes no balance/usage API to a model key, so the CNY figures here are COMPUTED from the documented rates and the gateway's own usage fields — not read off an invoice. The Usage page is behind a web login and was not consulted.
+• A6 — does cached_tokens appear on /openai/v1/responses at all? (pi sends prompt_cache_key there)
+• A6 verdict: Responses cached_tokens = [0, 1152] ⇒ the Responses surface DOES report cache hits
+• A7 — cache × thinking: is reasoning regenerated on a warm prefix, and does thinking break the cache?
+• A7 verdict: cached=[0, 1152], reasoning_tokens=[63, 41], identical reasoning text: false ⇒ reasoning IS regenerated on a warm prefix (reasoning_tokens 41 on call 2) — the cache covers the prompt, not the thoughts; the prefix cache survives thinking being on
+• A8/A9 — LongCat-2.5-Preview cache, and whether the two models share one cache
+• A8 verdict (2.5-Preview, own prefix): cached=[0, 1024] on prompt=[1107, 1107] ⇒ 2.5-Preview caches like 2.0
+• A9 verdict (cross-model): 2.0 warmed cached=0, then the SAME prefix on 2.5-Preview reported cached=0 ⇒ the cache is model-scoped: a prefix warm on 2.0 is cold on 2.5-Preview
+
+Total spend this suite: ¥0.035013 (~$0.005206) on KEY1, budget ¥1.00

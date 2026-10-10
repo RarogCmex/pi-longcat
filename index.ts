@@ -28,14 +28,28 @@
  * One adapter is constructed per process, so a model can never point at a surface
  * that was not registered.
  *
- * There is deliberately **no `before_provider_request` hook** in this file. The
- * shapes pi 1.1.0 produces were captured offline and sent to the live gateway
- * (research/probe-ledger.jsonl rows PA1, TL3, R7-tool-result-no-assistant,
- * 2026-10-11): a `content` parts array is accepted (the docs say `content` is a
- * string), `role:"tool"` is accepted with and without a preceding assistant
- * message, and pi substitutes `(no tool output)` for a blank tool result itself.
- * `test/wire-format.test.ts` asserts the absence, so adding one later is a
- * deliberate act rather than a copy of a sibling.
+ * There is exactly **one `before_provider_request` hook** here, and it was added
+ * a day after the plugin first shipped — the history matters, so both states are
+ * dated:
+ *
+ *  - 2026-10-11 (build): NO hook. Every shape pi 1.1.0 produced was captured
+ *    offline and accepted live (ledger rows PA1, TL3, R7-tool-result-no-assistant,
+ *    R8-chat-pi-exact): a `content` parts array, `role:"tool"` with and without a
+ *    preceding assistant message, and pi's full Responses body including
+ *    `include:["reasoning.encrypted_content"]`. The absence was asserted by two
+ *    tests. That answer was correct for the question asked: "does the gateway
+ *    reject anything pi sends?"
+ *  - 2026-10-11 (billed round, operator-prioritized caching): ONE hook, injecting
+ *    `prompt_cache_key`. The new question was "how is the implicit cache
+ *    addressed?", and the measured answer is that the key is the routing handle —
+ *    a prefix warm under a key MISSES when the same bytes are sent without one,
+ *    while a changed final message still HITS under a stable key (cells D1-D5).
+ *    pi omits the field on chat routes, so the default surface was leaving a 50×
+ *    input-price discount on the table for every multi-turn session. See
+ *    `injectPromptCacheKey` in errors.ts for the measurements and the guards.
+ *
+ * An asserted absence is an answer to the questions asked, not a permanent verdict;
+ * the flip updated the tests, the README and the journal together.
  *
  * Streaming, tool calls and usage accounting are delegated to pi-ai's adapters.
  */
@@ -54,6 +68,7 @@ import {
   clarifyAuthError,
   clarifyQuotaError,
   classifyRewritten,
+  injectPromptCacheKey,
   normalizeOverflowError,
   shouldClarifyAuth,
   shouldClarifyQuota,
@@ -61,7 +76,25 @@ import {
 import { PROVIDER_ID, resolveSurface } from "./models.ts";
 import { buildLongCatProvider, withGatewayErrorRemediation } from "./provider.ts";
 
+/** The only piece of `ExtensionContext` this file needs beyond the typed surface. */
+type SessionCtx = { sessionManager?: { getSessionId?: () => string | undefined } };
+
 export default function (pi: ExtensionAPI) {
+  // Cache routing, and nothing else: inject `prompt_cache_key` (the clamped pi
+  // session id) into chat payloads for this provider, because pi omits it there
+  // and the gateway's cache is addressed by it. Guarded on the provider AND on the
+  // registered surface (Responses already carries the key), never overwrites a
+  // field pi sent, and returns undefined when it has nothing to add so the
+  // payload keeps its identity.
+  pi.on("before_provider_request", (event, ctx) => {
+    if (ctx.model?.provider !== PROVIDER_ID) return undefined;
+    const rewritten = injectPromptCacheKey(event.payload, {
+      sessionId: (ctx as unknown as SessionCtx).sessionManager?.getSessionId?.(),
+      isChatSurface: ctx.model?.api === "openai-completions",
+    });
+    return rewritten === undefined ? undefined : (rewritten as typeof event.payload);
+  });
+
   // Three rewrites, all guarded to this provider and to error-stopped assistant
   // messages, applied in one order:
   //   1. overflow → the `context_length_exceeded:` marker pi's compaction keys on
