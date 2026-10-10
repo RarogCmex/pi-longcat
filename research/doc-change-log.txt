@@ -1,0 +1,154 @@
+CopyLongCat API Platform Change Log ​
+Version: 2026-09-25 ​
+LongCat-2.5-Preview Now Available ​
+LongCat-2.5-Preview's core features include:
+Multimodal Understanding: New image understanding capability, able to parse image content, supporting cross-modal Q&A, content summarization, and complex visual reasoning.
+Superior Coding Capability: Excels in code generation, code understanding, and automated programming tasks.
+Deeply Compatible with Claude Code and Other Mainstream Dev Environments: Works efficiently with Claude Code, Hermes, OpenClaw, OpenCode and Kilo Code.
+Version: 2026-09-10 ​
+Introducing Enterprise Services ​
+The LongCat API Platform now offers enterprise-grade service capabilities:
+Enterprise Verification: A new Enterprise Verification feature is now available. All benefits available prior to verification remain unchanged.
+
+Invoicing: Self‑service invoicing is now available to verified enterprise users. For details, see FAQ-Invoices.
+
+Exclusive Benefits: Enterprise users can enjoy tiered discounts on Pay-As-You-Go usage alongside other dedicated services. For details, see FAQ-Account Verification & Benefits.
+
+Version: 2026-09-25 ​
+LongCat-2.5-Preview Now Available ​
+LongCat-2.5-Preview's core features include:
+Multimodal Understanding: New image understanding capability, able to parse image content, supporting cross-modal Q&A, content summarization, and complex visual reasoning.
+Superior Coding Capability: Excels in code generation, code understanding, and automated programming tasks.
+Deeply Compatible with Claude Code and Other Mainstream Dev Environments: Works efficiently with Claude Code, Hermes, OpenClaw, OpenCode and Kilo Code.
+Version: 2026-09-02 ​
+Introducing Enterprise Services ​
+The LongCat API Platform now offers enterprise-grade service capabilities:
+Enterprise Verification: Added Enterprise Verification, supporting two verification methods: legal representative face verification and corporate bank transfer. Accounts that have completed Identity Verification can upgrade to Enterprise Verification while retaining all existing benefits.
+
+Invoicing: Enterprise-verified users can now request VAT special invoices. For details, see FAQ-Invoices.
+
+Exclusive Benefits: Enterprise users can enjoy tiered discounts on Pay-As-You-Go usage alongside other dedicated services. For details, see FAQ-Account Verification & Benefits.
+
+Version: 2026-06-30 ​
+LongCat-2.0 Release & Billing Now Available ​
+LongCat-2.0's core features include:
+Trillion Parameters, 1M Long Context: Native tool calling and multi-step reasoning, reliably supporting long-context agent tasks.
+
+Superior Coding Capability: Excels in code generation, code understanding, and automated programming tasks.
+
+Deeply Compatible with Claude Code and Other Mainstream Dev Environments：Works efficiently with Claude Code, Hermes, OpenClaw, OpenCode and Kilo Code.
+
+LongCat API Platform — Billing Now Available
+Token Pack: Purchase a fixed Token quota upfront, valid for 30 calendar days from the date of purchase. Ideal for short-term, high-volume usage.
+
+API Pay-As-You-Go: Top up your balance and get charged based on actual Token consumption. Perfect for variable workloads or teams looking to keep costs under tight control.
+
+For calling instructions, please refer to: LongCat API Platform Interface Documentation.
+
+Version: 2026-05-29 ​
+LongCat Model Service Sunset ​
+Since the launch of LongCat-2.0-Preview, we have seen an overwhelming response from users, and demand for service resources continues to grow. To consolidate resources and better support the testing and iteration of LongCat-2.0-Preview, we will be retiring the legacy models. Effective May 29, 2026, the platform will retire the following 6 models:
+LongCat-Flash-Chat
+
+LongCat-Flash-Thinking
+
+LongCat-Flash-Thinking-2601
+
+LongCat-Flash-Lite
+
+LongCat-Flash-Omni-2603
+
+LongCat-Flash-Chat-2602-Exp
+
+Please migrate your models according to your needs.You are welcome to apply for access to LongCat-2.0-Preview — a limited number of beta slots are released daily at 09:00:00 and 21:00:00 (UTC+8), with availability expanding gradually. Spots are allocated on a first-come, first-served basis. Thank you for your understanding and continued support.
+
+Version: 2026-04-20 ​
+LongCat-2.0-Preview Release ​
+LongCat-2.0-Preview's core features include:
+Designed for Agent development, with native support for tool calling, multi-step reasoning, and long-context tasks;
+
+Excelling in code generation, automation workflows, and complex instruction execution;
+
+Deeply integrated with productivity tools like Claude Code, OpenClaw, OpenCode, and Kilo Code.
+
+With an initial quota of 5,000,000 Tokens/day, you can submit model feedback. Each valid submission has a chance to earn a quota refresh, up to a daily maximum of 120,000,000 Tokens.
+
+For calling instructions, please refer to: LongCat API Platform Interface Documentation.
+
+Version: 2026-03-12 ​
+LongCat-Flash-Thinking Upgrade ​
+To ensure top-tier inference performance, the LongCat API Platform has upgraded the LongCat-Flash-Thinking model. All existing requests will be automatically routed to the latest version (LongCat-Flash-Thinking-2601) without requiring any code changes.
+
+Effective Date: 2026-03-12 20:00:00 (UTC+8)
+
+For calling instructions, please refer to: LongCat API Platform Interface Documentation
+
+Version: 2026-03-11 ​
+LongCat-Flash-Omni-2603 Release ​
+LongCat-Flash-Omni-2603 is officially released. As an upgraded version of LongCat-Flash-Omni, it is an end-to-end Omni interaction model with more human‑like responsiveness and stronger full-modality perception capabilities. You can chat with it for free on LongCat Chat or call it by specifying model=LongCat-Flash-Omni-2603.
+
+Key improvements over LongCat-Flash-Omni:
+Natural dialogue flow via deep semantic alignment and personalized style adaptation.
+Improved accuracy across multimodal tasks involving vision, speech, and text.
+Enhanced performance in complex problem-solving, emotional understanding, and casual entertainment scenarios.
+Support for native voice Function Calls, allowing for direct parsing of audio commands and real-time interaction with virtually zero latency.
+
+For calling instructions, please refer to: LongCat API Platform Interface Documentation
+
+Version: 2026-02-05 ​
+LongCat-Flash-Lite Release ​
+LongCat-Flash-Lite is officially released. Built on a highly efficient MoE architecture (68.5B total parameters, about 3B activated per inference), the model achieves superior parameter utilization through an N-gram embedding table, specifically optimized for inference efficiency and specialized use cases.
+Compared to models of similar scale, the core features are as follows: Superior Inference Efficiency: By mitigating I/O bottlenecks within MoE layers via the N-gram embedding table—combined with specialized cache and kernel optimizations—the model significantly reduces latency and boosts overall efficiency.
+Strong Agentic and Coding Performance: Demonstrates exceptional competitiveness in tool-use and coding proficiency, delivering high-tier performance relative to its model scale.
+
+For calling instructions, please refer to: LongCat API Platform Interface Documentation
+Open-Source Platforms: Hugging Face: https://huggingface.co/meituan-longcat/LongCat-Flash-Lite
+
+Version: 2026-01-14 ​
+LongCat-Flash-Thinking-2601 Release ​
+LongCat-Flash-Thinking-2601 is officially released. As an upgraded reasoning model, it is built on a Mixture-of-Experts (MoE) architecture with a total of 560 billion parameters. While maintaining strong competitiveness in traditional reasoning benchmarks, the model systematically enhances AI Agent reasoning capabilities through large-scale multi-environment reinforcement learning.
+
+Compared to the LongCat-Flash-Thinking model, the core features of this upgrade are as follows:
+Extreme Robustness in Noisy Environments: Through systematic curriculum training focused on noise and uncertainty in real-world environments, the model delivers exceptional performance in agent tool calling, agent search, and tool-fusion reasoning, with a significant boost in generalization capabilities.
+Powerful Agent Capabilities: By constructing environment dependency maps with over 60 types of tools, combined with multi-environment expansion and large-scale exploration training, the model significantly improves generalization in complex, out-of-distribution (OOD) real-world scenarios.
+Advanced Deep Thinking Mode: Utilizing parallel reasoning to expand thinking breadth, combined with a summarization mechanism featuring recursive feedback to expand thinking depth, effectively solving high-difficulty problems.
+
+For calling instructions, please refer to: LongCat API Platform Interface Documentation
+
+Open-Source Platforms:
+Hugging Face：https://huggingface.co/meituan-longcat/LongCat-Flash-Thinking-2601
+Github：https://github.com/meituan-longcat/LongCat-Flash-Thinking-2601
+
+Version: 2025-12-22 ​
+LongCat-Flash-Chat Update ​
+The LongCat-Flash-Chat model has been upgraded to a new version. This update involves model capability enhancements only. The model name and API invocation method remain unchanged.
+
+Building upon its principles of “extreme efficiency” and “lightning-fast responsiveness,” the new version of LongCat-Flash-Chat further improves its context handling and programming capabilities:
+Significantly enhanced programming performance: Deep optimizations for developer-oriented use cases, with substantial improvements in code generation, debugging, and code explanation tasks. Developers are encouraged to prioritize evaluation and testing.
+Support for a 256K ultra-long context length: The context length has doubled compared to the previous generation (128K), enabling efficient processing of large documents and long-sequence tasks.
+Comprehensively strengthened multilingual capabilities: High-quality support for nine languages, including Spanish, French, Arabic, Portuguese, Russian, and Indonesian.
+More robust Agent capabilities: Improved stability and efficiency in complex tool invocation and multi-step task execution.
+
+For API usage details, please refer to the LongCat API Platform Interface Documentation.
+
+Version: 2025-09-22 ​
+LongCat-Flash-Thinking Release ​
+LongCat-Flash-Thinking is officially released and open-sourced simultaneously. It is a deep-thinking model which you can chat with for free on LongCat Chat or call via the API by specifying model=LongCat-Flash-Thinking.
+LongCat Chat URL: https://longcat.chat/
+For calling instructions, please refer to: LongCat API Platform Interface Documentation
+Open-Source Platforms: Hugging Face: https://huggingface.co/meituan-longcat/LongCat-Flash-Thinking
+Github: https://github.com/meituan-longcat/LongCat-Flash-Thinking
+
+Version: 2025-09-05 ​
+LongCat API Platform Launch ​
+The LongCat API Platform is now live, supporting API calls to the LongCat-Flash-Chat model. You can call it by specifying model=LongCat-Flash-Chat.
+For calling instructions, please refer to: LongCat API Platform Interface Documentation
+Version: 2025-08-29 ​
+LongCat-Flash-Chat Release ​
+LongCat-Flash-Chat is officially released and open-sourced simultaneously. It is a high-performance, general-purpose conversational model that you can chat with for free on LongCat Chat.
+LongCat Chat URL: https://longcat.chat/
+Open-Source Platforms: Hugging Face: https://huggingface.co/meituan-longcat/LongCat-Flash-Chat
+Github: https://github.com/meituan-longcat/LongCat-Flash-Chat
+
+Previous
+FAQ

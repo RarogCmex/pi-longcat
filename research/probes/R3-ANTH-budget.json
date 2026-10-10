@@ -1,0 +1,1 @@
+{"id":"acbb64a0203841ebad7d86abe43cf17c","type":"message","role":"assistant","model":"LongCat-2.0","content":[{"type":"thinking","thinking":"\nWe are asked: \"Reply with"}],"stop_reason":"max_tokens","usage":{"input_tokens":14,"output_tokens":8}}

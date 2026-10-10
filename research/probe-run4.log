@@ -1,0 +1,10 @@
+[301] R4-2.5-responses           200    in=14 out=8 cached=0 ¥0.00009200
+      ↳ details={"cached_tokens":0}
+[302] R4-2.5-anthropic           200    in=14 out=8 cached=? ¥0.00009200
+      ↳ thinking:"\n1.  **Analyze the" | details={}
+[303] R4-IM-blue-2.5             200    in=105 out=2 cached=0 ¥0.00022600
+      ↳ content="Black" | details={"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}
+[304] R4-IM-blue-responses       200    in=103 out=8 cached=0 ¥0.00027000
+      ↳ details={"cached_tokens":0}
+
+ROUND-2 SPEND: ¥0.00068000 (~$0.00010111)

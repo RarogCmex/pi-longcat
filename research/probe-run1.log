@@ -1,0 +1,69 @@
+[01] S1-chat-stream             200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ data: {"id":"6991106873e84e34a4fc19ee0a0274dd","object":"chat.completion.chunk","created":1791657732,"model":"LongCat-2.0","choices":[{"delta":{"role":"assistant","content":""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false} data: {"id":"6991106873e84e34a4fc19e
+[02] S2-responses-stream        200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ data: {"type":"response.created","response":{"id":"resp_4f4d9b0b6756434496231c48725e38c0","object":"response","created_at":1791657743,"status":"in_progress","background":false,"max_output_tokens":8,"model":"LongCat-2.0","output":[],"parallel_tool_calls":true,"reasoning":{"effort":null,"summary":null
+[03] S3-anthropic-stream        200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ event: message_start data: {"type":"message_start","message":{"id":"83b91b9ee2e047f5b6aca433db9d1fbb","type":"message","role":"assistant","model":"LongCat-2.0","content":[],"stop_reason":null,"stop_sequence":null,"usage":{}}} event: content_block_start data: {"type":"content_block_start","index":0,
+[04] S4-responses-pi-shaped     200            BILLED                       in=21 out=8 ¥0.00010600
+      ↳ data: {"type":"response.created","response":{"id":"resp_8beb87c760524f989bc76c9d03e46fba","object":"response","created_at":1791657767,"status":"in_progress","background":false,"instructions":"You are a terse assistant.","max_output_tokens":8,"model":"LongCat-2.0","output":[],"parallel_tool_calls":tr
+[05] T1-thinking-enabled        200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ {"id":"f0345ac75d4e46d892e02abc078f78b3","object":"chat.completion","created":1791657780,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nThe user wants me to reply with"},"logprobs":null}],"usa
+[06] T2-thinking-disabled       200            BILLED                       in=17 out=2 ¥0.00005000
+      ↳ {"id":"71769951a6da4fdaa9422557a750f336","object":"chat.completion","created":1791657791,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"stop","matched_stop":2,"message":{"role":"assistant","content":"ok"},"logprobs":null}],"usage":{"completion_tokens":2,"prompt_tokens":17,
+[07] T3-thinking-absent         200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ {"id":"713e3f32e34644c9ac35e82b4c02e9e3","object":"chat.completion","created":1791657804,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked to reply with exactly"},"logprobs":null}],"
+[08] T4-thinking-zai-shape      200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ {"id":"d00b620f5d9f4fac8b05ebda2da07e21","object":"chat.completion","created":1791657816,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked to reply with exactly"},"logprobs":null}],"
+[09] T5-thinking-2.5            200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ {"id":"d258664c7edc4a4396c7b90256ae2f33","object":"chat.completion","created":1791657832,"model":"LongCat-2.5-Preview","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\n1. **Analyze the"},"logprobs":null}],"usage":{"
+[10] T6-reasoning-effort        200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ {"id":"4460080f34cd4d679c2d00bc55bb1aa7","object":"chat.completion","created":1791657844,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked: \"Reply with"},"logprobs":null}],"usage":{
+[11] T7-anthropic-thinking      200            BILLED                       in=14 out=8 ¥0.00009200
+      ↳ {"id":"d6a447032b714a1db715add1b5280383","type":"message","role":"assistant","model":"LongCat-2.0","content":[{"type":"thinking","thinking":"\nWe are asked: \"Reply with"}],"stop_reason":"max_tokens","usage":{"input_tokens":14,"output_tokens":8}}
+[12] TL1-tools-chat             200            BILLED                       in=148 out=77 ¥0.00091200
+      ↳ {"id":"2d2a1e0ff7fe47c7a25a86a336bb6987","object":"chat.completion","created":1791657869,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"tool_calls","matched_stop":null,"message":{"role":"assistant","tool_calls":[{"id":"call_d613b84edcb543158669c232","index":0,"type":"funct
+[13] TL2-tools-anthropic        200            BILLED                       in=20 out=57 ¥0.00024512
+      ↳ {"id":"862b184c8c9943e4892f2b9d8104e563","type":"message","role":"assistant","model":"LongCat-2.0","content":[{"type":"thinking","thinking":"\nThe user is asking for the current time in UTC and explicitly instructing me to use the tool. I need to call the get_current_time function with the zone para
+[14] TL3-tool-result-role       200            BILLED                       in=186 out=8 ¥0.00043600
+      ↳ {"id":"ed993f305707417e9dbb8f6c50c498c4","object":"chat.completion","created":1791657894,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nThe user asked for the time in"},"logprobs":null}],"usag
+[15] PA1-content-parts-array    200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"36882505ee564b4bb6be1baa93a4f8f3","object":"chat.completion","created":1791657905,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nThe user is"},"logprobs":null}],"usage":{"completion_tok
+[16] PA2-developer-role         200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"e7dd1d5c50ea455aace30ec09a2f6c9d","object":"chat.completion","created":1791657918,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked"},"logprobs":null}],"usage":{"completion_to
+[17] PA3-temperature-range      400            free (rejected/no inference) in=? out=?
+      ↳ {"error":{"message":"参数校验失败: \n/temperature: 1.5 is not less or equal to 1\n","type":"invalid_request_error","code":"invalid_parameter"}}
+[18] IM1-image-2.5-chat         400            free (rejected/no inference) in=? out=?
+      ↳ {"error":{"code":"invalid_parameter","message":"Image too small (area=64px), minimum required area: >256px","type":"invalid_request_error"}}
+[19] IM2-image-2.0-chat         200            BILLED                       in=19 out=8 ¥0.00010200
+      ↳ {"id":"5381a2db249c4e7c9468f85b80fa941c","object":"chat.completion","created":1791657953,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked: \"What single"},"logprobs":null}],"usage":
+[20] CAP1-chat-2.0-131073       400            free (rejected/no inference) in=? out=?
+      ↳ {"error":{"message":"参数校验失败: \n/max_tokens: 131073 is not less or equal to 131072\n","type":"invalid_request_error","code":"invalid_parameter"}}
+[21] CAP2-chat-2.5-131073       ABORTED(3000ms) free (rejected/no inference) in=? out=?
+      ↳ 
+[22] CAP3-chat-2.5-262145       400            free (rejected/no inference) in=? out=?
+      ↳ {"error":{"message":"参数校验失败: \n/max_tokens: 262145 is not less or equal to 262144\n","type":"invalid_request_error","code":"invalid_parameter"}}
+[23] CAP4-chat-window-plus-1    400            free (rejected/no inference) in=? out=?
+      ↳ {"error":{"message":"参数校验失败: \n/max_tokens: 1048576 is not less or equal to 131072\n","type":"invalid_request_error","code":"invalid_parameter"}}
+[24] CAP5-anthropic-131073      400            free (rejected/no inference) in=? out=?
+      ↳ {"error":{"message":"参数校验失败: \n/max_tokens: 131073 is not less or equal to 131072\n","type":"invalid_request_error","code":"invalid_parameter"}}
+[25] CAP6-responses-131073      200            200-no-usage (not billed)    in=0 out=0
+      ↳ data: {"type":"response.created","response":{"id":"resp_ff0ac7d0a2664697b8105a5f9b6953e5","object":"response","created_at":1791658021,"status":"in_progress","background":false,"max_output_tokens":131073,"model":"LongCat-2.0","output":[],"parallel_tool_calls":true,"reasoning":{"effort":null,"summary"
+[26] K-KEY2                     200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"dfa51690805b496fad853b3cee445ee0","object":"chat.completion","created":1791658033,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nThe instruction is"},"logprobs":null}],"usage":{"complet
+[27] K-KEY3                     200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"7cd96eb0a4e84ef192c4dd2340e5a5f7","object":"chat.completion","created":1791658046,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked"},"logprobs":null}],"usage":{"completion_to
+[28] K-KEY4                     200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"516afb783b12464996b474c126f2e4f6","object":"chat.completion","created":1791658058,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked"},"logprobs":null}],"usage":{"completion_to
+[29] K-KEY5                     200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"4510644aa51149c5950ed3454cc4668c","object":"chat.completion","created":1791658070,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\n1. "},"logprobs":null}],"usage":{"completion_tokens":4,"
+[30] K-KEY6                     200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"2cb16bf0f7f649cf8d04eb2f0121379b","object":"chat.completion","created":1791658082,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\n1. "},"logprobs":null}],"usage":{"completion_tokens":4,"
+[31] K-KEY7                     200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"37098ab4f2e94bfc8f971f4eb47966e3","object":"chat.completion","created":1791658094,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked"},"logprobs":null}],"usage":{"completion_to
+[32] K-KEY8                     200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"ff0b745b09dc43fb9cbfe0f365c8c486","object":"chat.completion","created":1791658106,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nThe user wants"},"logprobs":null}],"usage":{"completion_
+[33] K-KEY9                     200            BILLED                       in=14 out=4 ¥0.00006000
+      ↳ {"id":"ea95fda49ea8443dacb324c2c62375d6","object":"chat.completion","created":1791658118,"model":"LongCat-2.0","choices":[{"delta":null,"index":0,"finish_reason":"length","matched_stop":null,"message":{"role":"assistant","reasoning_content":"\nWe are asked"},"logprobs":null}],"usage":{"completion_to
+
+TOTAL SPEND THIS RUN: ¥0.00327912 (~$0.00048759)
+Ledger rows appended: 33 → research/probe-ledger.jsonl

@@ -1,0 +1,43 @@
+Chat Completions Copy
+ Create a chat completion using the OpenAI-compatible format. Supports both streaming (stream:true, SSE) and non-streaming responses.
+POSThttps://api.longcat.chat/openai/v1/chat/completions
+Authorizations
+Authorizationstringheaderrequired
+Authentication key, passed in the request header as Bearer YOUR_API_KEY.
+
+Bodyapplication/json
+modelstringrequired
+Model identifier. Currently supports LongCat-2.5-Preview and LongCat-2.0.
+
+messagesarrayrequired
+Array of message objects.
+
+rolestringrequired
+Author role, one of system · user · assistant.
+
+contentstringrequired
+Message content as a plain-text string.
+
+streambooleanoptional
+Whether to stream the response as SSE.
+
+default: false
+
+max_tokensintegeroptional
+Maximum number of tokens to generate. LongCat-2.5-Preview max is 131072 (128K).
+
+default: 128k
+
+temperaturenumberoptional
+Sampling temperature, range 0 ~ 1.
+
+top_pnumberoptional
+Nucleus sampling parameter.
+
+thinkingobjectoptional
+Whether to enable thinking. {"type":"enabled"} turns thinking on, {"type":"disabled"} turns it off.
+
+Previous
+API Overview
+Next
+Anthropic Messages

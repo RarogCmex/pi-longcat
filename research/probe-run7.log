@@ -1,0 +1,8 @@
+[601] R7-max-completion-tokens   200    in=14 out=33 cached=0 ¥0.00029200
+      ↳ content="ok" | reasoning="\nWe are asked: \"Reply with exactly one word: ok\". So I need to output exactly the word \"ok\". No extra text." | details={"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}
+[602] R7-tool-result-no-assistant 200    in=161 out=8 cached=0 ¥0.00038600
+      ↳ reasoning="\nWe are asked: \"What is" | details={"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}
+[603] R7-thinking-budget         200    in=20 out=64 cached=0 ¥0.00055200
+      ↳ reasoning="\nWe are asked to count from 1 to 20, separated by spaces. The response should be simple: \"1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 " | details={"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}
+
+ROUND-2 SPEND: ¥0.00123000 (~$0.00018289)

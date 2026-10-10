@@ -1,0 +1,20 @@
+Retrieve Model Copy
+ Retrieve details for a specific LongCat model, including modality, context length, and pricing. Supported on both the OpenAI and Anthropic endpoints.
+GEThttps://api.longcat.chat/openai/v1/models/{model}
+Authorizations
+Authorizationstringheaderrequired
+Authentication key, passed in the request header as Bearer YOUR_API_KEY.
+
+Path Parameters
+modelstringpathrequired
+Model identifier, e.g. LongCat-2.5-Preview.
+
+Endpoints
+/openai/v1/models/{model}GEToptional
+Retrieve model details on the OpenAI endpoint.
+
+/anthropic/v1/models/{model}GEToptional
+Retrieve model details on the Anthropic endpoint.
+
+Previous
+List Models

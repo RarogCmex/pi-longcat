@@ -1,0 +1,37 @@
+{
+  "name": "@rarogcmex/pi-longcat",
+  "version": "0.1.0",
+  "description": "LongCat (Meituan) provider for pi \u2014 LongCat-2.5-Preview / LongCat-2.0 on api.longcat.chat, 1M context, CNY-derived USD pricing, measured thinking on/off switch, in-band HTTP-200 error remediation, /login and a live listing overlay.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "longcat",
+    "meituan",
+    "openai-compat"
+  ],
+  "scripts": {
+    "test": "node --test --import ./test/no-network.ts 'test/*.test.ts'",
+    "typecheck": "tsc -p tsconfig.json",
+    "check": "npm run typecheck && npm test",
+    "live": "node live/check.ts"
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-coding-agent": {
+      "optional": true
+    }
+  }
+}

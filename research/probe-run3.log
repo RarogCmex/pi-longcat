@@ -1,0 +1,18 @@
+[201] R3-IM-2.5-off              200    in=88 out=2 cached=0 ¥0.00019200
+      ↳ content="White" | details={"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}
+[202] R3-IM-2.0-off              200    in=22 out=2 cached=0 ¥0.00006000
+      ↳ content="Gray" | details={"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}
+[203] R3-IM-2.5-textonly         200    in=22 out=2 cached=0 ¥0.00006000
+      ↳ content="Red" | details={"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}
+[204] R3-RESP-baseline           200    in=14 out=8 cached=0 ¥0.00009200
+      ↳ details={"cached_tokens":0}
+[205] R3-RESP-effort-none        200    in=17 out=2 cached=0 ¥0.00005000
+      ↳ details={"cached_tokens":0}
+[206] R3-RESP-thinking-disabled  200    in=14 out=8 cached=0 ¥0.00009200
+      ↳ details={"cached_tokens":0}
+[207] R3-ANTH-thinking-disabled  200    in=17 out=2 cached=? ¥0.00005000
+      ↳ text:"ok" | details={}
+[208] R3-ANTH-budget             200    in=14 out=8 cached=? ¥0.00009200
+      ↳ thinking:"\nWe are asked: \"Reply with" | details={}
+
+ROUND-2 SPEND: ¥0.00068800 (~$0.00010230)

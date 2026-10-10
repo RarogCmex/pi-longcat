@@ -1,0 +1,26 @@
+event: message_start
+data: {"type":"message_start","message":{"id":"83b91b9ee2e047f5b6aca433db9d1fbb","type":"message","role":"assistant","model":"LongCat-2.0","content":[],"stop_reason":null,"stop_sequence":null,"usage":{}}}
+
+event: content_block_start
+data: {"type":"content_block_start","index":0,"content_block":{"type":"thinking","thinking":""}}
+
+event: content_block_delta
+data: {"type":"content_block_delta","index":0,"delta":{"type":"thinking_delta","thinking":"\n"}}
+
+event: content_block_delta
+data: {"type":"content_block_delta","index":0,"delta":{"type":"thinking_delta","thinking":"1"}}
+
+event: content_block_delta
+data: {"type":"content_block_delta","index":0,"delta":{"type":"thinking_delta","thinking":".  **An"}}
+
+event: content_block_delta
+data: {"type":"content_block_delta","index":0,"delta":{"type":"thinking_delta","thinking":"alyze the"}}
+
+event: content_block_stop
+data: {"type":"content_block_stop","index":0}
+
+event: message_delta
+data: {"type":"message_delta","delta":{"stop_reason":"max_tokens","stop_sequence":null},"usage":{"input_tokens":14,"output_tokens":8}}
+
+event: message_stop
+data: {"type":"message_stop"}

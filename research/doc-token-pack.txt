@@ -1,0 +1,18 @@
+CopyToken Pack FAQ ​
+Q: When are Token Packs available for purchase each day? ​
+A: Limited-time flash sale packages go on sale daily at 10:00, 16:00, 21:00, and 23:00 Beijing Time. Quantities are limited and offered on a first-come, first-served basis while stock lasts.
+Q: What is the difference between a Token Pack and API pay-as-you-go top-up? ​
+A: API top-up adds credit to your account, which is then deducted in real time based on actual usage. A Token Pack is a one-time purchase of a fixed token quota, valid for 30 days from purchase, and is added on top of your existing balance — ideal for short-term, high-volume token needs.
+Q: How long is the Token Pack valid? ​
+A: Tokens in the package are valid for 30 days from the purchase date.
+Q: Is refund available for Token Packs? ​
+A: Yes. Refunds are granted under either condition:
+No tokens have been consumed — you can manually apply for a full refund via the Refund Management page.
+No tokens are used within 30 days of purchase — the system will automatically issue a refund to your original payment method upon expiry.
+Q: How is token consumption calculated from the package? ​
+A: Cache hits are free and do not count toward package token usage. Only cache-miss inputs and generated outputs consume tokens from the package.
+
+Previous
+Quick Start
+Next
+API Pay-As-You-Go

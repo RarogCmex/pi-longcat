@@ -1,0 +1,66 @@
+CopyAPI Overview ​
+The LongCat API Platform provides AI model proxy services for the LongCat model family, compatible with both the OpenAI and Anthropic API formats. This documentation follows standard API conventions.
+ All endpoints are accessed through the unified production endpoint https://api.longcat.chat using Bearer Token authentication.
+
+Base URL ​
+https://api.longcat.chat
+
+Authentication ​
+All API requests must authenticate with an API key in the Authorization header:
+httpAuthorization: Bearer YOUR_API_KEY
+
+Endpoints ​
+
+Chat Completions →
+ OpenAI-compatible format, POST /openai/v1/chat/completions.
+
+Anthropic Messages →
+ Anthropic Claude format, POST /anthropic/v1/messages.
+
+List Models →
+ List available models, GET /v1/models.
+
+Retrieve Model →
+ Retrieve model details, GET /v1/models/{model}.
+
+Error Responses ​
+The API uses conventional HTTP response codes to indicate success or failure:
+Code | Status | Description |
+200 | OK | Request succeeded |
+400 | Bad Request | Invalid parameters or malformed JSON |
+401 | Unauthorized | API key invalid or missing |
+402 | Payment Required | Insufficient token quota |
+403 | Forbidden | API key lacks permission for the resource |
+429 | Too Many Requests | Rate limit exceeded |
+500 | Internal Server Error | The server encountered an unexpected condition |
+502 | Bad Gateway | Invalid response from upstream server |
+503 | Service Unavailable | The server is temporarily unavailable |
+Error Response Format ​
+All errors return a JSON object with the following structure:
+json{
+  "error": {
+    "message": "Human-readable error description",
+    "type": "error_type_identifier",
+    "code": "specific_error_code"
+  }
+}
+
+Error Types and Codes ​
+Error Type | Error Code | HTTP Status | Description |
+authentication_error | invalid_api_key | 401 | The provided API key is invalid |
+permission_error | insufficient_quota | 403 | The API key has insufficient quota |
+invalid_request_error | invalid_parameter | 400 | A parameter value is invalid |
+invalid_request_error | invalid_json | 400 | The JSON is malformed |
+rate_limit_error | rate_limit_exceeded | 429 | Too many requests in a short period |
+server_error | internal_error | 500 | Internal server error |
+Rate Limits ​
+Rate limits are enforced per API key. Exceeding the limit returns a 429 status code.
+SDK Compatibility ​
+This API is designed to be compatible with:
+OpenAI Python SDK (for /openai/ endpoints)
+Anthropic Python SDK (for /anthropic/ endpoints)
+Any HTTP client that supports the corresponding API format
+Need help? Check the FAQ for common questions and troubleshooting.
+
+Next
+Chat Completions

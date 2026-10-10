@@ -1,0 +1,58 @@
+CopyOverview of AI Tools ​
+Both pay-as-you-go API billing and the Token Pack subscription work with the mainstream AI programming tools listed below (the list keeps growing). Click any card to see its detailed setup and usage guide.
+Use Tools ​
+Claude Code →
+Anthropic's official AI programming CLI
+Codex →
+OpenAI's official AI programming agent
+OpenCode →
+Open-source AI programming editor, local-first
+CatPaw →
+Meituan's all-scenario AI Agent platform
+Cline →
+VS Code extension for autonomous coding
+Kilo Code →
+VS Code extension with efficient completion
+Cherry Studio →
+Multi-model AI aggregation client
+Chatbox →
+AI desktop client with custom OpenAI-compatible API support
+CodeBuddy →
+Tencent Cloud AI-native IDE
+OpenClaw →
+Lightweight AI coding CLI for fast development
+Hermes Agent →
+Open-source autonomous AI agent for automated tasks
+CC Switch →
+All-in-one desktop manager to add and switch AI CLI providers
+WorkBuddy →
+Tencent Cloud desktop AI agent with parallel multi-agent execution
+
+Configuration Methods for Other Tools ​
+ Any tool that supports the OpenAI or Anthropic protocol and allows a custom Provider can connect to LongCat models.
+
+Pick a compatible tool
+ Find a tool that supports the OpenAI or Anthropic protocol and allows a custom Provider configuration.
+
+Configure the Base URL
+ Replace or add the appropriate protocol's Base URL.
+
+Enter your API Key
+ Enter your API Key, then select or add a LongCat model.
+
+Two usage methods are supported. Both obtain credentials the same way — create an API Key on the LongCat Platform:
+Usage Method | Description | Configuration (BASE_URL below is an example) |
+Pay-as-you-go API | Billed by actual token usage; good for light use | BASE_URL
+• OpenAI Compatibility Protocol: https://api.longcat.chat/openai/v1
+• Anthropic Compatibility Protocol: https://api.longcat.chat/anthropic
+API Key
+• Go to API Keys to create one |
+Token Pack | A one-time purchase of a fixed token quota, valid for 30 days; good for short-term high demand | BASE_URL
+• OpenAI Compatibility Protocol: https://api.longcat.chat/openai/v1
+• Anthropic Compatibility Protocol: https://api.longcat.chat/anthropic
+API Key
+• Go to API Keys to create one |
+The currently supported models are LongCat-2.5-Preview and LongCat-2.0. For more billing details, see API Pay-As-You-Go and Token Pack.
+
+Next
+Claude Code

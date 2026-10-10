@@ -1,0 +1,13 @@
+HTTP/2 400 
+date: Sat, 10 Oct 2026 18:25:01 GMT
+content-type: application/json
+content-length: 109
+server: openresty
+mt-gateway-error: true
+m-spanname: /openai/v1/responses
+m-traceid: -8828843141543944625
+x-via: 1.1 PS-000-04tN3228:16 (Cdn Cache Server V2.0), 1.1 PSelsmskMOW3kp110:15 (Cdn Cache Server V2.0)
+x-ws-request-id: 6aca82fc_PSelsmskMOW3kp110_19981-464
+x-response-cache: miss
+x-cache: MISS from cache.51cdn.com
+

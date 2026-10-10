@@ -1,0 +1,246 @@
+CopyLongCat API Platform FAQ ​
+General Questions ​
+Q: What services does the LongCat API Platform provide?
+A: The LongCat API Platform provides AI model proxy services specifically for the LongCat series models. By maintaining compatibility with OpenAI and Anthropic API formats, you can use existing SDKs and tools to access the LongCat series model.
+Q: What registration/login methods are supported by the LongCat API Platform?
+A: Users in Mainland China can register/login using their mobile phone number. Users outside Mainland China can register/login using either their mobile phone number or email.
+Q: What should I do if I do not receive the verification code when logging in with my mobile phone number on the LongCat API Platform?
+A: Mainland China users who do not receive the verification code can call the customer service hotline at 1010-7888 for assistance. Users outside Mainland China can switch to email login. If you still do not receive the verification code, please contact us by email at longcat-team@meituan.com.
+Account Verification and Benefits ​
+Q: Which users need to complete Account Verification?
+A: Users in Mainland China are required to complete Identity Verification or Enterprise Verification before recharging or purchasing Token Packs.
+Q: What is the difference between Identity Verification and Enterprise Verification?
+A: Identity Verification is for individual users, while Enterprise Verification is for organizational users such as enterprises, public institutions, and social organizations.
+ | Identity Verification | Enterprise Verification |
+Applicable to | Individual users in Mainland China | Organizations such as enterprises, public institutions, and social organizations |
+Required materials | Real name + ID number | Enterprise information + legal representative face verification OR enterprise information + small-amount transfer verification from the corporate bank account |
+Unlocked capabilities | Recharging, purchasing Token Packs | Recharging, purchasing Token Packs, issuing VAT special invoices, enterprise-exclusive benefits |
+Q: Can I switch from Identity Verification to Enterprise Verification after completing Identity Verification?
+A: Yes, you can switch from Identity Verification to Enterprise Verification, and all existing benefits will be retained.
+Q: Can Enterprise Verification be changed to Identity Verification?
+A: No, once Enterprise Verification is completed, it cannot be changed to Identity Verification. We appreciate your understanding.
+Q: How do I complete Identity Verification?
+A: Steps:
+Log in to the LongCat platform and go to the Account Information & Configuration page.
+In the "Account Verification" section, click "Identity Verification".
+Fill in your real name and ID number, and submit. Verification is completed instantly.
+Q: How do I apply for Enterprise Verification?
+A: Before verification, please prepare the following materials (must match the business license): enterprise name, unified social credit code, legal representative's name and legal representative's ID number. Steps:
+Log in to the LongCat platform and go to the Account Information & Configuration page.
+In the "Account Verification" section, click "Enterprise Verification".
+Fill in the enterprise information (enterprise name, unified social credit code, legal representative information). The system will verify the information in real time.
+Choose a verification method (legal representative face verification or corporate bank transfer). After verification is completed, Enterprise Verification is passed.
+Q: For Enterprise Verification, should I choose legal representative face verification or corporate bank transfer?
+A: You can choose either method to pass verification:
+Legal representative face verification: The legal representative completes facial verification in person, effective in real time. Suitable for scenarios where the legal representative can cooperate with the operation.
+Corporate bank transfer: The enterprise's corporate bank account makes a transfer to the platform for verification, which takes 1–3 business days. Suitable for scenarios where the enterprise has a corporate bank account.
+Q: What should I pay attention to when using corporate bank transfer for verification?
+A: Please note the following:
+The transfer amount is a random small verification amount (less than ¥1), used solely to verify the authenticity of the corporate bank account.
+The transferring account must match the name of the enterprise being verified. Transfers made from personal or third-party accounts will not pass verification.
+After submission, the Verification status will be "Enterprise Verification in Progress". Platform verification typically takes 1–3 business days.
+The platform's receiving account information is subject to what is displayed on the verification page.
+Q: Are there exclusive benefits after completing Enterprise Verification?
+A: After completing Enterprise Verification, you can enjoy the following benefits:
+Tiered billing discounts based on cumulative monthly Pay-As-You-Go API consumption. The higher the monthly consumption, the larger the discount, up to 40% off.
+Dedicated services for enterprise users with large monthly consumption. If needed, contact us at longcat-team@meituan.com.
+Q: What are the rules for the tiered discounts on Pay-As-You-Go API usage?
+Monthly Cumulative Consumption | Discount |
+≥ ¥500 | 10% off |
+≥ ¥2,000 | 20% off |
+≥ ¥8,000 | 30% off |
+≥ ¥40,000 | 40% off |
+Calculation rules:
+Cumulative consumption resets at 00:00 on the 1st of each month, and the tier is recalculated.
+Cumulative consumption is calculated based on actual Pay-As-You-Go API usage: unused amounts after recharging are not counted, and consumption of Token Packs and promotional credits are not counted.
+Accumulation starts from the date Enterprise Verification is completed; consumption before verification is not counted.
+Q: Will Enterprise Verification affect benefits already obtained or referral programs?
+A: All rewards already obtained will be fully retained. However, after Enterprise Verification, participation in new referral programs is no longer allowed. Users who are already in a group-buying activity must first complete the group-buying activity before proceeding with Enterprise Verification.
+Q: What should I do if Enterprise Verification fails?
+A: Please check the common causes below, make corrections, and resubmit:
+Whether the enterprise name exactly matches the business license.
+Whether the unified social credit code is correct.
+Whether the legal representative's ID information is valid.
+For corporate bank transfer method: whether the transferring account matches the enterprise being verified.
+
+Q: Which users need to complete Account Verification?
+A: No Identity Verification is required — recharging and using the service do not mandate verification. To issue invoices or enjoy enterprise-exclusive benefits, complete Enterprise Verification first.
+Q: How do I apply for Enterprise Verification?
+A: Log in to your international site account, go to the Account Information & Configuration page, click "Enterprise Verification", and fill in:
+Organization/Company name
+Industry
+Country/Region
+Business email
+Supporting documents (optional; uploading them is recommended to speed up review)
+Q: What if my verification is rejected?
+A: You can make corrections based on the rejection reason and resubmit.
+Q: What benefits do I get after Enterprise Verification?
+A: After completing Enterprise Verification, you can enjoy the following benefits:
+Unlock the ability to self-issue Invoices online;
+Enjoy Pay-As-You-Go tiered discounts — the higher the monthly consumption, the larger the discount, up to 40% off.
+Q: What are the rules for tiered discounts?
+Monthly Cumulative Consumption | Discount |
+≥ $75 | 10% off |
+≥ $300 | 20% off |
+≥ $1,200 | 30% off |
+≥ $6,000 | 40% off |
+Calculation rules:
+Cumulative consumption resets at 00:00 on the 1st of each month, and the tier is recalculated.
+Cumulative consumption is calculated based on actual Pay-As-You-Go API usage: unused amounts after recharging are not counted, and consumption of Token Packs and promotional credits are not counted.
+Accumulation starts from the date Enterprise Verification is completed; consumption before verification is not counted.
+
+API Keys ​
+Q: How do I get an API Key?
+A: After registering and logging in, go to the API Keys page and click “Create API Key” to manually generate a key. Your API key is only shown once upon creation. Please copy and store it securely — if lost, you'll need to create a new one.
+Q: How many API Keys can I create?
+A: Each user can have up to 100 active API keys, with a lifetime limit of 200 keys created. Once the limit is reached, no new keys can be created. For special requests, please contact us at longcat-team@meituan.com .
+Q: Where do I put my API Key?
+A: Include your API Key in the Authorization header: Authorization: Bearer YOUR_API_KEY
+Q: Do I need separate API Keys for different models?
+A: No, you only need one LongCat API Platform API Key to access our LongCat series model service.
+Q: Can I use the same API Key for both OpenAI and Anthropic endpoints?
+A: Yes, the same LongCat API Platform API Key works for both /openai/ and /anthropic/ endpoints.
+Q: My API Key isn't working, what should I check?
+A: Verify that:
+The API Key is correctly formatted with "Bearer " prefix
+You're using the correct base URL
+Your account has sufficient balance
+Request Format & Parameters ​
+Q: What's the difference between the OpenAI and Anthropic endpoints?
+A:
+OpenAI endpoint (/openai/native/chat/completions) follows OpenAI's format with system/user/assistant roles
+Anthropic endpoint (/anthropic/v1/messages) follows Claude's format with separate system parameter
+Choose based on which format you prefer to use
+Q: How do I enable streaming responses?
+A: Set "stream": true in your request body. The response will be returned as Server-Sent Events (SSE).
+Q: What's the maximum token limit?
+A: LongCat-2.5-Preview outputs tokens up to 128k; LongCat-2.0 outputs tokens up to 128k
+Error Handling ​
+Q: What causes a 401 Unauthorized error?
+A: This typically means:
+Missing or invalid API Key
+Incorrect Authorization header format
+Q: What causes a 429 Rate Limit error?
+A: You're sending requests too quickly. Implement exponential backoff and retry logic, or reduce your request rate.
+Q: What causes a 400 Bad Request error?
+A: Check that:
+Your JSON is properly formatted
+All required parameters are included
+Parameter values are within valid ranges
+Message format matches the endpoint requirements
+Q: What does "context_length_exceeded" mean?
+A: Your input (messages + max_tokens) exceeds the model's maximum context window. Try:
+Reducing the number of messages
+Shortening message content
+Reducing max_tokens parameter
+SDK Integration ​
+Q: Can I use the official OpenAI Python SDK?
+A: Yes, just change the base URL:
+pythonopenai.api_base = "https://api.longcat.chat/openai/"
+
+Q: Can I use the official Anthropic Python SDK?
+A: Yes, configure the base URL:
+pythonclient = anthropic.Anthropic(base_url="https://api.longcat.chat/anthropic")
+
+Q: Do I need to modify my existing code?
+A: Minimal changes required - usually just updating the base URL and API Key. The request/response formats remain compatible.
+Performance ​
+Q: How fast are the responses?
+A: Response times depend on:
+Request length and complexity
+Server load and geographic location
+Whether you're using streaming or non-streaming
+Q: Is there a rate limit?
+A: Yes, rate limits are enforced per API Key. When exceeded, you'll receive a 429 status code.
+Q: How do I handle timeouts?
+A: Implement proper timeout handling in your client:
+Set reasonable connection and read timeouts
+Use exponential backoff for retries
+Consider using streaming for long responses
+Troubleshooting ​
+Q: My streaming response was suddenly interrupted. What should I do?
+A: Check:
+Network connectivity issues
+Client timeout settings
+Server-side processing limits
+Proper SSE parsing in your client
+Q: How can I debug request/response issues?
+A:
+Enable detailed logging in your HTTP client
+Check response headers for additional error information
+Verify request format matches our documentation exactly
+Test with simple requests first, then add complexity
+Common Integration Patterns ​
+Q: How do I monitor API usage?
+A: Implement logging and monitoring:
+Log request/response times
+Track token usage
+Monitor error rates
+Set up alerts for quota limits
+Billing ​
+Q: Which models does the Token Resource Pack currently support?
+A: It currently supports LongCat-2.0 and LongCat-2.5-Preview.
+Q: Will failed API requests consume tokens from my Token Pack or pay-as-you-go balance?
+A: No. Failed responses — including HTTP 401, 403, 429, and 500 — will not be charged. Only successful requests (HTTP 200) are billed based on actual token usage.
+Q: Does the API Pay-As-You-Go prepaid balance expire?
+A: No. Your balance never expires and remains available until consumed or refunded.
+Q: What happens when my API Pay-As-You-Go balance runs out?
+A: New API requests will be rejected once your balance reaches ¥0 or below. Top up to restore access as soon as your balance exceeds ¥0.
+
+A: New API requests will be rejected once your balance reaches $0 or below. Top up to restore access as soon as your balance exceeds $0.
+
+Q: What balance is eligible for a refund?
+A: The refund policies for Token Pack and API Pay-As-You-Go are as follows:
+Token Pack
+Only orders with unused Token balance are eligible for a refund.
+Once approved, the corresponding Token balance will be immediately frozen and reclaimed.
+Each order can only be refunded once and cannot be cancelled after submission.
+API Pay-As-You-Go
+Unconsumed recharge balance without invoicing is eligible for refund.
+Consumed amounts are not refundable.
+The minimum refund amount is ¥0.01.
+WeChat and Alipay transactions over 12 months old are not eligible for refunds.
+Billing may have delays. The refundable amount shown is an estimate and the final amount is subject to the credited amount.
+Only one refund request can be in processing per account at a time.
+
+Token Pack
+Only orders with unused Token balance are eligible for a refund.
+Once approved, the corresponding Token balance will be immediately frozen and reclaimed.
+Each order can only be refunded once and cannot be cancelled after submission.
+API Pay-As-You-Go
+Unconsumed recharge balance without invoicing is eligible for refund.
+Consumed amounts are not refundable.
+The minimum refund amount is $0.01.
+Billing may have delays. The refundable amount shown is an estimate and the final amount is subject to the credited amount.
+Only one refund request can be in processing per account at a time.
+
+Q: Where will my refund be sent?
+A: The refund will be processed within 1–3 business days via the original payment method.
+Invoices ​
+Q: Is invoicing supported?
+A: Yes. You can issue invoices on your own.
+Both VAT ordinary invoices and VAT special invoices are supported. Issuing a VAT special invoice requires completing Enterprise Verification first.
+For Pay-As-You-Go billing, the invoiceable amount = consumed amount − already invoiced amount. For Token Packs, the invoiceable amount is the amount used to purchase the Token Pack.
+Invoices are typically issued within 1–3 business days. Once issued, the invoice will be sent to the email address you provided, and you can also view and download it in the invoice records.
+Q: Can the title of a VAT special invoice be modified?
+A: No. The title and tax ID on a VAT special invoice are taken from your Enterprise Verification information and cannot be modified, to ensure that the invoicing entity matches the verified entity. If your enterprise information changes, please contact us at longcat-team@meituan.com.
+Q: Can I invoice a Pay-As-You-Go recharge amount immediately?
+A: No. Amounts recharged but not yet consumed are not counted toward the invoiceable amount. Only amounts actually consumed can be invoiced.
+Q: How long does it take to issue an invoice?
+A: Invoices are typically issued within 1–3 business days. Once issued, they will be sent to the email address you provided, and you can also download them from the invoice records on the page.
+
+Q: Is invoicing supported?
+A: Yes. After completing Enterprise Verification, you can apply for an Invoice on your own from the Billing Center→Invoice Management page. Once issued, the invoice will be sent to the email address you provided, and you can also view and download it in the invoice records..
+Q: How do I apply for an Invoice?
+A: Go to the Billing Center → Invoice Management page, click "Apply for Invoice", select the orders to be invoiced, confirm the information, and submit.
+Q: Can I invoice a Pay-As-You-Go recharge amount immediately?
+A: No. Only amounts actually consumed can be invoiced.
+Q: Can the company name on an Invoice be modified?
+A: No. The invoice title is taken from your Enterprise Verification information, to ensure that the invoicing entity matches the verified entity. If your enterprise information changes, please contact us at longcat-team@meituan.com.
+Q: How long does it take to issue an Invoice?
+A: Invoices are typically issued within 1–3 business days.
+
+Previous
+API Pay-As-You-Go
+Next
+Change Log

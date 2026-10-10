@@ -1,0 +1,13 @@
+# Secrets: never committed (house rule; scanned for in test/secret-hygiene.test.ts)
+secret.env
+*.env
+!example.env
+
+# Machine-specific: pi's packages are linked in by `node scripts/link-pi.mjs`
+# (see the recipe in tsconfig.json). Never commit symlinks.
+node_modules/
+
+# Build/probe scratch
+*.tsbuildinfo
+research/probes/*.sse
+.DS_Store

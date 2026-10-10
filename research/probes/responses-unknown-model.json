@@ -1,0 +1,1 @@
+{"error":{"code":"invalid_parameter","message":"Unsupported model (model=no-such-model-xyz)","type":"invalid_request_error"}}

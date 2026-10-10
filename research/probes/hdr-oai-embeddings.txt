@@ -1,0 +1,14 @@
+HTTP/2 404 
+date: Sat, 10 Oct 2026 18:25:12 GMT
+content-type: application/json
+server: openresty
+mt-gateway-error: true
+cache-control: must-revalidate,no-cache,no-store
+m-appkey: com.sankuai.friday.lap.proxy
+m-spanname: BasicErrorController.error
+m-traceid: -441401438586517737
+x-via: 1.1 PS-000-04a92226:14 (Cdn Cache Server V2.0), 1.1 PSelsmskMOW3kp110:23 (Cdn Cache Server V2.0)
+x-ws-request-id: 6aca8308_PSelsmskMOW3kp110_24558-52588
+x-response-cache: miss
+x-cache: MISS from cache.51cdn.com
+

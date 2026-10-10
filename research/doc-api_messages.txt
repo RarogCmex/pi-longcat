@@ -1,0 +1,44 @@
+Anthropic Messages Copy
+ Create a message using the Anthropic Claude API format. Supports both streaming (SSE) and non-streaming responses.
+POSThttps://api.longcat.chat/anthropic/v1/messages
+Authorizations
+Authorizationstringheaderrequired
+Authentication key, passed in the request header as Bearer YOUR_API_KEY.
+
+Bodyapplication/json
+modelstringrequired
+Model identifier. Currently supports LongCat-2.5-Preview and LongCat-2.0.
+
+messagesarrayrequired
+Array of message objects.
+
+rolestringrequired
+Author role, one of user · assistant. System messages are passed separately via the system parameter.
+
+contentstringrequired
+Message content as a plain-text string.
+
+max_tokensintegeroptional
+Maximum number of tokens to generate.
+
+streambooleanoptional
+Whether to stream the response as SSE.
+
+default: false
+
+temperaturenumberoptional
+Sampling temperature, range 0 ~ 1.
+
+top_pnumberoptional
+Nucleus sampling parameter.
+
+systemstringoptional
+System message used to set context.
+
+thinkingobjectoptional
+Whether to enable thinking. {"type":"enabled"} turns thinking on, {"type":"disabled"} turns it off.
+
+Previous
+Chat Completions
+Next
+List Models

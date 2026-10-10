@@ -1,0 +1,1 @@
+{"id":"3f86d9aea1384f42953c42cd4510f557","type":"message","role":"assistant","model":"LongCat-2.0","content":[{"type":"text","text":"ok"}],"stop_reason":"end_turn","usage":{"input_tokens":17,"output_tokens":2}}
