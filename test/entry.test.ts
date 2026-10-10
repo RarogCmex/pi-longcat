@@ -202,7 +202,8 @@ describe("message_end rewrites", () => {
     try {
       const raw = '401: {"error":{"code":"invalid_api_key","message":"incorrect api key","type":"authentication_error"}}';
       const { message } = runTurn(loaded.pi, raw, { hasUI: false });
-      assert.match(String(message.errorMessage), /^LongCat: \[longcat-auth] the API key was rejected/);
+      assert.match(String(message.errorMessage), /^LongCat: the API key was rejected/);
+      assert.match(String(message.errorMessage), /\[longcat-auth]$/, "the tag rides at the end so the first line stays readable");
       assert.ok(String(message.errorMessage).includes(raw), "the original must survive (S33)");
     } finally { loaded.restore(); }
   });
@@ -212,7 +213,8 @@ describe("message_end rewrites", () => {
     try {
       const raw = '402: {"error":{"code":"insufficient_quota","message":"Insufficient token quota"}}';
       const { message } = runTurn(loaded.pi, raw, { hasUI: false });
-      assert.match(String(message.errorMessage), /^LongCat: \[longcat-balance] this account has no usable balance/);
+      assert.match(String(message.errorMessage), /^LongCat: this account has no usable balance/);
+      assert.match(String(message.errorMessage), /\[longcat-balance]$/);
       assert.doesNotMatch(String(message.errorMessage), /the API key was rejected/);
     } finally { loaded.restore(); }
   });
@@ -324,7 +326,7 @@ describe("turn_end persistent help", () => {
     try {
       // pi can hand turn_end a re-hydrated copy (persisted session), so the
       // identity of the object is not something to rely on — only its text.
-      const rewritten = "LongCat: [longcat-auth] the API key was rejected (invalid, revoked…) Original error: 401: invalid_api_key";
+      const rewritten = "LongCat: the API key was rejected (invalid, revoked…) Original error: 401: invalid_api_key [longcat-auth]";
       const result = loaded.pi.emit(
         "turn_end",
         { outcome: "error", message: { role: "assistant", stopReason: "error", provider: "longcat", errorMessage: rewritten }, entries: [] },

@@ -525,7 +525,37 @@ for the batch with a ≤¥0.10 worst-case ceiling. Two rows are recorded as **"n
 captured"** rather than estimated: one cap probe accepted and killed by its abort
 guard before any usage event, one image control that timed out at 45 s.
 
-**Real-pi pass** — see [What is not verified](#what-is-not-verified-and-what-remains).
+**Real-pi pass (free half)** — run on 2026-10-11 against the installed pi 1.1.0
+with an isolated `HOME`/`PI_CODING_AGENT_DIR` and a deliberately dead key, so none
+of it cost anything:
+
+- `pi install /path/to/pi-longcat` → installed, no diagnostics;
+- `pi --list-models` → both models with the right columns (`1.0M / 131.1K /
+  thinking yes / images no` and `1.0M / 262.1K / yes / yes`); with **no** key at
+  all the provider is absent, which is pi hiding unauthenticated providers, not a
+  registration failure;
+- `LONGCAT_SURFACE=responses pi --list-models` → same two ids on the other
+  surface, still 2 rows and not 4 (one adapter per process);
+- **print mode with a dead key** prints the rewritten, actionable message and
+  exits 1 — on the chat surface (`401: {"code":"invalid_api_key",…}`) *and* on the
+  Responses surface, where pi composes a different prefix (`longcat API error
+  (401): {…}`) that the same predicate still matches. Nothing was printed *after*
+  the message, i.e. the `turn_end` entry is correctly suppressed by `ctx.hasUI`
+  (the trap that makes `pi -p` print nothing at all);
+- `--mode json` emits a well-formed `message_end` with `provider: "longcat"`,
+  `api: "openai-completions"` and the rewritten `errorMessage`;
+- a typo'd `LONGCAT_SURFACE=respones` falls back to chat and leaves print-mode
+  output clean (the warning is TUI-only);
+- `pi auth check --provider longcat` → `not_ready` for a dead key;
+- **the thinking level map, verified in the host**: `--thinking off` reports
+  `thinkingLevel: "off"` (the off switch is selectable and is *not* clamped
+  upward) while `--thinking high` reports `"low"` (clamped down to the single
+  level LongCat has). That is the tristate behaviour `test/models.test.ts` asserts
+  against pi's functions, observed end to end.
+
+The billed half — a real generation, a multi-turn agent run with tools, thinking
+on/off inside a session, and the TUI paths — is listed under
+[What is not verified](#what-is-not-verified-and-what-remains).
 
 **Honesty notes on two rows.** Two probes were planned as free and were accepted
 and billed (`thinking:{"type":"bogus"}` on two surfaces, ¥0.000108 total): an
@@ -571,13 +601,16 @@ Stated plainly, so no untested claim reads as a tested one.
 
 **Not verified at all**
 
-- **The real-pi pass.** `pi install`, `pi --list-models`, `pi -p` per model, a
-  multi-turn agent run with tools (read → write → reply), thinking on/off inside a
-  session, and the error path in **print mode** were not run for this build: on a
-  prepaid platform with no free id an agent run is the largest single spend in the
-  whole plan, so it was left for an explicitly approved session. Everything the
-  harness covers is the adapter layer and below; the host integration above it is
-  unverified. When it is run, use a clean `HOME` plus `-e <plugin>/index.ts`, and
+- **The billed half of the real-pi pass.** Install, `--list-models`, the print/json
+  error paths, `auth check` and the thinking-level clamping were all run for free
+  (see the verification log). What was **not** run: a successful generation inside
+  real pi, a multi-turn agent run with tools (read → write → reply — the run that
+  exercises reasoning-item and tool-call *replay* across turns, which a
+  single-turn probe passes with the replay broken), thinking on/off inside a
+  session, and every TUI path including the persistent `turn_end` entry (covered
+  only by the fake-pi test). On a prepaid platform with no free id an agent run is
+  the largest single spend in the plan, so it was left for an explicitly approved
+  session; when it happens, use a clean `HOME` plus `-e <plugin>/index.ts` and
   remember a stored credential from `/login` wins over `LONGCAT_API_KEY`.
 - **The Responses surface as a daily driver.** Its checks pass
   (`LONGCAT_SURFACE=responses node live/check.ts --billed` is supported), but no

@@ -72,8 +72,10 @@ export const BILLING_URL = "https://longcat.chat/platform";
 export const REWRITE_PREFIX = "LongCat: ";
 
 /**
- * ASCII tags embedded in each rewrite so `classifyRewritten` can read the
- * decision back from our OWN text.
+ * ASCII tags appended to each rewrite so `classifyRewritten` can read the
+ * decision back from our OWN text. They go at the END of the message: the user
+ * reads the first line, and a tag in front of it (the first implementation) made
+ * the print-mode output start with `[longcat-auth] …`.
  *
  * Why this exists (measured by a failing test, 2026-10-11): pi applies the
  * `message_end` rewrite IN PLACE on the stored message, so `turn_end` sees the
@@ -260,11 +262,11 @@ export function clarifyAuthError(errorMessage: string): string | null {
   if (!errorMessage) return null;
   if (errorMessage.startsWith(REWRITE_PREFIX)) return null;
   return (
-    `${REWRITE_PREFIX}${AUTH_TAG} the API key was rejected (invalid, revoked, or not the key for this ` +
+    `${REWRITE_PREFIX}the API key was rejected (invalid, revoked, or not the key for this ` +
     `account). Create or copy a key at ${API_KEYS_URL}, then run \`/login longcat\` or set ` +
     `LONGCAT_API_KEY. Note that an empty balance is a DIFFERENT error (402 / ` +
     `insufficient_quota), so if the key is correct, check the balance instead. ` +
-    `Original error: ${errorMessage}`
+    `Original error: ${errorMessage} ${AUTH_TAG}`
   );
 }
 
@@ -277,10 +279,10 @@ export function clarifyQuotaError(errorMessage: string): string | null {
   if (!errorMessage) return null;
   if (errorMessage.startsWith(REWRITE_PREFIX)) return null;
   return (
-    `${REWRITE_PREFIX}${QUOTA_TAG} this account has no usable balance (insufficient_quota / 402). The key ` +
+    `${REWRITE_PREFIX}this account has no usable balance (insufficient_quota / 402). The key ` +
     `itself was accepted, so rotating it will not help — and on this platform all keys of one ` +
     `account share its balance. Top up at ${BILLING_URL} (Billing → Recharge), or wait for a ` +
     `Token Pack / promotional credit to be applied. ` +
-    `Original error: ${errorMessage}`
+    `Original error: ${errorMessage} ${QUOTA_TAG}`
   );
 }
