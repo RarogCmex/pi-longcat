@@ -116,7 +116,7 @@ describe("surface resolution", () => {
 
 describe("compat flags", () => {
   test("chat pins the six flags where pi's auto-detect for this host is wrong", () => {
-    // Auto-detect (pi-ai/dist/api/openai-completions.js:1221-1305) has no rule
+    // Auto-detect (pi-ai/dist/api/openai-completions.js:1229-1313) has no rule
     // for api.longcat.chat, so it returns the vanilla-OpenAI profile. Each line
     // below is the measured or documented correction; see the models.ts header.
     assert.equal(CHAT_COMPAT.thinkingFormat, "zai", "auto-detect would say 'openai' and lose the off switch");

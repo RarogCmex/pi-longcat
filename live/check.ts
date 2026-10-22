@@ -167,7 +167,7 @@ function costOfRaw(promptTokens = 0, output = 0, cached = 0): number {
 
 /**
  * Cost from pi's PARSED usage, where `usage.input` is already net of the cache
- * (`pi-ai/dist/api/openai-completions.js:1177`:
+ * (`pi-ai/dist/api/openai-completions.js:1186`:
  * `input = max(0, prompt_tokens - cacheRead - cacheWrite)`). Subtracting the
  * cache again here would produce a negative cost — which is exactly what the
  * first run of this harness printed, and why the two helpers are separate.

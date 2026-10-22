@@ -78,7 +78,7 @@ import type { ThinkingLevelMap } from "@earendil-works/pi-ai";
  * `https://api.longcat.chat/anthropic/v1/messages`, and it works (measured
  * 2026-10-10: streaming, tool_use blocks, thinking on/off), but it is NOT
  * registered: pi's Anthropic adapter authenticates with `x-api-key`
- * (pi-ai/dist/api/anthropic-messages.js:810-812) and this gateway rejects that
+ * (pi-ai/dist/api/anthropic-messages.js:843-845) and this gateway rejects that
  * header with 401 `missing_api_key` (measured 2026-10-11). Supporting it would
  * mean a header-injecting fetch wrapper for no capability the other two lack.
  */
@@ -127,17 +127,17 @@ export interface CatalogEntry {
  * the off switch reachable at all:
  *   - chat (pi's `zai` thinking format): enable/disable comes from
  *     `!!options.reasoningEffort`, and pi turns the level "off" into
- *     `undefined` before the adapter (pi-ai openai-completions.js:525), so the
+ *     `undefined` before the adapter (pi-ai openai-completions.js:527), so the
  *     map value is unused but its null-ness is not — `off: null` would hide the
  *     level and clamp requests UP to `low`, i.e. bill thinking the user turned
  *     off.
  *   - Responses: pi sends `reasoning: { effort: map.off ?? "none" }` when no
- *     level was requested (openai-responses.js:278-282). `"none"` is the token
+ *     level was requested (openai-responses.js:303-307). `"none"` is the token
  *     measured to zero reasoning on this gateway (2026-10-11: output 8 → 2,
  *     reasoning_tokens 7 → 0).
  *   - Anthropic (unregistered, kept for the record): pi emits
  *     `thinking: {type:"disabled"}` only when `map.off !== null`
- *     (anthropic-messages.js:967).
+ *     (anthropic-messages.js:914,978).
  * `low` maps to `"low"` because that is the only effort token measured accepted
  * on the Responses surface (`reasoning: {effort:"low"}` echoed back, 2026-10-10);
  * on chat the value is never sent (supportsReasoningEffort is false).

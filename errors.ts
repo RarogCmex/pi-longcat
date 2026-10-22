@@ -235,7 +235,7 @@ export async function remediateInBandResponse(response: Response): Promise<Respo
 //   the same prefix under a different key value        → MISS
 //
 // So `prompt_cache_key` is the routing/namespace handle, and pi omits it on chat
-// routes (pi-ai/dist/api/openai-completions.js:575-578 sends it only for
+// routes (pi-ai/dist/api/openai-completions.js:580-583 sends it only for
 // api.openai.com or its own long-retention mode) while the Responses adapter
 // fills it from the session id. Cached input is 50× cheaper (¥0.04 vs ¥2 per 1M),
 // so omitting it on the DEFAULT surface is a silent cost bug for any multi-turn

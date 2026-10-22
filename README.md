@@ -5,10 +5,13 @@ coding agent: `api.longcat.chat`, two models, 1M-token context, CNY billing, a
 measured thinking on/off switch, `/login`, a live catalog overlay, and error
 paths that reach pi's own retry and auto-compaction machinery.
 
-Built and verified against **pi 1.1.0** (`@earendil-works/pi-coding-agent`,
-realpath `~/.nvm/versions/node/v26.10.0/lib/node_modules/@earendil-works/pi-coding-agent`,
+Built against **pi 1.1.0** and re-verified on **pi 1.4.0** (2026-10-22;
+`@earendil-works/pi-coding-agent`, realpath
+`~/.nvm/versions/node/v26.10.0/lib/node_modules/@earendil-works/pi-coding-agent`,
 typechecked with the global `tsc` 7.1.0-dev.20260823.1 — `npx tsc` does not
-resolve a compiler in a bare tree).
+resolve a compiler in a bare tree). Line citations into pi's `dist/` are 1.4.0
+coordinates, re-read on that date; the measurements behind them were taken on
+1.1.0 and keep their own dates.
 
 Every live claim below carries a date and a method. Raw evidence lives in
 [`research/`](research/): the docs capture (`research/doc-*.txt`), every probe
@@ -155,7 +158,7 @@ Consequences in code:
 
 - `compat.thinkingFormat = "zai"`, because pi's zai branch emits byte-exactly
   `thinking: {type:"enabled", clear_thinking:false}` / `{type:"disabled"}`
-  (`pi-ai/dist/api/openai-completions.js:621-623`). The auto-detected `"openai"`
+  (`pi-ai/dist/api/openai-completions.js:625-627`). The auto-detected `"openai"`
   format would send `reasoning_effort` and **no** `thinking` object — leaving
   thinking permanently on for a model that thinks by default. This is the single
   most important flag in the plugin (`test/wire-format.test.ts` asserts both the
@@ -200,7 +203,7 @@ The gateway serves **three** wire surfaces. All three were probed live on
 |---|---|---|---|
 | OpenAI Chat Completions | `POST /openai/v1/chat/completions` | **registered (default)** | documented; enforces the output cap; real HTTP statuses on failure; the thinking off switch works even with an image in the request |
 | OpenAI Responses | `POST /openai/v1/responses` | **registered behind `LONGCAT_SURFACE=responses`** | real but UNDOCUMENTED — found by probing (`m-spanname: OpenaiController.nativeResponses`; bogus subpaths under the same prefix 404, so it is a registered route, not a catch-all). Buys typed reasoning items and replay; costs four measured defects, below |
-| Anthropic Messages | `POST /anthropic/v1/messages` | **checked, works, deliberately NOT registered** | the gateway side is fine (streaming, `tool_use` blocks, thinking on/off all measured). The blocker is on pi's side: its Anthropic adapter authenticates with `x-api-key` (`pi-ai/dist/api/anthropic-messages.js:810-812`) and this gateway answers that header with `401 missing_api_key` (measured 2026-10-11, free). Registering it would need a header-injecting fetch wrapper for no capability the other two lack. `LONGCAT_SURFACE=anthropic` prints that reason instead of silently doing nothing |
+| Anthropic Messages | `POST /anthropic/v1/messages` | **checked, works, deliberately NOT registered** | the gateway side is fine (streaming, `tool_use` blocks, thinking on/off all measured). The blocker is on pi's side: its Anthropic adapter authenticates with `x-api-key` (`pi-ai/dist/api/anthropic-messages.js:843-845`) and this gateway answers that header with `401 missing_api_key` (measured 2026-10-11, free). Registering it would need a header-injecting fetch wrapper for no capability the other two lack. `LONGCAT_SURFACE=anthropic` prints that reason instead of silently doing nothing |
 | `/openai/native/chat/completions` | – | **checked and absent (2026-10-10)** | the FAQ names this path; it 404s (`{"status":404,"path":"/openai/native/chat/completions"}`). Recorded so nobody re-adds it from the docs |
 | `/openai/v1/embeddings`, `GET /v1/models` at the host root | – | **checked and absent (2026-10-10)** | both 404 |
 
@@ -296,7 +299,7 @@ allowed to read as "absent".
 ## Compat flags, and why each one is pinned
 
 pi auto-detects OpenAI-compatible behaviour **by URL**, and there is no rule for
-`api.longcat.chat` (`pi-ai/dist/api/openai-completions.js:1221-1305`), so the
+`api.longcat.chat` (`pi-ai/dist/api/openai-completions.js:1229-1313`), so the
 detected profile is the vanilla-OpenAI one — wrong in six places here. Every flag
 is pinned explicitly; `test/wire-format.test.ts` ends with a negative control that
 captures the same model with `compat` deleted and asserts the four consequences.
@@ -667,6 +670,52 @@ hit at ~10 s pacing over 90 requests.
 All dates are 2026-10 unless noted. "Free" means the gateway rejected the request
 or performed no inference; the ledger is the checkable form of that claim.
 
+**pi 1.4.0 re-verification (2026-10-22)** — the host on this machine moved from
+1.1.0 to 1.4.0. Offline: `npm run typecheck` (global `tsc` 7.1.0-dev.20260823.1)
+exit 0 against the symlinked pi 1.4.0 types, and **139 tests / 31 suites** green
+under the no-network preload — counts re-read from the runner, unchanged. No
+source change was needed: the 1.2.0–1.4.0 deltas do not touch anything this
+plugin uses. Unused here are `before_agent_start` (a union on `messageType`
+since 1.2.0, and now also fired for `pi.sendMessage(…, { triggerTurn: true })`),
+the busy-while-starting rules (`ctx.isIdle()` false, `pi.sendMessage()` queueing,
+`pi.sendUserMessage()` requiring `deliverAs`), `before_provider_headers`
+(attribution headers moved into pi-ai's client identity in 1.4.0, ahead of the
+handlers), `generateSummary()` (ignores `reserveTokens` in 1.4.0), the
+classifier `compat`/`imageInput`/`sendImageOptInHeader` fields, and the
+experimental server/client/plugin stack (`pi-client`, `pi-protocol`, `pi-server`,
+`chord`) removed in 1.2.0. The hooks this plugin does use —
+`before_provider_request`, `message_end`, `turn_end`, `session_start`,
+`registerProvider`, `fetchModels` — kept their contracts, and every `dist/` line
+citation in this README and in the source was re-read against 1.4.0. Two host
+changes are visible from here and neither needed code: pi 1.4.0 also aliases
+`@earendil-works/pi-ai/models` in the extension loader (#11156 — the NOTE in
+`index.ts` now lists it), and the `User-Agent` pi sends every provider changed
+from `pi (<platform> <release>; <arch>)` to `pi/1.4.0 (<platform>; node/<version>;
+<arch>)` (`getIdentityHeaders`, `dist/utils/identity.js`). That header was not
+re-measured against the gateway; the free dead-key runs below reached it far
+enough to be answered with the gateway's normal 401.
+
+**Real-pi pass (free half), re-run on 1.4.0 (2026-10-22)** — the same method as
+the 2026-10-11 pass (isolated `PI_CODING_AGENT_DIR`, a deliberately dead key,
+`--no-session`), so it cost **¥0.000000**: `pi install <repo>` → installed, no
+diagnostics; `pi --list-models` (both as `-ne -e <repo>` and with the package
+installed, `--offline` in both cases) → both models with the same columns
+(`1.0M / 131.1K / thinking yes / images no` and `1.0M / 262.1K / yes / yes`), and
+`LONGCAT_SURFACE=responses` → the same 2 rows, not 4; print mode with the dead
+key prints the rewritten, actionable message and exits 1 on **both** surfaces
+(chat: `401: {"code":"invalid_api_key",…}`; Responses: pi's own `longcat API
+error (401): {…}` prefix, matched by the same predicate); `--mode json` emits a
+well-formed `message_end` with `provider: "longcat"`, `api:
+"openai-completions"` and the rewritten `errorMessage`, and `agent_settled` now
+carries `aborted: false` (new in 1.1.0); the host's level clamp re-observed end
+to end (`--thinking off` → `thinkingLevel: "off"`, `--thinking high` →
+`"low"`); a typo'd `LONGCAT_SURFACE=respones` falls back to chat and leaves
+print-mode output clean; `pi auth check --provider longcat` → `not_ready`.
+**Not re-run:** the free-mode harness (`node live/check.ts` — it needs a live key
+from `secret.env` and appends rows to the committed ledger) and everything
+billed. The 2026-10-11 live rows below therefore remain the last live evidence,
+and they were taken on pi 1.1.0.
+
 **Offline suite** — 139 tests, 31 suites, ~1 s, green on 2026-10-11 (re-run after
 the `prompt_cache_key` hook was added) under
 `node --test --import ./test/no-network.ts` with `globalThis.fetch` replaced by a
@@ -783,7 +832,7 @@ does not validate. They are flagged in the ledger's L35 audit line, which the
 generator computes rather than asserts by hand. The first run of the billed
 harness also found three harness bugs and one real semantic fact — pi's
 `usage.input` is **net of** `cacheRead`
-(`pi-ai/dist/api/openai-completions.js:1177`), so a ledger that subtracts the
+(`pi-ai/dist/api/openai-completions.js:1186`), so a ledger that subtracts the
 cache twice prints a negative cost. Both are now comments in `live/check.ts`.
 
 ## What is not verified, and what remains

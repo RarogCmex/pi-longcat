@@ -16,12 +16,12 @@
  *
  *  3. Compat flags. Auto-detection classifies `api.longcat.chat` as a vanilla
  *     OpenAI endpoint (there is no rule for this host in
- *     `pi-ai/dist/api/openai-completions.js:1221-1305`), and that profile is
+ *     `pi-ai/dist/api/openai-completions.js:1229-1313`), and that profile is
  *     wrong in six places — every line below is either a measurement or a
  *     documented absence, with the date:
  *      - `thinkingFormat: "zai"`   the single most important flag. LongCat's
  *        switch is `thinking: {"type":"enabled"|"disabled"}` — byte-identical to
- *        what pi's zai branch emits (`openai-completions.js:621-623`, including
+ *        what pi's zai branch emits (`openai-completions.js:625-627`, including
  *        `clear_thinking: false`, which this gateway accepts). The auto-detected
  *        `"openai"` format would send `reasoning_effort` instead and NO thinking
  *        object, leaving thinking permanently ON (it is on by default here).

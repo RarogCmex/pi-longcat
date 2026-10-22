@@ -22,7 +22,7 @@
  *   - `POST /anthropic/v1/messages` — works (streaming, `tool_use`, thinking
  *     on/off all measured) but is NOT registered: pi's Anthropic adapter
  *     authenticates with `x-api-key` (`pi-ai/dist/api/anthropic-messages.js:
- *     810-812`) and this gateway rejects that header with 401 `missing_api_key`
+ *     843-845`) and this gateway rejects that header with 401 `missing_api_key`
  *     (measured 2026-10-11). `LONGCAT_SURFACE=anthropic` therefore reports the
  *     reason instead of silently doing nothing.
  * One adapter is constructed per process, so a model can never point at a surface
@@ -57,8 +57,9 @@
 // NOTE on this import: pi's extension loader aliases the bare
 // "@earendil-works/pi-ai" specifier to pi-ai's compat entrypoint, a strict
 // superset of the core one that re-exports `openAICompletionsApi` and
-// `openAIResponsesApi`. Subpaths other than /compat, /oauth and /providers/all
-// are NOT aliased. tsconfig.json mirrors the loader's alias so
+// `openAIResponsesApi`. Subpaths other than /compat, /models, /oauth and
+// /providers/all are NOT aliased (/models joined the list in pi 1.4.0, #11156).
+// tsconfig.json mirrors the loader's alias so
 // `npm run typecheck` sees what pi sees. This is the only pi-runtime-only import
 // in the package; everything else lives in modules plain Node can load, which is
 // what makes the offline suite possible without pi mocking.
