@@ -355,6 +355,12 @@ Operator: "переходим на responses по умолчанию (если �
    defect), LONGCAT_VISION_CAVEAT + README carry "use LONGCAT_SURFACE=chat for
    image work", and the operator was informed with the A/B choice (revert the
    flip vs proceed documented). DD3 cost ¥0.0045, KEY1.
+   **Decision (operator, 2026-10-24): keep the Responses default.** Rationale:
+   "работа с картинками… не главный user-case, в основном работа без картинок" —
+   vision is not the primary use case, so the flip stands and image-heavy
+   sessions opt into `LONGCAT_SURFACE=chat`. The defect stays recorded (not
+   downgraded); a future gateway fix should re-run DD3 before relaxing the
+   caveat.
 4. Residual risk (recorded in README "What is not verified"): long sessions,
    compaction, deeper multi-turn, the dead cap oracle, and now the vision
    defect above on the new default; `LONGCAT_SURFACE=chat` keeps the working

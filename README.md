@@ -282,7 +282,12 @@ mapped, each with its evidence in `research/probe-ledger.md`:
    doc's "image URLs must be publicly accessible" hints base64 data-urls are
    second-class there. The harness colour check is chat-only because of it;
    users who paste screenshots should set `LONGCAT_SURFACE=chat` until the
-   gateway behaves. This is the known cost of the new default.
+   gateway behaves. This is the known cost of the new default — **accepted by
+   the operator on 2026-10-24**: text-only work is the primary use case for
+   this provider ("в основном работа без картинок"), so the flip stays and
+   image-heavy sessions opt into chat. The defect is not downgraded anywhere:
+   the measurements stand, and a future gateway fix should re-run DD3 before
+   the caveat is relaxed.
 
 What Responses buys on the default path, measured: typed reasoning items with
 replay (DD2), `store:false` and `prompt_cache_key` accepted and echoed (S4,
@@ -754,7 +759,10 @@ consistent with the new doc's "image URLs must be publicly accessible". The
 colour check is therefore **chat-only** (a check that flakes by gateway design
 is worse than a recorded defect), the caveat ships in `LONGCAT_VISION_CAVEAT`
 and the wire-surfaces table, and the operator was given the revert choice with
-this evidence. Final post-gate runs: default (Responses) **18 pass / 1 skip,
+this evidence. **Decision (2026-10-24): keep the Responses default** — "работа
+с картинками… не главный user-case, в основном работа без картинок"; image work
+opts into `LONGCAT_SURFACE=chat`. Final post-gate runs: default (Responses)
+**18 pass / 1 skip,
 ¥0.003739**; `LONGCAT_SURFACE=chat` **18 pass / 1 skip, ¥0.005564**; free run
 on the new default **11/11, ¥0.000000**. Version 0.2.0.
 
