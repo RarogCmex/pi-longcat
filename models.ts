@@ -71,6 +71,7 @@ import type {
 import {
   CATALOG,
   LONGCAT_THINKING,
+  thinkingLevelsFor,
   type CatalogEntry,
   type CnyPrice,
   type GatewayApi,
@@ -251,8 +252,11 @@ const ZERO_COST: ModelCost = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 
 
 export type LongCatModel = Model<GatewayApi>;
 
-/** Fields that do not depend on which surface the model is registered on. */
-function sharedFields(entry: CatalogEntry, baseUrl: string, rate: number) {
+/** Fields that do not depend on which surface the model is registered on —
+ *  except the level map, which does since 2026-10-24: 2.5-family ids on the
+ *  Responses surface hide `off` because no token zeroes their reasoning there
+ *  (measured; see LONGCAT_THINKING_RESPONSES_25 in catalog.ts). */
+function sharedFields(entry: CatalogEntry, api: GatewayApi, baseUrl: string, rate: number) {
   return {
     id: entry.id,
     name: entry.name,
@@ -265,7 +269,7 @@ function sharedFields(entry: CatalogEntry, baseUrl: string, rate: number) {
     reasoning: entry.thinking.kind === "toggle",
     // A map next to `reasoning: false` is a self-contradicting claim: pi ignores
     // it, so only a test would ever catch it — hence the union above.
-    thinkingLevelMap: entry.thinking.kind === "toggle" ? entry.thinking.levels : undefined,
+    thinkingLevelMap: entry.thinking.kind === "toggle" ? thinkingLevelsFor(entry.id, api, entry.thinking.levels) : undefined,
   };
 }
 
@@ -280,7 +284,7 @@ export function entryToModel(
   baseUrl: string,
   rate: number,
 ): LongCatModel {
-  const shared = sharedFields(entry, baseUrl, rate);
+  const shared = sharedFields(entry, api, baseUrl, rate);
   if (api === "openai-responses") {
     const model: Model<"openai-responses"> = {
       ...shared,

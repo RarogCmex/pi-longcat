@@ -16,9 +16,11 @@ import {
   CATALOG_BY_ID,
   EXCLUDED_MODEL_IDS,
   LONGCAT_THINKING,
+  LONGCAT_THINKING_RESPONSES_25,
   MIN_IMAGE_AREA_PX,
   isKnownId,
   normalizeId,
+  thinkingLevelsFor,
 } from "../catalog.ts";
 
 const FIXTURES = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
@@ -137,12 +139,16 @@ describe("catalog numbers", () => {
 });
 
 describe("thinking control", () => {
-  test("every curated entry has a toggle, and the off switch is reachable", () => {
+  test("every curated entry has a toggle, and the off switch is reachable on the map it carries", () => {
     for (const entry of CATALOG) {
       assert.equal(entry.thinking.kind, "toggle", `${entry.id}: LongCat's switch is a binary toggle`);
       if (entry.thinking.kind !== "toggle") continue;
-      // `off: null` would HIDE the level and clamp requests UP to `low`, billing
-      // thinking the user turned off. It must be a string on this gateway.
+      // The entry-level map is the CHAT map, where `off: null` would HIDE the
+      // level and clamp requests UP to `low`, billing thinking the user turned
+      // off — chat's disabled token is measured working on both models, so off
+      // must stay a string here. The one measured exception (2.5 family on the
+      // Responses surface, where NO off token works) is applied per surface by
+      // thinkingLevelsFor, tested below.
       assert.notEqual(entry.thinking.levels.off, null, `${entry.id}: off must not be null`);
       assert.equal(typeof entry.thinking.levels.off, "string");
     }
@@ -151,6 +157,20 @@ describe("thinking control", () => {
   test("the level map offers exactly one positive level (the vendor has no effort scale)", () => {
     const positive = Object.entries(LONGCAT_THINKING).filter(([level, value]) => level !== "off" && value !== null);
     assert.deepEqual(positive, [["low", "low"]]);
-    assert.equal(LONGCAT_THINKING.off, "none", `"none" is the effort token measured to zero reasoning on Responses`);
+    assert.equal(LONGCAT_THINKING.off, "none", `"none" is the effort token measured to zero reasoning on Responses/2.0`);
+  });
+
+  test("thinkingLevelsFor hides off only for the 2.5 family on Responses", () => {
+    // The 2026-10-24 measurements behind each branch: DD-B6 (2.0 effort:none →
+    // reasoning_tokens 0) vs DD-B5/B7/B8 (2.5-Preview: effort:none → 161,
+    // thinking:disabled → 299, both → 125 — nothing zeroes it).
+    assert.equal(thinkingLevelsFor("LongCat-2.5-Preview", "openai-responses", LONGCAT_THINKING), LONGCAT_THINKING_RESPONSES_25);
+    assert.equal(LONGCAT_THINKING_RESPONSES_25.off, null, "off is hidden, not sold as a dead switch");
+    assert.equal(LONGCAT_THINKING_RESPONSES_25.low, "low", "the one positive level survives");
+    assert.equal(thinkingLevelsFor("LongCat-2.0", "openai-responses", LONGCAT_THINKING), LONGCAT_THINKING);
+    assert.equal(thinkingLevelsFor("LongCat-2.5-Preview", "openai-completions", LONGCAT_THINKING), LONGCAT_THINKING, "chat's disabled token works on both models");
+    // Family inheritance for an unmeasured future 2.5-x id: no off offered on
+    // Responses rather than an unverified token (same convention as guessContext).
+    assert.equal(thinkingLevelsFor("LongCat-2.5-Turbo", "openai-responses", LONGCAT_THINKING), LONGCAT_THINKING_RESPONSES_25);
   });
 });

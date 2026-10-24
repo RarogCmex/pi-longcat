@@ -13,7 +13,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { CATALOG, EXCLUDED_MODEL_IDS, LONGCAT_VISION_CAVEAT, MIN_IMAGE_AREA_PX } from "../catalog.ts";
+import { CATALOG, EXCLUDED_MODEL_IDS, LONGCAT_VISION_CAVEAT, MIN_IMAGE_AREA_PX, thinkingLevelsFor } from "../catalog.ts";
 import { CNY_RATE_DATE, DEFAULT_CNY_PER_USD, cnyToUsd } from "../models.ts";
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -30,10 +30,16 @@ const lines: string[] = [
   `|---|---|---|---|---|---|---|---|`,
 ];
 for (const entry of CATALOG) {
+  // A ‡ on the thinking column when the DEFAULT surface hides this model's off
+  // switch — data-driven from the same selector models.ts uses, so the marker
+  // cannot drift from the shipped map.
+  const offHiddenOnDefault =
+    entry.thinking.kind === "toggle" &&
+    thinkingLevelsFor(entry.id, "openai-responses", entry.thinking.levels).off === null;
   lines.push(
     `| \`${entry.id}\` | ${entry.name} | ${entry.contextWindow.toLocaleString("en-US")} † | ` +
       `${entry.maxTokens.toLocaleString("en-US")} (measured) | ${entry.input.join(" + ")} | ` +
-      `${entry.thinking.kind === "toggle" ? "on/off (on by default)" : "none"} | ` +
+      `${entry.thinking.kind === "toggle" ? `on/off${offHiddenOnDefault ? "‡" : ""} (on by default)` : "none"} | ` +
       `${entry.cny.input} · ${entry.cny.cacheRead} · ${entry.cny.output} | ` +
       `${usd(entry.cny.input)} · ${usd(entry.cny.cacheRead)} · ${usd(entry.cny.output)} |`,
   );
@@ -50,6 +56,13 @@ lines.push(
   `2026-10-24). The provider's own docs now agree: the \`api/model-params\` page added by`,
   `2026-10-24 lists 262,144 (256K) for 2.5-Preview and 131,072 (128K) for 2.0, and the old`,
   `"131072 for 2.5" claim on \`api/chat\` was replaced by a pointer to that page.`,
+  "",
+  `‡ **Per-surface thinking control.** On the Responses surface this model offers only`,
+  `the positive level: NO token zeroes its reasoning there (measured 2026-10-24:`,
+  `\`effort:"none"\` → 161 reasoning tokens, \`thinking:{"type":"disabled"}\` → 299, both → 125),`,
+  `so pi hides \`off\` instead of selling a dead switch. \`off\` works for LongCat-2.0 on Responses`,
+  `(\`effort:"none"\` → reasoning_tokens 0) and for both models on chat (\`LONGCAT_SURFACE=chat\`).`,
+  `See [Thinking](#thinking).`,
   "",
   `USD columns are derived at the dated house rate ¥${rate} = $1 (${CNY_RATE_DATE}), overridable`,
   `per session with \`LONGCAT_CNY_PER_USD\`. The platform bills CNY; it also publishes a USD`,

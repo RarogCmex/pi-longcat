@@ -276,9 +276,23 @@ describe("responses surface", () => {
     assert.equal(body.stream, true);
   });
 
-  test("`off` sends reasoning.effort 'none' — the token measured to zero reasoning", async () => {
-    const body = await capture("openai-responses", models("openai-responses")[0]!);
-    assert.deepEqual(body.reasoning, { effort: "none" });
+  test("`off` sends reasoning.effort 'none' on 2.0 — and NOTHING on 2.5, whose off switch does not exist here", async () => {
+    // LongCat-2.0: "none" is the token measured to zero reasoning (2026-10-11,
+    // re-measured reasoning_tokens 0 on 2026-10-24, DD-B6).
+    const two = models("openai-responses").find((m) => m.id === "LongCat-2.0")!;
+    const body20 = await capture("openai-responses", two);
+    assert.deepEqual(body20.reasoning, { effort: "none" });
+    // LongCat-2.5-Preview: no token zeroes reasoning on this surface (DD-B5/B7/B8,
+    // 2026-10-24), so the map hides `off` (null) and pi's adapter — which sends
+    // the off field only when `thinkingLevelMap?.off !== null`
+    // (openai-responses.js:303) — omits `reasoning` entirely. The gateway then
+    // applies its think-by-default, which is the truth this model×surface pair
+    // has: an absent field bills the same reasoning a dead "none" would.
+    const preview = models("openai-responses")[0]!;
+    assert.equal(preview.id, "LongCat-2.5-Preview");
+    const body25 = await capture("openai-responses", preview);
+    assert.equal("reasoning" in body25, false, "a hidden off switch must not send an off token that does nothing");
+    assert.equal("include" in body25, false, "include rides the effort branch only");
   });
 
   test("a positive level sends effort + summary, both measured accepted", async () => {
@@ -307,6 +321,11 @@ describe("responses surface", () => {
       for (const level of LEVELS) {
         const body = await capture("openai-responses", model, { reasoning: level });
         const effort = body.reasoning?.effort;
+        if (model.id === "LongCat-2.5-Preview" && level === undefined) {
+          // Hidden off switch: no level requested → no reasoning field at all.
+          assert.equal(body.reasoning, undefined, `${model.id}: off is hidden, so nothing is sent`);
+          continue;
+        }
         assert.ok(effort === "none" || effort === "low", `${model.id}/${level}: effort ${effort}`);
       }
     }

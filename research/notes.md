@@ -277,10 +277,14 @@ LongCat-2.5-Preview unless noted:
   3747). Reasoning-on cells were 8/8 correct.
 - Plugin consequence: `thinkingLevelMap.off = "none"` is truthful on chat
   (both models) and on Responses **only for LongCat-2.0**. On
-  Responses+2.5-Preview the picker sells an "off" that silently keeps thinking
-  ON and bills ¥8/1M reasoning tokens. Options: (a) per-surface map with
-  `off: null` for 2.5 on responses (hides the fake switch; pi clamps up to
-  low — same billing, honest UI), (b) caveat-only. NOT YET DECIDED/IMPLEMENTED.
+  Responses+2.5-Preview the picker sold an "off" that silently keeps thinking
+  ON and bills ¥8/1M reasoning tokens. DECIDED + IMPLEMENTED 2026-10-24
+  (operator: "Да, убрать off"): option (a) — `LONGCAT_THINKING_RESPONSES_25`
+  (`off: null`) applied by `thinkingLevelsFor(id, api, levels)` for the 2.5
+  FAMILY on Responses; pi's picker offers only `low` there, explicit off
+  requests clamp up (billed either way), and the adapter omits the `reasoning`
+  field entirely when no level is requested (off === null guard,
+  openai-responses.js:303). Chat and Responses/2.0 keep `off: "none"`.
 - `summary:"auto"` (medium cell): reasoning arrived as short terse lines
   ("17 * 23 = 391\n45 * 67 = 3015\n…") via `response.reasoning_text.delta`;
   cannot distinguish "summary" from a naturally short CoT at N=1. No separate

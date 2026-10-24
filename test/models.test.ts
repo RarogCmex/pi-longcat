@@ -182,11 +182,25 @@ describe("model building", () => {
 });
 
 describe("thinking levels, as pi's own functions see them", () => {
-  test("curated models offer exactly off and low", () => {
+  test("curated models on chat offer exactly off and low", () => {
     for (const model of buildModels("openai-completions", BASE_URL)) {
       assert.equal(model.reasoning, true);
       assert.deepEqual(getSupportedThinkingLevels(model), ["off", "low"]);
     }
+  });
+
+  test("on Responses, 2.5-family models hide off (no switch zeroes their reasoning there) and 2.0 keeps it", () => {
+    // Measured 2026-10-24 (DD-B5/B6/B7/B8): on the Responses surface
+    // effort:none zeroes reasoning on LongCat-2.0 but NOT on LongCat-2.5-Preview
+    // (nor does any other token). Offering an "off" that silently bills
+    // reasoning is the exact lie the picker must not tell.
+    const models = buildModels("openai-responses", BASE_URL);
+    const preview = models.find((m) => m.id === "LongCat-2.5-Preview")!;
+    const two = models.find((m) => m.id === "LongCat-2.0")!;
+    assert.deepEqual(getSupportedThinkingLevels(preview), ["low"], "2.5 on Responses: only low is honest");
+    assert.deepEqual(getSupportedThinkingLevels(two), ["off", "low"], "2.0 on Responses: effort:none is measured to work");
+    assert.equal(clampThinkingLevel(preview, "off"), "low", "an explicit off request clamps UP — reasoning is billed either way on that pair");
+    assert.equal(clampThinkingLevel(two, "off"), "off", "2.0's off switch cannot be clamped away");
   });
 
   test("off survives clamping — the off switch cannot be clamped away", () => {

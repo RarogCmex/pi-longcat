@@ -127,24 +127,19 @@ export interface CatalogEntry {
  * unsupported, so pi clamps any higher request down to `low` instead of selling
  * a scale the provider does not have.
  *
- * `off` must be a STRING, never `null`, on every surface — that is what makes
- * the off switch reachable at all:
+ * `off` is a STRING on every model×surface pair where an off token was measured
+ * to work — that is what makes the off switch reachable at all:
  *   - chat (pi's `zai` thinking format): enable/disable comes from
  *     `!!options.reasoningEffort`, and pi turns the level "off" into
  *     `undefined` before the adapter (pi-ai openai-completions.js:527), so the
  *     map value is unused but its null-ness is not — `off: null` would hide the
  *     level and clamp requests UP to `low`, i.e. bill thinking the user turned
- *     off.
- *   - Responses: pi sends `reasoning: { effort: map.off ?? "none" }` when no
- *     level was requested (openai-responses.js:303-307). `"none"` zeroes
- *     reasoning on **LongCat-2.0** (2026-10-11: output 8 → 2, reasoning_tokens
- *     7 → 0; re-measured 0 on 2026-10-24). On **LongCat-2.5-Preview it is
- *     ignored** (2026-10-24: effort:none → reasoning_tokens 161; chat-style
- *     thinking:disabled on that surface → 299; both → 125 — no switch there
- *     zeroes reasoning). The map below is shared by both models and both
- *     surfaces; making it per-model×surface (off: null for 2.5 on responses,
- *     hiding a switch that does not work) is an open design decision recorded
- *     in README "What is not verified".
+ *     off. Measured working on BOTH models (`thinking:{"type":"disabled"}` →
+ *     no reasoning).
+ *   - Responses + LongCat-2.0: pi sends `reasoning: { effort: map.off ?? "none" }`
+ *     when no level was requested (openai-responses.js:303-307). `"none"`
+ *     zeroes reasoning on 2.0 (2026-10-11: output 8 → 2, reasoning_tokens 7 → 0;
+ *     re-measured 0 on 2026-10-24).
  *   - Anthropic (unregistered, kept for the record): pi emits
  *     `thinking: {type:"disabled"}` only when `map.off !== null`
  *     (anthropic-messages.js:914,978).
@@ -161,6 +156,46 @@ export const LONGCAT_THINKING: ThinkingLevelMap = {
   xhigh: null,
   max: null,
 };
+
+/**
+ * The ONE measured exception to "off is a string": the 2.5 family on the
+ * Responses surface has **no off switch at all** (2026-10-24, ledger DD-B5/B7/B8):
+ * `effort:"none"` → reasoning_tokens 161, chat-style `thinking:{"type":
+ * "disabled"}` → 299, both together → 125 — nothing zeroes reasoning there,
+ * while on 2.0 `effort:"none"` still zeroes (0 tokens, DD-B6).
+ *
+ * So `off: null` here is not the "bill thinking the user turned off" trap the
+ * LONGCAT_THINKING comment warns about — on this pair the reasoning is billed
+ * whatever the user picks. `null` makes pi's picker offer only `low`
+ * (`getSupportedThinkingLevels` drops null-mapped levels) and clamps an explicit
+ * "off" request UP to `low`; the adapter then omits `reasoning` entirely when no
+ * level is requested (`thinkingLevelMap?.off !== null` guard,
+ * openai-responses.js:303), leaving the gateway's think-by-default. Honest UI:
+ * a switch that does nothing is worse than no switch. Operator decision
+ * 2026-10-24.
+ */
+export const LONGCAT_THINKING_RESPONSES_25: ThinkingLevelMap = {
+  off: null,
+  minimal: null,
+  low: "low",
+  medium: null,
+  high: null,
+  xhigh: null,
+  max: null,
+};
+
+/**
+ * Which level map a model gets on a given surface. Keyed on the 2.5 FAMILY
+ * regex (same convention as `guessContext` in models.ts): the broken off switch
+ * was measured on LongCat-2.5-Preview, and an unmeasured future 2.5-x id on
+ * Responses inherits "no off offered" rather than a token nobody verified —
+ * publishing an unverified off switch is exactly what this catalog refuses
+ * elsewhere.
+ */
+export function thinkingLevelsFor(id: string, api: GatewayApi, levels: ThinkingLevelMap): ThinkingLevelMap {
+  if (api === "openai-responses" && /^longcat-2\.5/i.test(id)) return LONGCAT_THINKING_RESPONSES_25;
+  return levels;
+}
 
 /**
  * Measured caveat that belongs next to any "supports images" claim.
