@@ -1,6 +1,6 @@
 {
   "name": "@rarogcmex/pi-longcat",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "LongCat (Meituan) provider for pi \u2014 LongCat-2.5-Preview / LongCat-2.0 on api.longcat.chat, 1M context, CNY-derived USD pricing, measured thinking on/off switch, in-band HTTP-200 error remediation, /login and a live listing overlay.",
   "type": "module",
   "license": "MIT",

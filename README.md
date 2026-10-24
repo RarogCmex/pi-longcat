@@ -282,7 +282,12 @@ mapped, each with its evidence in `research/probe-ledger.md`:
    doc's "image URLs must be publicly accessible" hints base64 data-urls are
    second-class there. The harness colour check is chat-only because of it;
    users who paste screenshots should set `LONGCAT_SURFACE=chat` until the
-   gateway behaves. This is the known cost of the new default — **accepted by
+   gateway behaves — and since 2026-10-24 the plugin tells them so at runtime:
+   a run that starts with attached images on this surface fires a
+   once-per-session `ui.notify` warning (`before_agent_start`, hasUI-gated,
+   deduped by session id; offline-tested via the fake-pi suite — the live TUI
+   notify path is unverified like every other UI surface here). This is the
+   known cost of the new default — **accepted by
    the operator on 2026-10-24**: text-only work is the primary use case for
    this provider ("в основном работа без картинок"), so the flip stays and
    image-heavy sessions opt into chat. The defect is not downgraded anywhere:
@@ -732,6 +737,21 @@ hit at ~10 s pacing over 90 requests.
 All dates are 2026-10 unless noted. "Free" means the gateway rejected the request
 or performed no inference; the ledger is the checkable form of that claim.
 
+**Image-vision warning (2026-10-24, operator request)** — after the DD3 finding
+that Responses-surface vision is unreliable, the operator asked for a warning at
+read time. `index.ts` now registers a `before_agent_start` handler — but **only
+when the Responses surface is active** (on chat, vision is 4/4 and a warning
+would train the user to ignore warnings). It fires `ctx.ui.notify(…, "warning")`
+when a run starts with `images` attached to a `messageType:"user"` prompt on this
+provider's Responses model, telling the user the readout is suspect and naming
+`LONGCAT_SURFACE=chat`. Gated on `ctx.hasUI` (print/json stay silent, same P51
+guard as the turn_end entries), deduped per session id (an image-heavy session is
+not a wall of toasts), and scoped by `ctx.model.provider`/`.api` so a user who
+switched to another provider is not warned. Offline-only change: **146 tests**
+green (+5: the hook-set pair and a 4-case warning describe), typecheck exit 0. No
+live calls — the notify path is UI-side; the underlying vision defect it warns
+about is DD3 (already in the ledger).
+
 **Default-surface switch (2026-10-24, operator decision)** —
 `DEFAULT_SURFACE` flipped from `openai-completions` to `openai-responses`, and
 the 2.5 family's dead `off` switch was hidden on that surface
@@ -1008,8 +1028,10 @@ Stated plainly, so no untested claim reads as a tested one.
   print/json error paths, `auth check`, level clamping) and the billed half
   (generations, multi-turn tool loops with thinking on) both ran on 2026-10-11 —
   see the verification log. What is still unverified: every TUI path, including
-  the persistent `turn_end` help entry (covered only by the fake-pi test, which
-  reproduces pi's in-place replacement sequencing), an interactive `/login`
+  the persistent `turn_end` help entry and the new `before_agent_start`
+  image-vision `notify` (both covered only by the fake-pi test, which reproduces
+  pi's in-place replacement sequencing and the notify call respectively — neither
+  was seen render in a real TUI), an interactive `/login`
   against the real gateway, and thinking switched *inside* a session rather than
   via `--thinking`.
 - **Caching, remaining unknowns.** The TTL lower bound is 15 minutes (not an upper
@@ -1136,7 +1158,7 @@ catalog.ts    pure data + provenance, the exclusion list, isKnownId
 models.ts     catalog -> pi Model: currency, compat, surface/base-URL resolution
 discovery.ts  live overlay: never throws, bounded, additive, unknowns-only
 errors.ts     in-band re-statusing + three narrow rewrites
-test/         offline suite (139 tests) + the no-network preload + generated fixtures
+test/         offline suite (146 tests) + the no-network preload + generated fixtures
 live/check.ts the live harness (free by default, --billed opt-in, asserting ledger)
 research/     docs capture, probe bodies, notes, ledger, the research probe runners
 scripts/      link-pi, fixture/README/ledger generators

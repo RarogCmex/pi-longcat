@@ -1,7 +1,7 @@
 /**
  * Fake-pi entry test: proves the wiring in `index.ts` without a real pi process.
  *
- * Three things only this layer can prove:
+ * Four things only this layer can prove:
  *  1. the extension registers exactly one provider, on the surface the env var
  *     asks for, and constructs only that adapter;
  *  2. the hook set is exactly the intended one, and the single
@@ -15,7 +15,11 @@
  *     which is why the persistent-entry predicates must recognize our own
  *     rewrite (pitfalls P51), and why the entry is gated on `ctx.hasUI`
  *     (appending an entry after the errored assistant message makes `pi -p`
- *     print nothing at all).
+ *     print nothing at all);
+ *  4. the image-vision warning (added 2026-10-24, Responses surface only) is
+ *     gated the same way and deduped per session — the DD3 measurement says
+ *     vision there is unreliable, and the warning is how a user learns it
+ *     without reading the README first.
  */
 import assert from "node:assert/strict";
 import test, { describe, beforeEach } from "node:test";
@@ -171,13 +175,24 @@ describe("registration", () => {
     } finally { loaded.restore(); }
   });
 
-  test("the hook set is exactly the three intended events, and no commands", async () => {
+  test("the hook set is exactly the intended events, and no commands", async () => {
     loaded = await load();
     try {
       const events = [...loaded.pi.handlers.keys()].sort();
-      assert.deepEqual(events, ["before_provider_request", "message_end", "turn_end"]);
+      // before_agent_start is registered ONLY on the Responses surface (default
+      // since 2026-10-24), where it carries the image-vision warning.
+      assert.deepEqual(events, ["before_agent_start", "before_provider_request", "message_end", "turn_end"]);
       assert.equal(loaded.pi.handlers.get("before_provider_request")?.length, 1, "exactly one payload handler");
+      assert.equal(loaded.pi.handlers.get("before_agent_start")?.length, 1, "exactly one image-warning handler");
       assert.deepEqual(Object.keys(loaded.pi.commands), [], "no commands: this plugin is a provider, not a UI");
+    } finally { loaded.restore(); }
+  });
+
+  test("the image-warning hook is NOT registered on the chat surface (vision is reliable there)", async () => {
+    loaded = await load({ LONGCAT_SURFACE: "chat" });
+    try {
+      const events = [...loaded.pi.handlers.keys()].sort();
+      assert.deepEqual(events, ["before_provider_request", "message_end", "turn_end"], "no before_agent_start on chat");
     } finally { loaded.restore(); }
   });
 
@@ -400,6 +415,84 @@ describe("turn_end persistent help", () => {
         { hasUI: true },
       );
       assert.equal((result?.entries ?? []).length, 1);
+    } finally { loaded.restore(); }
+  });
+});
+
+describe("the image-vision warning (Responses surface only, operator request 2026-10-24)", () => {
+  let loaded: Awaited<ReturnType<typeof load>>;
+  beforeEach(() => { loaded?.restore(); });
+
+  const PNG = { type: "image", data: "aGk=", mimeType: "image/png" };
+  const imageEvent = (images: unknown[] | undefined) => ({
+    type: "before_agent_start",
+    messageType: "user",
+    prompt: images?.length ? "What is in this image?" : "hi",
+    images,
+  });
+  const ctxFor = (notified: string[], model: any, opts: { hasUI?: boolean; sessionId?: string } = {}) =>
+    ({
+      hasUI: opts.hasUI ?? true,
+      ui: { notify: (msg: string, level?: string) => { notified.push(level ? `[${level}] ${msg}` : msg); } },
+      model,
+      sessionManager: opts.sessionId === undefined ? undefined : { getSessionId: () => opts.sessionId },
+    }) as any;
+
+  test("an attached image warns once per session on the default surface, naming the chat escape hatch", async () => {
+    loaded = await load();
+    try {
+      const model = loaded.pi.registered[0].getModels()[0]; // LongCat-2.5-Preview on openai-responses
+      assert.equal(model.api, "openai-responses");
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "sess-a" }));
+      assert.equal(loaded.notified.length, 1);
+      assert.match(loaded.notified[0]!, /^\[warning\]/);
+      assert.match(loaded.notified[0]!, /LONGCAT_SURFACE=chat/, "the escape hatch must be named");
+      assert.match(loaded.notified[0]!, /unreliable/i, "the measured verdict, not a vague hedge");
+      // Deduped: a second image run in the same session stays silent…
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "sess-a" }));
+      assert.equal(loaded.notified.length, 1, "once per session — an image-heavy session must not be a wall of toasts");
+      // …and a different session gets its own warning.
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "sess-b" }));
+      assert.equal(loaded.notified.length, 2);
+    } finally { loaded.restore(); }
+  });
+
+  test("silent exactly when it must be: no images, custom runs, other providers, chat surface, no UI", async () => {
+    loaded = await load();
+    try {
+      const model = loaded.pi.registered[0].getModels()[0];
+      const otherProvider = { provider: "anthropic", api: "anthropic-messages", id: "claude-x" };
+      loaded.pi.emit("before_agent_start", imageEvent(undefined), ctxFor(loaded.notified, model, { sessionId: "s1" }));
+      loaded.pi.emit("before_agent_start", imageEvent([]), ctxFor(loaded.notified, model, { sessionId: "s1" }));
+      loaded.pi.emit("before_agent_start", { type: "before_agent_start", messageType: "custom", message: {} }, ctxFor(loaded.notified, model, { sessionId: "s1" }));
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, otherProvider, { sessionId: "s1" }));
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, { ...model, api: "openai-completions" }, { sessionId: "s1" }));
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "s1", hasUI: false }));
+      assert.deepEqual(loaded.notified, [], "none of these may warn");
+      // And none of them consumed the session dedupe: the real case still warns.
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "s1" }));
+      assert.equal(loaded.notified.length, 1);
+    } finally { loaded.restore(); }
+  });
+
+  test("without a session manager the warning still fires, deduped on the fallback key", async () => {
+    loaded = await load();
+    try {
+      const model = loaded.pi.registered[0].getModels()[0];
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model));
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model));
+      assert.equal(loaded.notified.length, 1);
+    } finally { loaded.restore(); }
+  });
+
+  test("a chat-surface registration has no handler at all — silence by construction", async () => {
+    loaded = await load({ LONGCAT_SURFACE: "chat" });
+    try {
+      const model = loaded.pi.registered[0].getModels()[0];
+      assert.equal(model.api, "openai-completions");
+      const result = loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "s" }));
+      assert.equal(result, undefined);
+      assert.deepEqual(loaded.notified, []);
     } finally { loaded.restore(); }
   });
 });

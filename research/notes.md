@@ -361,6 +361,15 @@ Operator: "переходим на responses по умолчанию (если �
    sessions opt into `LONGCAT_SURFACE=chat`. The defect stays recorded (not
    downgraded); a future gateway fix should re-run DD3 before relaxing the
    caveat.
+   **Follow-up (operator, same day): "Предлагаю добавить сообщение-
+   предупреждение при чтении картинок"** — implemented as a `before_agent_start`
+   handler registered ONLY on the Responses surface: a run starting with
+   attached images on a longcat model there fires a once-per-session
+   `ui.notify(…, "warning")` naming the DD3 measurement and the
+   `LONGCAT_SURFACE=chat` escape hatch. hasUI-gated (print/json silent),
+   session-id deduped, provider+api scoped. Offline-tested (5 fake-pi cases,
+   146 total green); the live TUI notify render is unverified like every other
+   UI path here. v0.3.0.
 4. Residual risk (recorded in README "What is not verified"): long sessions,
    compaction, deeper multi-turn, the dead cap oracle, and now the vision
    defect above on the new default; `LONGCAT_SURFACE=chat` keeps the working

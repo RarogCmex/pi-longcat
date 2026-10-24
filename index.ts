@@ -17,7 +17,9 @@
  *     it answers some failures with HTTP 200 + an in-band error body (hence
  *     `withGatewayErrorRemediation`), and LongCat-2.5-Preview has NO working
  *     thinking-off switch on it (measured) — so that model×surface pair offers
- *     only the `low` level instead of selling a dead "off".
+ *     only the `low` level instead of selling a dead "off". Its vision through
+ *     base64 images is also measured unreliable (1/6 vs 4/4 on chat, DD3), so a
+ *     run that starts with images gets a once-per-session warning (below).
  *   - `POST /openai/v1/chat/completions` — `LONGCAT_SURFACE=chat`. Documented,
  *     enforces the output cap (131073 → 400 naming 131072), answers failures
  *     with real HTTP statuses, and its `thinking:{"type":"disabled"}` switch is
@@ -181,6 +183,41 @@ export default function (pi: ExtensionAPI) {
   const { api, requested, recognized, unavailable } = resolveSurface();
   const streams = api === "openai-responses" ? openAIResponsesApi() : openAICompletionsApi();
   pi.registerProvider(buildLongCatProvider(api, withGatewayErrorRemediation(streams)));
+
+  // The vision caveat surfaced where it bites (operator request, 2026-10-24):
+  // image reading on the Responses surface is measured UNRELIABLE (DD3: a green
+  // 256×256 png read correctly 1/6 vs 4/4 on chat — "Blue", "teal", truncations),
+  // so a run that starts with attached images gets told — once per session —
+  // that the readout is suspect and how to get reliable vision. Registered ONLY
+  // when the Responses surface is active: on chat the same probe is 4/4 and a
+  // warning there would train the user to ignore warnings. before_agent_start is
+  // the one pre-request event that carries the user's images (messageType union
+  // since pi 1.2.0; on an older host the guard simply never matches, and the
+  // plugin's verified floor is 1.4.0). hasUI-gated like every notification path
+  // here (print/json stay silent — P51), session-id-deduped so an image-heavy
+  // session is not a wall of toasts.
+  if (api === "openai-responses") {
+    const imageWarnedSessions = new Set<string>();
+    pi.on("before_agent_start", (event, ctx) => {
+      if (event.messageType !== "user") return;
+      if (!event.images?.length) return;
+      // before_agent_start fires for EVERY run, whatever model is active: a
+      // user who switched to another provider must not get LongCat's warning.
+      if (ctx.model?.provider !== PROVIDER_ID) return;
+      if (ctx.model?.api !== "openai-responses") return; // chat reads images 4/4 — nothing to warn about
+      if (!ctx.hasUI) return;
+      const session = ctx.sessionManager?.getSessionId() ?? "(no session id)";
+      if (imageWarnedSessions.has(session)) return;
+      imageWarnedSessions.add(session);
+      ctx.ui.notify(
+        "LongCat: image reading on the Responses surface is measured unreliable " +
+          "(a green image read as blue/teal in 5 of 6 runs; chat reads it 4/4). " +
+          "Treat the model's description of attached images as suspect — for " +
+          "image-heavy work, restart with LONGCAT_SURFACE=chat.",
+        "warning",
+      );
+    });
+  }
 
   // A typo'd or unservable surface must not pass silently: there is no notify at
   // registration time (`ui` lives on the handler context), so the warning rides
