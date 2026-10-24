@@ -14,6 +14,9 @@ Endpoints ​
 Chat Completions →
  OpenAI-compatible format, POST /openai/v1/chat/completions.
 
+Responses API →
+ OpenAI Responses format, POST /openai/v1/responses, with multi-turn conversations and tool calling.
+
 Anthropic Messages →
  Anthropic Claude format, POST /anthropic/v1/messages.
 
@@ -22,6 +25,9 @@ List Models →
 
 Retrieve Model →
  Retrieve model details, GET /v1/models/{model}.
+
+Model Parameters →
+ Compare default values, adjustable ranges, and constraints of each model.
 
 Error Responses ​
 The API uses conventional HTTP response codes to indicate success or failure:

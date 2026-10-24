@@ -16,13 +16,13 @@ Rules (pi-provider-plugin Phase 5, pitfalls L35/L41/L42):
 
 | | |
 |---|---|
-| ledger rows | 251 |
-| calls that generated (BILLED) | 188 |
-| input tokens bought | 177739 |
-| output tokens bought | 34305 |
-| **total spend** | **¥0.579425 ≈ $0.086157** |
+| ledger rows | 329 |
+| calls that generated (BILLED) | 232 |
+| input tokens bought | 183085 |
+| output tokens bought | 40071 |
+| **total spend** | **¥0.636043 ≈ $0.094576** |
 | accepted rows whose usage was never captured | 3 — C3b-microcoding-2.5-16k, CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
-| rows planned "free" that came back accepted and generated (L35 audit) | 2 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic |
+| rows planned "free" that came back accepted and generated (L35 audit) | 6 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic, DD-A8-budget-over, DD-A9-temp-1.5, live-temperature-drift-run1, live-temperature-drift-run2 |
 
 Rows whose usage was never captured are named above and are **not** estimated —
 the house rule is "not captured" rather than a plausible number. Three classes
@@ -38,7 +38,7 @@ an invalid `thinking.type` planned as a guaranteed rejection and accepted+billed
 
 | key | rows | billed rows | input tokens | output tokens | ¥ | ~$ |
 |---|---|---|---|---|---|---|
-| KEY1 | 127 | 110 | 55489 | 1043 | 0.074415 | 0.011065 |
+| KEY1 | 205 | 154 | 60835 | 6809 | 0.131033 | 0.019484 |
 | KEY1..KEY9 | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | KEY1/garbage/none | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | KEY2 | 21 | 21 | 3884 | 1117 | 0.012188 | 0.001812 |
@@ -313,6 +313,84 @@ the two are never averaged together.
 | 0 | `live/inband-retrieve` | KEY9 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
 | 0 | `live/inband-responses` | KEY9 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
 | 0 | `live/overflow-probe (not run)` | KEY9 | openai-completions | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 169 | `DD-A1-listing` | KEY1 | GET | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 170 | `DD-A2-detail-2.5` | KEY1 | GET | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 171 | `DD-A3-detail-2.0` | KEY1 | GET | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 172 | `DD-A4-topp-2` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 173 | `DD-A5-topk-101` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 174 | `DD-A6-reppen-1.6` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 175 | `DD-A7-multi-violation` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 176 | `DD-A8-budget-over` | KEY1 | openai-completions | 200 | BILLED | 14 | 4 | 0 | 0.00006000 |
+| 177 | `DD-A9-temp-1.5` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 178 | `DD-A9-temp-1.5` | KEY1 | openai-completions | 200 | BILLED | 14 | 4 | 0 | 0.00006000 |
+| 179 | `DD-B1-budget32` | KEY1 | openai-completions | 200 | BILLED | 38 | 151 | 0 | 0.00128400 |
+| 180 | `DD-B2-nobudget` | KEY1 | openai-completions | 200 | BILLED | 38 | 178 | 0 | 0.00150000 |
+| 181 | `DD-B3-budget256` | KEY1 | openai-completions | 200 | BILLED | 38 | 229 | 0 | 0.00190800 |
+| 182 | `DD-B4-off-budget32` | KEY1 | openai-completions | 200 | BILLED | 41 | 5 | 0 | 0.00012200 |
+| 183 | `DD-B5-effort-none` | KEY1 | openai-responses | 200 | BILLED | 38 | 168 | 0 | 0.00142000 |
+| 184 | `DD-B5-effort-minimal` | KEY1 | openai-responses | 200 | BILLED | 38 | 184 | 0 | 0.00154800 |
+| 185 | `DD-B5-effort-low` | KEY1 | openai-responses | 200 | BILLED | 38 | 132 | 0 | 0.00113200 |
+| 186 | `DD-B5-effort-medium` | KEY1 | openai-responses | 200 | BILLED | 38 | 53 | 0 | 0.00050000 |
+| 187 | `DD-B5-effort-high` | KEY1 | openai-responses | 200 | BILLED | 38 | 163 | 0 | 0.00138000 |
+| 188 | `DD-B5-effort-xhigh` | KEY1 | openai-responses | 200 | BILLED | 38 | 152 | 0 | 0.00129200 |
+| 189 | `DD-B6-effort20-none` | KEY1 | openai-responses | 200 | BILLED | 41 | 5 | 0 | 0.00012200 |
+| 190 | `DD-B6-effort20-low` | KEY1 | openai-responses | 200 | BILLED | 38 | 125 | 0 | 0.00107600 |
+| 191 | `DD-B7-resp25-thinking-disabled` | KEY1 | openai-responses | 200 | BILLED | 38 | 306 | 0 | 0.00252400 |
+| 192 | `DD-B8-resp25-effortnone-thinking-disabled` | KEY1 | openai-responses | 200 | BILLED | 38 | 132 | 0 | 0.00113200 |
+| 193 | `DD-C1-c3-budgeted` | KEY1 | openai-completions | 200 | BILLED | 184 | 2336 | 0 | 0.01905600 |
+| 194 | `DD-C1-score` | KEY1 | local | n/a | free (rejected/no inference) | – | – | – | 0 |
+| 195 | `DD-C2-c3-thinking-off` | KEY1 | openai-completions | 200 | BILLED | 187 | 1165 | 128 | 0.00944312 |
+| 196 | `DD-C2-score` | KEY1 | local | n/a | free (rejected/no inference) | – | – | – | 0 |
+| 197 | `live-temperature-drift-run1` | KEY1 | openai-completions | 200 | BILLED | 20 | 4 | 0 | 0.00004800 |
+| 198 | `live-temperature-drift-run2` | KEY1 | openai-completions | 200 | BILLED | 20 | 4 | 0 | 0.00004800 |
+| 0 | `live/listing` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/top-p-range` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | KEY1 | openai-completions | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | KEY1 | openai-completions | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/liveness` | KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-off` | KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-on` | KEY1 | openai-completions | 200 | BILLED | 23 | 31 | 0 | 0.00029400 |
+| 0 | `live/temperature-override` | KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/tool-roundtrip` | KEY1 | openai-completions | 200 | BILLED | 173 | 16 | 0 | 0.00047400 |
+| 0 | `live/image-colour` | KEY1 | openai-completions | 200 | BILLED | 111 | 42 | 0 | 0.00055800 |
+| 0 | `live/cache-key-warm` | KEY1 | openai-completions | 200 | BILLED | 756 | 2 | 0 | 0.00152800 |
+| 0 | `live/cache-key-changed-tail` | KEY1 | openai-completions | 200 | BILLED | 116 | 2 | 640 | 0.00027360 |
+| 0 | `live/cache-key-control-unkeyed` | KEY1 | openai-completions | 200 | BILLED | 756 | 2 | 0 | 0.00152800 |
+| 0 | `live/cache-warm` | KEY1 | openai-completions | 200 | BILLED | 359 | 2 | 0 | 0.00073400 |
+| 0 | `live/cache-hit` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/listing` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/top-p-range` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | KEY1 | openai-responses | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | KEY1 | openai-responses | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/liveness` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 45 | 0 | 0.00040600 |
+| 0 | `live/temperature-override` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/tool-roundtrip` | KEY1 | openai-responses | 200 | BILLED | 179 | 16 | 0 | 0.00048600 |
+| 0 | `live/image-colour` | KEY1 | openai-responses | 200 | BILLED | 112 | 52 | 0 | 0.00064000 |
+| 0 | `live/cache-key-warm` | KEY1 | openai-responses | 200 | BILLED | 757 | 2 | 0 | 0.00153000 |
+| 0 | `live/cache-key-changed-tail` | KEY1 | openai-responses | 200 | BILLED | 117 | 2 | 640 | 0.00027560 |
+| 0 | `live/cache-key-control-unkeyed` | KEY1 | openai-responses | 200 | BILLED | 117 | 2 | 640 | 0.00027560 |
+| 0 | `live/cache-warm` | KEY1 | openai-responses | 200 | BILLED | 359 | 2 | 0 | 0.00073400 |
+| 0 | `live/cache-hit` | KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/responses-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/responses-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 30 | 0 | 0.00028600 |
 
 ## What each row was for
 
@@ -567,3 +645,81 @@ the two are never averaged together.
 - **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts free run
 - **0 `live/inband-responses`** (cap asked: -5) — live/check.ts free run
 - **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts free run
+- **169 `DD-A1-listing`** (no inference) — drift: does the listing still hold exactly 2.5-Preview + 2.0
+- **170 `DD-A2-detail-2.5`** (no inference) — drift: window/modality/pricing/supported_parameters for LongCat-2.5-Preview
+- **171 `DD-A3-detail-2.0`** (no inference) — drift: window/modality/pricing/supported_parameters for LongCat-2.0
+- **172 `DD-A4-topp-2`** (max_tokens 4 (rejection expected)) — top_p range (0,1] validated? (new model-params page)
+- **173 `DD-A5-topk-101`** (max_tokens 4 (rejection expected)) — top_k range [-1,100] validated? (new model-params page)
+- **174 `DD-A6-reppen-1.6`** (max_tokens 4 (rejection expected)) — repetition_penalty range [1,1.5] validated? (new model-params page)
+- **175 `DD-A7-multi-violation`** (max_tokens 4 (rejection expected)) — does the 400 name EVERY violating parameter (docs now claim so) or only the first (measured 2026-10-10)?
+- **176 `DD-A8-budget-over`** (max_tokens 4 (rejection expected)) — is the NEW thinking_budget range-checked to <=262144?
+- **177 `DD-A9-temp-1.5`** (max_tokens - (rejection expected)) — temperature drift re-check: 400 (2026-10-10) vs accepted+overridden (docs 2026-10-24)
+- **178 `DD-A9-temp-1.5`** (max_tokens 4 (rejection expected)) — temperature drift re-check: 400 (2026-10-10) vs accepted+overridden (docs 2026-10-24)
+- **179 `DD-B1-budget32`** (max_tokens 200, arithmetic prompt, 120 s timeout) — does top-level thinking_budget=32 bound reasoning_tokens?
+- **180 `DD-B2-nobudget`** (max_tokens 200, arithmetic prompt, 120 s timeout) — control: same prompt, no budget — how many reasoning tokens does it want?
+- **181 `DD-B3-budget256`** (max_tokens 400, arithmetic prompt, 120 s timeout) — does a LARGER budget move the ceiling (32 vs 256 vs none)?
+- **182 `DD-B4-off-budget32`** (max_tokens 64, arithmetic prompt, 120 s timeout) — conflict cell: disabled + budget → disabled must win (no reasoning)
+- **183 `DD-B5-effort-none`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — Responses effort scale: does effort=none move reasoning_tokens?
+- **184 `DD-B5-effort-minimal`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — Responses effort scale: does effort=minimal move reasoning_tokens?
+- **185 `DD-B5-effort-low`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — Responses effort scale: does effort=low move reasoning_tokens?
+- **186 `DD-B5-effort-medium`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — Responses effort scale: does effort=medium move reasoning_tokens? (also summary:auto — does a summary arrive?)
+- **187 `DD-B5-effort-high`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — Responses effort scale: does effort=high move reasoning_tokens?
+- **188 `DD-B5-effort-xhigh`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — Responses effort scale: does effort=xhigh move reasoning_tokens?
+- **189 `DD-B6-effort20-none`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — control: effort=none on LongCat-2.0 — does the 2026-10-11 'none zeroes reasoning' finding still hold?
+- **190 `DD-B6-effort20-low`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — control: effort=low on LongCat-2.0 — does the 2026-10-11 'none zeroes reasoning' finding still hold?
+- **191 `DD-B7-resp25-thinking-disabled`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — Responses surface on 2.5-Preview: is there ANY switch that zeroes reasoning (effort:none is ignored)?
+- **192 `DD-B8-resp25-effortnone-thinking-disabled`** (max_output_tokens 512, arithmetic prompt, 120 s timeout) — Responses surface on 2.5-Preview: is there ANY switch that zeroes reasoning (effort:none is ignored)?
+- **193 `DD-C1-c3-budgeted`** (max_tokens 6144, 480 s timeout) — C3 microcoding on 2.5-Preview WITH thinking_budget 1024: does the budget bind and does the code still pass?
+- **194 `DD-C1-score`** (local node --test) — mechanical score of DD-C1-c3-budgeted (no API call)
+- **195 `DD-C2-c3-thinking-off`** (max_tokens 4096, 240 s timeout) — C3 microcoding on 2.5-Preview with thinking DISABLED under the new forced-0.7 policy: does the 8/9 C3c precedent still hold?
+- **196 `DD-C2-score`** (local node --test) — mechanical score of DD-C2-c3-thinking-off (no API call)
+- **197 `live-temperature-drift-run1`** (max_tokens 4) — live/check.ts free run: the temperature-range probe (temperature 1.5, max_tokens 4) was ACCEPTED — drift from the measured 400 of 2026-10-10; recorded here because LONGCAT_LIVE_LEDGER was not set
+- **198 `live-temperature-drift-run2`** (max_tokens 4) — live/check.ts free run: the temperature-range probe (temperature 1.5, max_tokens 4) was ACCEPTED — drift from the measured 400 of 2026-10-10; recorded here because LONGCAT_LIVE_LEDGER was not set
+- **0 `live/listing`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts --billed run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/top-p-range`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts --billed run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/liveness`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/temperature-override`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/tool-roundtrip`** (cap asked: 200) — live/check.ts --billed run
+- **0 `live/image-colour`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/cache-key-warm`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-changed-tail`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/listing`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts --billed run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/top-p-range`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts --billed run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/liveness`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/temperature-override`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/tool-roundtrip`** (cap asked: 200) — live/check.ts --billed run
+- **0 `live/image-colour`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/cache-key-warm`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-changed-tail`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/responses-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/responses-on`** (cap asked: 64) — live/check.ts --billed run

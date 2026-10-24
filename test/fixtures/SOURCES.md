@@ -15,7 +15,7 @@ key, HTTP status and cost class of the call that produced it.
 | `CAP3-chat-2.5-262145.json` | JSON body, recorded 2026-10-10/11 | cap oracle: 262145 rejected naming 262144 (2.5-Preview) |
 | `CAP4-chat-window-plus-1.json` | JSON body, recorded 2026-10-10/11 | the max_tokens check fires before any context check |
 | `neg-max_tokens-2.0.json` | JSON body, recorded 2026-10-10/11 | the validator discloses no upper bound for a negative value |
-| `PA3-temperature-range.json` | JSON body, recorded 2026-10-10/11 | temperature is range-checked to <= 1 (documented 0~1) |
+| `PA3-temperature-range.json` | JSON body, recorded 2026-10-10/11 | HISTORICAL as of 2026-10-24: temperature was range-checked to <= 1 when recorded; the gateway now ACCEPTS and overrides out-of-range values (api/model-params). Kept because errors.test.ts classifies the recorded body, and a 400 of this shape is still what top_p/top_k/repetition_penalty produce |
 | `unknown-model-chat.json` | JSON body, recorded 2026-10-10/11 | unknown id dialect: 400 invalid_parameter, not 404 |
 | `badkey-chat.json` | JSON body, recorded 2026-10-10/11 | 401 invalid_api_key / incorrect api key |
 | `nokey-chat.json` | JSON body, recorded 2026-10-10/11 | 401 invalid_api_key / missing_api_key |

@@ -74,7 +74,10 @@ Environment variables:
 check fires before any context check, so measuring the window needs a ~1M-token prompt
 (≈¥2 if accepted). That probe was **deliberately not run** — see "What is not verified".
 Output caps have no †: they come from cap-oracle rejections that named the ceiling
-(`131073 is not less or equal to 131072`, `262145 … 262144`; 2026-10-10, free).
+(`131073 is not less or equal to 131072`, `262145 … 262144`; 2026-10-10, free, re-run
+2026-10-24). The provider's own docs now agree: the `api/model-params` page added by
+2026-10-24 lists 262,144 (256K) for 2.5-Preview and 131,072 (128K) for 2.0, and the old
+"131072 for 2.5" claim on `api/chat` was replaced by a pointer to that page.
 
 USD columns are derived at the dated house rate ¥6.7252 = $1 (2026-09-15), overridable
 per session with `LONGCAT_CNY_PER_USD`. The platform bills CNY; it also publishes a USD
@@ -144,7 +147,7 @@ nothing, and this README's cap numbers come from rejections.
 **LongCat thinks by default, and the switch is a binary object, not an effort
 scale.**
 
-| probe (all 2026-10-10/11, chat surface, `max_tokens` 8 unless noted) | result |
+| probe (all 2026-10-10/11, chat surface, `max_tokens` 8 unless noted; 2026-10-24 rows marked) | result |
 |---|---|
 | no `thinking` field | `reasoning_content` present, `reasoning_tokens: 7` → **thinking is ON by default** |
 | `thinking: {"type":"enabled"}` | `reasoning_content` present |
@@ -152,7 +155,9 @@ scale.**
 | `thinking: {"type":"bogus"}` | accepted (200) and ignored → the vocabulary is not validated, so *acceptance proves nothing* here |
 | `thinking: {"type":"enabled","clear_thinking":false}` (pi's exact `zai` bytes) | accepted, reasoning present |
 | `reasoning_effort: "high"` | accepted, no observable difference; not in `supported_parameters` ⇒ **not sent** |
-| `thinking: {…,"budget_tokens":16}` with `max_tokens` 64 | **ignored**: output ran to 64 ⇒ no reasoning budget field, so none is declared |
+| `thinking: {…,"budget_tokens":16}` with `max_tokens` 64 | **ignored**: output ran to 64 |
+| `thinking_budget: 32 / 256 / 1024` (top-level — the field the new `api/model-params` page documents, 2026-10-24) | **ignored**: reasoning_tokens 144 / 222 / 1642 with no relation to the budget (2026-10-24, N=1 each); over-max `262145` was even **accepted** (200) despite the documented max 262144 ⇒ decorative like its predecessor, so still **no budget is declared** |
+| `temperature: 1.5` | **2026-10-24 drift**: ACCEPTED (200) and generated; it was a 400 on 2026-10-10. The docs now say temperature is fixed per thinking state (1.0 on / 0.7 off) and other values are *overridden, not rejected*; the applied value is not observable (no echo) |
 
 Consequences in code:
 
@@ -172,7 +177,15 @@ Consequences in code:
   user turned off. `test/models.test.ts` asserts this against pi's real
   `getSupportedThinkingLevels` / `clampThinkingLevel`.
 - On the Responses surface the same map drives `reasoning: {effort: "none"}`,
-  which was measured to zero reasoning (output 8 → 2). On the (unregistered)
+  which zeroes reasoning **on LongCat-2.0** (output 8 → 2, 2026-10-11;
+  re-measured reasoning_tokens 0, 2026-10-24). **On LongCat-2.5-Preview it is a
+  lie** (2026-10-24): `effort:"none"` → reasoning_tokens 161, chat-style
+  `thinking:{"type":"disabled"}` → 299, both together → 125 — *no switch zeroes
+  reasoning on that model×surface pair*, while the picker still offers "off".
+  Chat (the default surface) is unaffected: `thinking:{"type":"disabled"}`
+  zeroes reasoning on both models. Whether to hide `off` (`null`) for
+  2.5-Preview when `LONGCAT_SURFACE=responses` is an open design decision —
+  see "What is not verified". On the (unregistered)
   Anthropic surface it drives `thinking: {type:"disabled"}`, also measured
   honoured.
 
@@ -187,8 +200,11 @@ measure a switch by what it costs you elsewhere):
    `max_tokens: 8`, all 8 tokens went to reasoning and `content` was `null` —
    the answer never appeared. pi does not send `max_tokens` by default
    (`pi-agent-core` defaults it to 0 and the adapter omits the field), so this
-   only bites when a caller sets a small cap; the gateway offers no budget field
-   to bound reasoning with.
+   only bites when a caller sets a small cap. The gateway now *documents* a
+   top-level `thinking_budget` (api/model-params, captured 2026-10-24) but it is
+   **decorative**: budget 32 → `reasoning_tokens` 144, budget 1024 → 1642, and
+   over-max `262145` was accepted rather than rejected (2026-10-24). So there is
+   still no working bound on reasoning, and the plugin declares none.
 
 `reasoning_content` is parsed by pi into thinking blocks regardless of
 `model.reasoning`, which is why the live harness can assert the switch by counting
@@ -202,7 +218,7 @@ The gateway serves **three** wire surfaces. All three were probed live on
 | surface | endpoint | state as of 2026-10-11 | why |
 |---|---|---|---|
 | OpenAI Chat Completions | `POST /openai/v1/chat/completions` | **registered (default)** | documented; enforces the output cap; real HTTP statuses on failure; the thinking off switch works even with an image in the request |
-| OpenAI Responses | `POST /openai/v1/responses` | **registered behind `LONGCAT_SURFACE=responses`** | real but UNDOCUMENTED — found by probing (`m-spanname: OpenaiController.nativeResponses`; bogus subpaths under the same prefix 404, so it is a registered route, not a catch-all). Buys typed reasoning items and replay; costs four measured defects, below |
+| OpenAI Responses | `POST /openai/v1/responses` | **registered behind `LONGCAT_SURFACE=responses`** | real; found by probing before the platform documented it (`m-spanname: OpenaiController.nativeResponses`; bogus subpaths under the same prefix 404, so it is a registered route, not a catch-all). An official `api/responses` doc page exists as of the 2026-10-24 capture. Buys typed reasoning items and replay; costs four measured defects, below |
 | Anthropic Messages | `POST /anthropic/v1/messages` | **checked, works, deliberately NOT registered** | the gateway side is fine (streaming, `tool_use` blocks, thinking on/off all measured). The blocker is on pi's side: its Anthropic adapter authenticates with `x-api-key` (`pi-ai/dist/api/anthropic-messages.js:843-845`) and this gateway answers that header with `401 missing_api_key` (measured 2026-10-11, free). Registering it would need a header-injecting fetch wrapper for no capability the other two lack. `LONGCAT_SURFACE=anthropic` prints that reason instead of silently doing nothing |
 | `/openai/native/chat/completions` | – | **checked and absent (2026-10-10)** | the FAQ names this path; it 404s (`{"status":404,"path":"/openai/native/chat/completions"}`). Recorded so nobody re-adds it from the docs |
 | `/openai/v1/embeddings`, `GET /v1/models` at the host root | – | **checked and absent (2026-10-10)** | both 404 |
@@ -218,8 +234,13 @@ The house priority is "OpenAI Responses first", and it is normally right. On thi
 gateway the measurements say otherwise, and each line below is a recorded probe
 (`research/probe-ledger.md`):
 
-1. **It is undocumented.** The platform docs list two formats; `/responses` was
-   found by probing. An undocumented route can change without notice.
+1. **It was undocumented when chosen, and its documentation is thin.** The
+   platform docs listed two formats; `/responses` was found by probing
+   (2026-10-10). Since 2026-10-24 an official `api/responses` page exists
+   (documenting `reasoning:{effort,summary}`, flat tool shapes,
+   `prompt_cache_key`, structured outputs and "no `[DONE]` marker"), which
+   removes the "can change without notice" objection — but the three measured
+   defects below predate it and none was fixed by it.
 2. **It does not enforce the output cap.** `max_output_tokens: 131073` was
    *accepted* for a model whose cap is 131072 (and a streaming request with
    `max_output_tokens: -1` was accepted too, then failed as an SSE
@@ -233,10 +254,15 @@ gateway the measurements say otherwise, and each line below is a recorded probe
    transient, so a permanent error would burn the whole retry budget. `errors.ts`
    re-statuses those bodies, but this surface is the only reason that wrapper
    exists.
-4. **Its thinking off switch fails with an image present.** `reasoning:
-   {"effort":"none"}` zeroed reasoning for a text-only request (output 8 → 2) but
-   not for one carrying an image (output 8, `reasoning_tokens: 7`), while chat's
-   `thinking:{"type":"disabled"}` kept working with the same image.
+4. **Its thinking off switch fails with an image present — and on
+   LongCat-2.5-Preview it fails outright.** `reasoning: {"effort":"none"}`
+   zeroed reasoning for a text-only 2.0 request (output 8 → 2) but not for one
+   carrying an image (output 8, `reasoning_tokens: 7`), while chat's
+   `thinking:{"type":"disabled"}` kept working with the same image. On 2026-10-24
+   the text-only exemption died for 2.5-Preview: `effort:"none"` → 161 reasoning
+   tokens, chat-style `thinking:{"type":"disabled"}` on this surface → 299, both
+   together → 125. **No switch zeroes reasoning for 2.5-Preview on Responses**,
+   while 2.0's `effort:"none"` still does (0 tokens). Chat keeps working for both.
 5. **The usual Responses advantage is not one here.** Cache accounting that
    reports hits works on the chat surface too: `cached_tokens` 768 of 836 on the
    second of two identical requests (2026-10-11).
@@ -466,11 +492,18 @@ vacuous self-test cannot produce a pass.
 | C3d | 2.5-Preview | on | 16384 | own tests **11/11**; **independent 9/9 PASS** (out 8439, reasoning 7692, 217 s) |
 | C3c | 2.5-Preview | **off** | 4096 | independent 8/9 — its module throws `Invalid duration part: "1h30m"` (compounds unsupported) |
 | C3 r1 | 2.5-Preview | on | 4096 | **invalid**: reasoning 4095 of 4096, no code block |
+| DD-C1 (2026-10-24) | 2.5-Preview | on (+`thinking_budget` 1024 — ignored, reasoning 1642) | 6144 | **independent 9/9 PASS**; own tests 5/6 — the failure is the model's own arithmetic: its test expected `parseDuration("2D 6h 15m 10s 250ms") === 194110250`, correct is **195310250** (out 2336, ¥0.019) |
+| DD-C2 (2026-10-24) | 2.5-Preview | **off** | 4096 | own tests **14/14**; **independent 9/9 PASS** (out 1165, ¥0.009) — compounds now work; the C3c failure does not reproduce |
 
-Two honest readings: both models can produce a correct module, but only when the
-output budget covers the reasoning; and the cheap setting (2.5-Preview with thinking
-off, ¥0.005 vs ¥0.068) is the one that got compounds wrong — a ~13× cost difference
-between the two cells that both "produce code".
+Three honest readings (dates matter — this task's outcome moved): both models can
+produce a correct module, but on 2026-10-11 only when the output budget covered
+the reasoning; the cheap setting (2.5-Preview, thinking off) got compounds wrong
+that day (C3c, ¥0.005 vs ¥0.068 for C3d) yet on 2026-10-24 the SAME setting
+passed everything (DD-C2) at half the cost of thinking-on (DD-C1) — candidate
+causes: the documented switch to forced temperature 0.7 with thinking off, model
+drift, or variance (N=1 each, not separable). And DD-C1 adds a failure mode the
+independent suite exists for: the module was perfect while the model's OWN test
+asserted a miscalculated expected value — never trust a self-test oracle.
 
 ### 4. Harness dependence (review: eesel.ai on 2.0 — "quality depends on the harness")
 
@@ -670,6 +703,39 @@ hit at ~10 s pacing over 90 requests.
 All dates are 2026-10 unless noted. "Free" means the gateway rejected the request
 or performed no inference; the ledger is the checkable form of that claim.
 
+**Doc-drift round (2026-10-24)** — operator request: "посмотреть свежую
+документацию, особенно LongCat-2.5-Preview; проверить reasoning-режимы, качество
+кода". All twelve doc pages re-captured and diffed against the 2026-10-10 set:
+**two NEW pages** (`api/responses` — the surface is officially documented now;
+`api/model-params` — per-model caps and parameter ranges), `api/chat` /
+`api/messages` / `api-docs` / `api/models` updated around them, change-log /
+FAQ / pricing unchanged. Probes: `research/probe-docdrift.ts`, ledger rows
+`DD-*` — 28 rows, 18 billed, **¥0.0456 (~$0.0068)** on KEY1, plus two
+`live-temperature-drift-run*` rows (¥0.000048 each) from the two free harness
+runs that caught the drift by failing. Findings, each with its rows in
+`research/notes.md` §9: temperature switched from rejected to **accepted +
+overridden** (the free harness check moved to the billed section and the free
+validator check is now `top_p: 2` → 400, measured still rejected); the validator
+now names **every** violation in one 400 (was: first only); `top_p`/`top_k`/
+`repetition_penalty` ranges are enforced (free 400s) but absent from
+`supported_parameters`; the newly documented `thinking_budget` is **decorative**
+(budget 32 → reasoning_tokens 144; over-max 262145 accepted); on the Responses
+surface **LongCat-2.5-Preview has no working off switch** (`effort:"none"` → 161
+reasoning tokens, `thinking:{"type":"disabled"}` → 299, both → 125) while 2.0's
+`effort:"none"` still zeroes (0) — and reasoning-off arithmetic went WRONG on
+both models (3251 / 3747 vs 3317), reasoning-on was 8/8 correct; the documented
+effort scale none…xhigh is non-monotonic noise on 2.5-Preview (161/177/125/46/
+156/145); microcoding re-run: thinking-on **9/9** independent (own test
+miscalculated its own expected value), thinking-**off** 9/9 + own 14/14 — the
+2026-10-11 "off breaks compounds" result did not reproduce. Listing, prices,
+caps, modalities, auth paths, image floor and both in-band-200 paths: unchanged
+(re-verified free the same day). After the harness fix, both variants re-ran
+green: chat **18/18, ¥0.005826**; `LONGCAT_SURFACE=responses` **19/19,
+¥0.005137** (its effort:none check runs on LongCat-2.0, where the switch still
+works; a 2.5-Preview off-switch check on that surface would fail by design of
+the gateway, not of the harness). Day total: 78 ledger rows, 44 billed,
+**¥0.0566 (~$0.0084)**.
+
 **pi 1.4.0 re-verification (2026-10-22)** — the host on this machine moved from
 1.1.0 to 1.4.0. Offline: `npm run typecheck` (global `tsc` 7.1.0-dev.20260823.1)
 exit 0 against the symlinked pi 1.4.0 types, and **139 tests / 31 suites** green
@@ -737,19 +803,25 @@ auto-detect negative control, and the hook's additive-only guarantee).
 `GET /models/{id}` still agrees on window, modalities and all three prices (a
 drift detector for the catalog); the cap sweep still gets 400s naming 131072 and
 262144 (and fails loudly if a cap probe is ever *accepted*, since that would mean
-billed and undisclosed); unknown model → 400 `invalid_parameter`; `temperature:
-1.5` → 400; an 8×8 image → 400 naming the 256 px floor; a garbage key → 401
-end-to-end **through the shipped wrapper**, non-retryable, and matched by the
-`message_end` rewrite; both in-band-200 paths still re-status to 400.
+billed and undisclosed); unknown model → 400 `invalid_parameter`; an 8×8 image →
+400 naming the 256 px floor; a garbage key → 401 end-to-end **through the shipped
+wrapper**, non-retryable, and matched by the `message_end` rewrite; both
+in-band-200 paths still re-status to 400. (The `temperature: 1.5 → 400` check
+this list carried until 2026-10-24 caught real drift — the gateway now accepts
+and overrides — so the free validator check is `top_p: 2 → 400` and the
+temperature acceptance lives in the billed section.)
 
-**Live, billed-mode harness** (`node live/check.ts --billed`) — five accepted-call
-checks on top of the free ones (plus one that runs only when the Responses surface
-is registered), green on 2026-10-11: liveness through the shipped wrapped adapter
+**Live, billed-mode harness** (`node live/check.ts --billed`) — accepted-call
+checks on top of the free ones (plus one that runs only when the Responses
+surface is registered), green on 2026-10-11 and re-run green on 2026-10-24
+(chat 18/18, ¥0.005826; responses 19/19, ¥0.005137): liveness through the
+shipped wrapped adapter
 (`stopReason: stop`, echoed model id equals the requested one), the thinking
 switch measured by counting `thinking` blocks (0 off / >0 on), a tool round trip
 returning `stopReason: toolUse` with `arguments.zone` parsed, the image colour
 check answering **"Green"** for a generated green 256×256 png (input 111 tokens,
-i.e. the image was tokenized), and cache accounting over exactly two identical
+i.e. the image was tokenized), temperature-override acceptance (new 2026-10-24,
+see the Thinking section), and cache accounting over exactly two identical
 ~360-token requests (second one: 256 cached of 359). Its first run cost ¥0.0012
 and found three harness bugs (documented in the file) before the second run cost
 ¥0.0020 and passed.
@@ -883,16 +955,20 @@ Stated plainly, so no untested claim reads as a tested one.
   prove it); whether `prompt_cache_key` routing is per-node or per-cluster is not
   observable from outside; and no invoice was consulted, so the ¥ figures are
   computed from published rates and reported usage.
-- **The Responses surface as a daily driver.** All 18 harness checks pass with
+- **The Responses surface as a daily driver.** All 18 harness checks passed with
   `LONGCAT_SURFACE=responses` (2026-10-11, KEY8, ¥0.0049), including its own
-  thinking off/on readout (`reasoning:{effort:"none"}` → output 2 vs 27 with
-  `effort:"low"`) and confirmation that the `prompt_cache_key` hook is a no-op
-  there. What is still unverified on that surface: a **multi-turn** agent loop, so
-  reasoning-item replay (`include:["reasoning.encrypted_content"]` was accepted,
-  never exercised across turns) and its cap-validation gap under a real session.
-- **The Responses surface as a daily driver.** Its checks pass
-  (`LONGCAT_SURFACE=responses node live/check.ts --billed` is supported), but no
-  multi-turn session, reasoning-item replay, or tool loop was exercised on it.
+  thinking off/on readout on LongCat-2.0 (`reasoning:{effort:"none"}` → output 2
+  vs 27 with `effort:"low"`; none → 0 reasoning tokens re-measured 2026-10-24)
+  and confirmation that the `prompt_cache_key` hook is a no-op there. Known-bad
+  since 2026-10-24: **2.5-Preview's off switch does not work on this surface**
+  (no token zeroes its reasoning — `effort:"none"` 161, `thinking:disabled` 299,
+  both 125), so an "off" selection there silently bills reasoning; whether the
+  plugin should hide `off` (`null`) for that model×surface pair — honest UI,
+  clamped up to `low`, same billing either way — is an **open design decision**.
+  Still unverified: a **multi-turn** agent loop, reasoning-item replay
+  (`include:["reasoning.encrypted_content"]` was accepted, never exercised
+  across turns), the tool loop on this surface, and its cap-validation gap
+  under a real session.
 - **Anthropic surface beyond single calls**: multi-turn replay of `thinking`
   blocks, `tool_result` shape, and whether a `system` parameter is required when
   pi folds system messages. Moot while it is unregistered.

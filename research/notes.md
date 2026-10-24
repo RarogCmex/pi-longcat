@@ -177,3 +177,139 @@ README must say which id support would want and that pi cannot show it.
 10. Rate limits: numbers not published ("enforced per API key") `[D]`.
 11. Streaming SSE dialect per surface; `finish_reason` mapping.
 12. `temperature` range enforcement (0–1 documented).
+
+## 9. Doc-drift round — 2026-10-24 `[M]` + `[D]`
+
+Operator request: "посмотреть свежую документацию, особенно LongCat-2.5-Preview;
+проверить reasoning-режимы, качество кода". Evidence: re-captured docs
+(`research/doc-*.txt`, incl. two NEW pages), probe script
+`research/probe-docdrift.ts`, ledger rows `DD-*` (28 rows, 18 billed, ¥0.0456 on
+KEY1) + two harness rows `live-temperature-drift-run1/2` (¥0.000048 each, the
+L35 class: planned free, came back accepted).
+
+### 9.1 The docs changed `[D 2026-10-24 captures]`
+
+- **NEW page `api/responses`**: the Responses surface is now OFFICIALLY
+  documented (was: found by probing, 2026-10-10). It documents
+  `reasoning:{effort: none/minimal/low/medium/high/xhigh, summary:
+  auto/concise/detailed}`, `prompt_cache_key`, flat tool shapes (NOT the
+  chat-style `function` wrapper — "rejects it with tools[0].name is required"),
+  structured outputs (`text.format` json_object/json_schema), custom tools with
+  lark/regex grammars, and: "image URLs must be publicly accessible" (base64
+  data-url support on this surface untested), and "the connection is closed
+  without an extra [DONE] marker".
+- **NEW page `api/model-params`**: per-model caps — 2.5-Preview **262,144**,
+  2.0 131,072 (the provider's docs now AGREE with the 2026-10-10 cap-oracle
+  measurement; the old api/chat "131072 for 2.5" claim is gone, replaced by a
+  pointer to this page). Parameter table: temperature FIXED per thinking state
+  (1.0 on / 0.7 off) and "other values are not rejected — they are overridden";
+  top_p (0,1] default 0.95; top_k [-1,100] default -1; repetition_penalty
+  [1,1.5] default 1; **thinking_budget** integer max 262,144; range validation
+  "identifies each violating parameter".
+- `api/chat`: `max_tokens` no longer claims 131072 for 2.5-Preview; temperature
+  text replaced by the override policy; top_p gained default/range.
+- `api-docs` (overview): lists Responses API + Model Parameters.
+- change-log / faq / pricing / token-pack / tools-overview / api/model:
+  **no content diff** vs the 2026-10-10 captures.
+
+### 9.2 Gateway behaviour drift `[M 2026-10-24, KEY1]`
+
+- **temperature is no longer range-rejected.** `temperature: 1.5` → **200
+  accepted + generated** (three observations: two harness free-runs, one probe
+  `DD-A9-temp-1.5`; 2026-10-10 it was 400). Matches the new override policy.
+  Consequence: `live/check.ts`'s free temperature check moved to the billed
+  section (an accepted probe is not free), and the free validator check now
+  uses `top_p: 2` (still a guaranteed 400).
+- **The validator now reports EVERY violation in one 400** (`DD-A7`: top_k 999
+  + top_p 2 + repetition_penalty 3 → three named lines). 2026-10-10 it reported
+  only the first failure. Unknown-extra-field strictness is still unknowable
+  from one combined probe... except A7 shows the validator scans all known
+  fields; a bogus field is still neither listed nor rejected (`DD-A8` rode
+  along with valid ones? — no: A8 carried only thinking_budget; strictness on
+  unknown fields remains unmeasured).
+- **top_p/top_k/repetition_penalty ranges are enforced** (400s naming the
+  parameter and ceiling: `DD-A4/A5/A6`) — the fields are real, for free.
+- **`supported_parameters` did NOT change** (`DD-A2/A3`): still
+  [max_tokens, temperature, top_p, stream, tools, tool_choice, thinking]. The
+  machine-readable contract LAGS the prose docs: top_k, repetition_penalty and
+  thinking_budget are validated/accepted but not listed.
+
+### 9.3 `thinking_budget` is documented but DECORATIVE `[M 2026-10-24]`
+
+- Not range-checked: `thinking_budget: 262145` (over the documented max) →
+  **200 accepted + generated** (`DD-A8`).
+- Not enforced: budget 32 → reasoning_tokens **144**; budget 256 → 222; no
+  budget → 171 (`DD-B1/B3/B2`, same arithmetic prompt, N=1 each — natural
+  variance is the same order as the "budgets"). At scale: C3 microcoding with
+  budget 1024 → reasoning_tokens **1642** (`DD-C1`). The 2026-10-10 finding
+  stands under the new name: acceptance proves nothing; there is still no
+  working reasoning budget on the chat surface.
+- `thinking: {"type":"disabled"}` + `thinking_budget: 32` → no reasoning
+  (disabled wins, `DD-B4`) — but the answer went **WRONG**: 3251 instead of
+  3317 for `17*23+45*67-89`. Same pattern as the vision caveat: thinking off
+  trades correctness, not just tokens.
+
+### 9.4 Responses effort scale — model-dependent, and a dead off-switch on 2.5 `[M 2026-10-24]`
+
+Same arithmetic prompt (expected 3317), `max_output_tokens: 512`,
+LongCat-2.5-Preview unless noted:
+
+| cell | effort/switch | reasoning_tokens | answer |
+|---|---|---|---|
+| DD-B5-none | none | **161** | 3317 ✓ |
+| DD-B5-minimal | minimal | 177 | 3317 ✓ |
+| DD-B5-low | low | 125 | 3317 ✓ |
+| DD-B5-medium | medium (+summary:"auto") | 46 | 3317 ✓ |
+| DD-B5-high | high | 156 | 3317 ✓ |
+| DD-B5-xhigh | xhigh | 145 | 3317 ✓ |
+| DD-B6-none (2.0) | none | **0** | **3747 ✗** |
+| DD-B6-low (2.0) | low | 118 | 3317 ✓ |
+| DD-B7 | (chat-style) thinking:{type:"disabled"} | **299** | 3317 ✓ |
+| DD-B8 | effort:none + thinking:disabled | **125** | 3317 ✓ |
+
+- **On 2.5-Preview the effort scale is not a scale**: none..xhigh all reason
+  (46–177 tokens, non-monotonic, N=1 per level), and **NO switch zeroes
+  reasoning** — neither `effort:"none"`, nor chat-style `thinking:disabled`,
+  nor both. The Responses surface has no working off switch for this model.
+- **On 2.0 `effort:"none"` still zeroes reasoning** (0 tokens, out 5) — the
+  2026-10-11 finding holds — and with it the answer goes WRONG (3747). Both
+  models: reasoning off ⇒ arithmetic wrong (2.5-chat-off: 3251; 2.0-resp-none:
+  3747). Reasoning-on cells were 8/8 correct.
+- Plugin consequence: `thinkingLevelMap.off = "none"` is truthful on chat
+  (both models) and on Responses **only for LongCat-2.0**. On
+  Responses+2.5-Preview the picker sells an "off" that silently keeps thinking
+  ON and bills ¥8/1M reasoning tokens. Options: (a) per-surface map with
+  `off: null` for 2.5 on responses (hides the fake switch; pi clamps up to
+  low — same billing, honest UI), (b) caveat-only. NOT YET DECIDED/IMPLEMENTED.
+- `summary:"auto"` (medium cell): reasoning arrived as short terse lines
+  ("17 * 23 = 391\n45 * 67 = 3015\n…") via `response.reasoning_text.delta`;
+  cannot distinguish "summary" from a naturally short CoT at N=1. No separate
+  summary item type observed.
+
+### 9.5 Code quality, 2.5-Preview, 2026-10-24 (C3 microcoding, mechanical scoring)
+
+- `DD-C1` thinking ON (+ ignored budget 1024), max_tokens 6144: out 2336
+  (reasoning 1642), ¥0.019, finish=stop. **Independent 9/9 PASS.** Own tests
+  5 pass/1 fail — and the failure is the model's own arithmetic: its test
+  expected `parseDuration("2D 6h 15m 10s 250ms") === 194_110_250`, the correct
+  value is **195,310,250** (verified by hand: 172.8M+21.6M+0.9M+10k+250). The
+  module is right; the self-test oracle is wrong. A new failure mode worth
+  remembering: score the module independently, never trust the model's own
+  expected values (which is exactly why scoring.ts exists).
+- `DD-C2` thinking **OFF**, max_tokens 4096: out 1165, ¥0.0094, finish=stop.
+  **Independent 9/9 PASS, own tests 14/14.** Compounds ("1h30m") — the C3c
+  failure of 2026-10-11 — now pass. Candidate causes (not separable at N=1):
+  the new forced temperature 0.7 with thinking off, gateway/model drift since
+  launch, or run variance. The C3c-based "thinking-off gets compounds wrong"
+  claim is no longer reproducible as of today.
+- Cost/quality note: thinking off was **cheaper AND perfect** on this task
+  today (¥0.009 vs ¥0.019), the inverse of the 2026-10-11 reading. N=1 each;
+  the arithmetic cells (9.3/9.4) show where off still bites.
+
+### 9.6 Unchanged (re-verified free, 2026-10-24)
+
+Listing (2 ids), per-model details (window 1048576, modalities, ¥2/¥0.04/¥8,
+`thinking` in supported_parameters), cap sweep (400s naming 262144/131072),
+unknown-model 400, image-area floor 400 naming 256px, garbage key 401 through
+the shipped wrapper, both in-band HTTP-200 error paths (`GET /models/{unknown}`
+and `/responses` with max_output_tokens -5) — all as recorded on 2026-10-10/11.

@@ -1,0 +1,46 @@
+CopyModel Parameters ​
+Compare the default parameter values, adjustable ranges, and constraints of LongCat models.
+Model Capabilities ​
+Context length is the maximum total number of tokens (input + output) that a single request can process.
+ | LongCat-2.5-Preview | LongCat-2.0 |
+Context length | 1,048,576 (1M) | 1,048,576 (1M) |
+max_tokens limit | 262,144 (256K) | 131,072 (128K) |
+Sampling & Generation Parameters ​
+Parameter | Type | Default | Range / Constraint |
+temperature | number | 1.0 (thinking on)
+0.7 (thinking off) | Fixed; other values are overridden |
+top_p | number | 0.95 | (0, 1] |
+top_k | integer | -1 | [-1, 100] |
+repetition_penalty | number | 1 | [1, 1.5] |
+thinking_budget | integer | — | Max 262,144 |
+Parameter Notes ​
+temperature ​
+Sampling temperature, controls output randomness: higher values produce more random and diverse output, lower values produce more deterministic output.
+Fixed to 1.0 when thinking is enabled and 0.7 when thinking is disabled. Other values are not rejected — they are overridden with the default for the current thinking state.
+top_p ​
+Probability threshold for nucleus sampling: the model samples from the smallest set of tokens whose cumulative probability reaches the threshold. Higher values allow a larger candidate set and more diverse output.
+top_k ​
+Restricts sampling candidates to the K most probable tokens; smaller values produce more focused output. -1 disables this restriction.
+repetition_penalty ​
+Repetition penalty: reduces the probability of tokens that have already appeared; larger values apply a stronger penalty. 1 means no penalty.
+max_tokens ​
+Limits the maximum number of tokens generated in a single call — output only, input not included. Generation is truncated when the limit is reached, in which case the response's finish_reason is length.
+thinking_budget ​
+Token budget cap for the thinking process, up to 262144.
+Range validation ​
+Out-of-range values for top_p, top_k, repetition_penalty, and max_tokens are rejected with a 400 error (invalid_request_error / invalid_parameter). The error message identifies each violating parameter, for example:
+json{
+  "error": {
+    "message": "参数校验失败: \n/top_p: 2 is not less or equal to 1\n/repetition_penalty: 3 is not less or equal to 1.5\n",
+    "type": "invalid_request_error",
+    "code": "invalid_parameter"
+  }
+}
+
+Thinking switch ​
+Use the thinking parameter to control thinking mode: {"type":"enabled"} turns it on, {"type":"disabled"} turns it off. The fixed temperature value follows the thinking state (see above).
+
+Previous
+Anthropic Messages
+Next
+List Models

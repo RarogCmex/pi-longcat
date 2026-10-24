@@ -102,18 +102,23 @@ export const LISTING_URL = `${BASE_URL}/models`;
  *
  * Chat completions is the default even though the house priority normally puts
  * Responses first, because on THIS gateway the Responses advantages were
- * measured absent and four defects were measured present (2026-10-10/11):
- *   - it is undocumented — found by probing; the platform docs list only
- *     `/openai/v1/chat/completions` and `/anthropic/v1/messages`;
+ * measured absent and four defects were measured present (2026-10-10/11,
+ * re-checked 2026-10-24):
+ *   - it WAS undocumented — found by probing; the platform has since published
+ *     an `api/responses` page (captured 2026-10-24), so this defect is history,
+ *     but the next three are still live;
  *   - it does not enforce the output cap that both other surfaces enforce
  *     (`max_output_tokens: 131073` accepted for a model capped at 131072);
  *   - it answers validation failures with **HTTP 200** + an in-band
  *     `{"error":…}` body (two cases recorded), which pi would parse as an empty
  *     stream; `errors.ts` re-statuses those, but the surface is the only reason
  *     that wrapper exists;
- *   - its thinking off switch (`reasoning:{effort:"none"}`) is honoured for text
- *     but IGNORED when the request carries an image (output 8 / reasoning_tokens
- *     7 vs output 2 for the same text-only request).
+ *   - its thinking off switch (`reasoning:{effort:"none"}`) is honoured for
+ *     LongCat-2.0 text (reasoning_tokens 0, re-measured 2026-10-24) but was
+ *     IGNORED when the request carried an image (2026-10-11), and on
+ *     **LongCat-2.5-Preview it is ignored outright** — no switch zeroes
+ *     reasoning there (effort:none → 161 tokens, thinking:disabled → 299, both
+ *     → 125; 2026-10-24).
  *   - and the usual Responses selling point, cache accounting that reports hits,
  *     is not an advantage here: the chat surface reports `cached_tokens` too
  *     (768 of 836 measured).

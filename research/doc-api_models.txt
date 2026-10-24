@@ -13,6 +13,6 @@ List models on the OpenAI endpoint.
 List models on the Anthropic endpoint.
 
 Previous
-Anthropic Messages
+Model Parameters
 Next
 Retrieve Model

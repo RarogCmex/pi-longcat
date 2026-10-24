@@ -23,9 +23,13 @@
  *                  request costs nothing): LongCat-2.0 → 400 "/max_tokens:
  *                  131073 is not less or equal to 131072"; LongCat-2.5-Preview →
  *                  400 "/max_tokens: 262145 is not less or equal to 262144".
- *                  This settles a three-way contradiction: the listing says
- *                  262144 for 2.5-Preview, while both the api/chat page and the
- *                  FAQ say 128k. The enforced ceiling is 262144.
+ *                  This settled a three-way contradiction (listing 262144 vs
+ *                  api/chat + FAQ 128k) in favour of 262144 — and by 2026-10-24
+ *                  the provider agreed with the measurement: the new
+ *                  api/model-params page documents 262,144 (256K) for
+ *                  2.5-Preview and 131,072 (128K) for 2.0, and api/chat now
+ *                  defers to it. Re-run of the cap sweep on 2026-10-24: both
+ *                  400s unchanged.
  *                  Caveat: enforced on the chat and Anthropic surfaces only —
  *                  /openai/v1/responses ACCEPTED max_output_tokens 131073
  *                  (measured 2026-10-10), so the cap oracle is dead there.
@@ -132,9 +136,15 @@ export interface CatalogEntry {
  *     level and clamp requests UP to `low`, i.e. bill thinking the user turned
  *     off.
  *   - Responses: pi sends `reasoning: { effort: map.off ?? "none" }` when no
- *     level was requested (openai-responses.js:303-307). `"none"` is the token
- *     measured to zero reasoning on this gateway (2026-10-11: output 8 → 2,
- *     reasoning_tokens 7 → 0).
+ *     level was requested (openai-responses.js:303-307). `"none"` zeroes
+ *     reasoning on **LongCat-2.0** (2026-10-11: output 8 → 2, reasoning_tokens
+ *     7 → 0; re-measured 0 on 2026-10-24). On **LongCat-2.5-Preview it is
+ *     ignored** (2026-10-24: effort:none → reasoning_tokens 161; chat-style
+ *     thinking:disabled on that surface → 299; both → 125 — no switch there
+ *     zeroes reasoning). The map below is shared by both models and both
+ *     surfaces; making it per-model×surface (off: null for 2.5 on responses,
+ *     hiding a switch that does not work) is an open design decision recorded
+ *     in README "What is not verified".
  *   - Anthropic (unregistered, kept for the record): pi emits
  *     `thinking: {type:"disabled"}` only when `map.off !== null`
  *     (anthropic-messages.js:914,978).

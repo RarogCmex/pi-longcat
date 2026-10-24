@@ -16,10 +16,12 @@
  *  default run is limited to class 1:
  *   1. **Free by construction** — pre-inference rejections and no-inference GETs:
  *      the cap sweep (over-cap `max_tokens` → 400 naming the ceiling), unknown
- *      model id, garbage key, temperature range, the measured image-area floor,
- *      `GET /models` and `GET /models/{id}`. A rejected request is not billed
- *      (docs: "Failed responses … will not be charged", and measured: an SSE
- *      `response.failed` carries `usage: 0`).
+ *      model id, garbage key, the top_p range (out-of-range → 400; temperature
+ *      moved to the billed section on 2026-10-24 because the gateway stopped
+ *      rejecting it — docs now say it is overridden), the measured image-area
+ *      floor, `GET /models` and `GET /models/{id}`. A rejected request is not
+ *      billed (docs: "Failed responses … will not be charged", and measured: an
+ *      SSE `response.failed` carries `usage: 0`).
  *   2. **Billed** (`--billed` only) — accepted generations, each bounded
  *      client-side: `max_tokens` ≤ 8 for liveness/thinking, 200 for the tool
  *      round trip, 64 for the image colour naming (which needs the budget: with
@@ -48,10 +50,13 @@
  *   4. auth: a garbage key is a 401 end-to-end through the production wrapper,
  *      and the message a user sees is actionable and non-retryable;
  *   5. the in-band HTTP-200 error paths are re-statused by our fetch wrapper;
- *   6. temperature and image-area limits are still enforced;
+ *   6. the top_p range and the image-area floor are still enforced;
  *   7. (billed) liveness, the thinking switch measured by its OUTPUT, a tool
- *      round trip, image consumption with a non-guessable colour, and cache
- *      accounting proven with exactly two requests.
+ *      round trip, image consumption with a non-guessable colour, cache
+ *      accounting proven with exactly two requests, and — since 2026-10-24 —
+ *      the temperature override policy (an out-of-range temperature is ACCEPTED
+ *      and generates; it was a 400 until the gateway changed, which the free
+ *      run of that date caught by failing).
  *
  * The billed checks drive the SAME wrapped adapter production uses
  * (`withGatewayErrorRemediation(openAICompletionsApi())`) and the same model
@@ -316,13 +321,14 @@ async function ask(
   check: string,
   model: LongCatModel,
   userContent: unknown,
-  options: { reasoning?: any; maxTokens?: number; tools?: any[]; toolChoice?: any; systemPrompt?: string; sessionId?: string | null } = {},
+  options: { reasoning?: any; maxTokens?: number; tools?: any[]; toolChoice?: any; systemPrompt?: string; sessionId?: string | null; temperature?: number } = {},
 ): Promise<{ message: AssistantMessage; status: number | string }> {
   await pace();
   let status: number | string = "-";
   const stream = streamsBySurface[model.api as GatewayApi].streamSimple(model as any, transcript(userContent, options.systemPrompt, options.tools), {
     apiKey: KEY,
     reasoning: options.reasoning,
+    temperature: options.temperature,
     maxTokens: options.maxTokens ?? 8,
     toolChoice: options.toolChoice as any,
     onResponse: (response: Response) => {
@@ -457,14 +463,19 @@ test("live/free: an unknown model id is a 400 invalid_parameter, not a 404", { s
   assert.match(json.error.message, /Unsupported model/);
 });
 
-test("live/free: temperature is range-checked to <= 1", { skip: SKIP }, async () => {
+test("live/free: top_p is range-checked to (0, 1]", { skip: SKIP }, async () => {
+  // Stands in for the old free temperature check: temperature left the rejected
+  // class on 2026-10-24 (the gateway now OVERRIDES out-of-range values per the
+  // api/model-params page, measured accepted+billed), and a probe that can be
+  // accepted has no business in a run that promises ¥0. top_p's 400 is measured
+  // the same day (ledger row DD-A4-topp-2).
   const { status, json } = await post(
     "/openai/v1/chat/completions",
-    { model: "LongCat-2.0", messages: [{ role: "user", content: "hi" }], max_tokens: 4, temperature: 1.5 },
-    { check: "temperature-range" },
+    { model: "LongCat-2.0", messages: [{ role: "user", content: "hi" }], max_tokens: 4, top_p: 2 },
+    { check: "top-p-range" },
   );
-  assert.equal(status, 400);
-  assert.match(String(json?.error?.message), /temperature/);
+  assert.equal(status, 400, "top_p 2 was accepted — the validator changed again; re-read research/doc-api_model-params.txt and move this check to the billed section like temperature");
+  assert.match(String(json?.error?.message), /top_p/);
 });
 
 test("live/free: an image under the measured area floor is rejected with the floor named", { skip: SKIP }, async () => {
@@ -570,6 +581,18 @@ test("live/billed: the thinking switch is honoured, measured by OUTPUT not by st
   assert.equal(thinkingBlocks(off.message), 0, "thinking off must produce no reasoning");
   assert.ok(thinkingBlocks(on.message) > 0, "thinking on must produce reasoning (pi parses reasoning_content into thinking blocks)");
   assert.ok(off.message.content.some((c: any) => c.type === "text"), "with thinking off the answer must fit in 8 tokens");
+});
+
+test("live/billed: an out-of-range temperature is ACCEPTED and overridden (2026-10-24 drift)", { skip: skipBilled }, async () => {
+  // Docs (api/model-params, captured 2026-10-24): temperature is fixed per
+  // thinking state (1.0 on / 0.7 off) and other values are "not rejected —
+  // overridden". Measured: 1.5 → 200 + generated (was 400 on 2026-10-10; the
+  // drift cost the two free harness runs of 2026-10-24 ¥0.000048 each before
+  // this check moved here). The override VALUE is not observable — the response
+  // echoes no temperature — so the assertion is acceptance + generation.
+  const { status, message } = await ask("temperature-override", modelById("LongCat-2.0"), "Reply with exactly one word: ok", { maxTokens: 8, reasoning: undefined, temperature: 1.5 });
+  assert.equal(status, 200);
+  assert.equal(message.stopReason, "stop", `expected generation, got ${message.stopReason}: ${message.errorMessage ?? ""}`);
 });
 
 test("live/billed: a tool round trip returns stopReason toolUse with usable arguments", { skip: skipBilled }, async () => {

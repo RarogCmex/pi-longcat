@@ -12,27 +12,23 @@ Model identifier. Currently supports LongCat-2.5-Preview and LongCat-2.0.
 messagesarrayrequired
 Array of message objects.
 
-rolestringrequired
+ Hide child attributesrolestringrequired
 Author role, one of system · user · assistant.
 
 contentstringrequired
 Message content as a plain-text string.
 
-streambooleanoptional
+streambooleanoptionaldefault: false
 Whether to stream the response as SSE.
 
-default: false
-
 max_tokensintegeroptional
-Maximum number of tokens to generate. LongCat-2.5-Preview max is 131072 (128K).
+Maximum number of tokens to generate. The limit varies by model — see Model Parameters.
 
-default: 128k
+temperaturenumberoptionaldefault: 1.0
+Sampling temperature. Fixed at 1.0 with thinking enabled and 0.7 with thinking disabled; other values are overridden with the corresponding default.
 
-temperaturenumberoptional
-Sampling temperature, range 0 ~ 1.
-
-top_pnumberoptional
-Nucleus sampling parameter.
+top_pnumberoptionaldefault: 0.95
+Nucleus sampling parameter, range (0, 1].
 
 thinkingobjectoptional
 Whether to enable thinking. {"type":"enabled"} turns thinking on, {"type":"disabled"} turns it off.
@@ -40,4 +36,4 @@ Whether to enable thinking. {"type":"enabled"} turns thinking on, {"type":"disab
 Previous
 API Overview
 Next
-Anthropic Messages
+Responses API

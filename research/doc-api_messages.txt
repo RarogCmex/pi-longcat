@@ -12,7 +12,7 @@ Model identifier. Currently supports LongCat-2.5-Preview and LongCat-2.0.
 messagesarrayrequired
 Array of message objects.
 
-rolestringrequired
+ Hide child attributesrolestringrequired
 Author role, one of user · assistant. System messages are passed separately via the system parameter.
 
 contentstringrequired
@@ -21,10 +21,8 @@ Message content as a plain-text string.
 max_tokensintegeroptional
 Maximum number of tokens to generate.
 
-streambooleanoptional
+streambooleanoptionaldefault: false
 Whether to stream the response as SSE.
-
-default: false
 
 temperaturenumberoptional
 Sampling temperature, range 0 ~ 1.
@@ -39,6 +37,6 @@ thinkingobjectoptional
 Whether to enable thinking. {"type":"enabled"} turns thinking on, {"type":"disabled"} turns it off.
 
 Previous
-Chat Completions
+Responses API
 Next
-List Models
+Model Parameters

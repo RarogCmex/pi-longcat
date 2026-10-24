@@ -1,0 +1,634 @@
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832335,"model":"LongCat-2.5-Preview","choices":[{"delta":{"role":"assistant","content":""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832335,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"```"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"javascript"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"\nexport"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" function parseDuration(input"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":") {\n  if"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" (typeof input !=="},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 'string') {\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"    throw new Range"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Error('Input"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" must be a string"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"');\n  }\n\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" const trimmed = input"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":".trim();\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  if (trim"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"med.length === "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0) {\n   "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" throw new RangeError"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832336,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('Empty input is"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832337,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" not a"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832337,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" valid duration');\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832337,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" }\n\n  const"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832337,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" multipliers"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832337,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" = {\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832337,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"    ms: "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832337,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"1,\n    s"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832337,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":": 10"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832338,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"00,\n    m: 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832338,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832338,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"000,\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832338,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"    h: "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832338,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"60 * "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832338,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"60 * "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832338,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"1000"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832338,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":",\n    d:"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 24 *"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 60 *"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 60 *"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 100"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0,\n  };\n\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  const"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" regex"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" = /(\\d"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"+("},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"?:\\.\\d"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"+)?)\\s"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"*(ms|s|m"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"|h|d)/"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"gi;\n  let"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" total = 0"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":";\n  let match"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":";\n  let last"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Index = 0"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832339,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":";\n\n  while (("},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"match = regex.exec"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(trimmed)) !=="},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" null) {\n   "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" // Check for any"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" non-whitespace characters"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" between matches"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"\n    const between"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" = trimmed.slice(last"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Index, match.index"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":");\n    if ("},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"between.trim()."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"length > 0"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":") {\n      throw"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" new RangeError(`"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Unexpected"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" characters"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":": \"${"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"between.trim()}\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" in"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832340,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" duration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" string"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" \"${input}\"`);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"    }\n\n    const"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" value = parseFloat(match"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"[1]);\n   "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" if"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" (value < "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0) {\n     "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" throw new RangeError"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(`Negative values are"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" not allowed: \"${"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"match"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"[0]}\" in"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" duration string"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" \"${input}\"`);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"    }\n\n    const"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" unit = match["},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"2].toLowerCase();\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"    total += value"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" * multipliers[unit"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"];\n    lastIndex"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" = regex.lastIndex"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832341,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":";\n  }\n\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" // Check for"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" any trailing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" non-whitespace characters"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" after the last match"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"\n  const trailing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" = trimmed.slice(last"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Index);\n  if"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" (trailing.trim"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"().length > "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0) {\n   "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" throw new RangeError"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(`Unexpected trailing"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" characters: \"${tra"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"iling.trim()}\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" in duration string"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" \"${input}\"`);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  }\n\n  if"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" (last"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Index === 0"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":") {\n    throw"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" new RangeError(`"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"No"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" valid duration parts found"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832342,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" in \"${input}\""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"`);\n  }\n\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" return Math.round(total);\n}\n```\n\n```"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"javascript\nimport {"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" test } from '"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"node:test';\nimport"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" assert from 'node"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":":assert/strict"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"';\nimport { parse"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Duration } from './"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"solution.mjs';\n\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"test('par"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"ses simple"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" milliseconds', () =>"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" {\n  assert.equal"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(parseDuration('5"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"00ms'),"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 500"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":");\n});\n\ntest('"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"parses simple seconds"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"', () => {\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.equal(parse"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832343,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Duration('45"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"s'), 4"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"5000"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":");\n});\n\ntest('"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"parses simple minutes"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"', () => {\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.equal(parse"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Duration('90"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"m'), 9"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"000);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"});\n\ntest('par"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"ses simple hours',"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" () => {\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" assert.equal(parseDuration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('1h'),"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"000);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"});\n\ntest('par"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"ses simple days',"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" () => {\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832344,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" assert.equal(parseDuration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('2d'),"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 2 * "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"24 * "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"60 * "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"60 * "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"1000"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":");\n});\n\ntest('"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"parses compound duration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" \""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"1h30"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"m\"', () =>"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" {\n  assert.equal"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(parseDuration('1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"h30m"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"'), 9"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"000);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"});\n\ntest('parses compound duration with"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832345,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" whitespace \""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"1h"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 30m"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"\"', () => {\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.equal(parse"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Duration('1h"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 30m"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"'), 90"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" * 60"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" * 10"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"00);\n});\n\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"test('parses"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" compound duration \"1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"d 2h"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 3m "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"4s 5"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"ms\"', () =>"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" {\n  assert.equal"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(parseDuration('1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832346,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"d 2h"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 3m "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"4s 5"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"ms'), (2"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"4 * 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"000)"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" + (2 *"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 60 *"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 60 *"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 100"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0) + ("},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"3 * 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"000)"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" + (4 *"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 100"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0) + "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"5);\n});\n\ntest"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('is case-ins"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"ensitive for unit suffix"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832347,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"es', () =>"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832348,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" {\n  assert.equal(parseDuration('1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832348,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"H3"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832348,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0M'), "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832348,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"90 * "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832348,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"60 * "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832348,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"1000"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832348,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":");\n  assert.equal"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832348,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(parseDuration('2"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"D'), 2"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" * 24"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" * 60"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" * 60"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" * 10"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"00);\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" assert.equal(parseDuration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('500MS'), 5"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"00);\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" assert.equal(parseDuration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('45S"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"'), 45"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"000);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"});\n\ntest('throws"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" Range"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Error for unknown"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" units', () =>"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832349,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" {\n  assert."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"throws(() => parse"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Duration('5x"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"'), RangeError);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.throws"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(() => parseDuration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"weeks'), Range"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Error);\n});\n\ntest"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('throws RangeError"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" for negative numbers',"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" () => {\n "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" assert.throws(()"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" => parseDuration('-"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"5s'), Range"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Error);\n});\n\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"test('throws Range"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Error for garbage input"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832350,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"', () => {\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.throws"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(() => parseDuration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('abc"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"'), RangeError);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.throws"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(() => parseDuration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(''), RangeError"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":");\n  assert."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"throws(() => parse"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Duration('   '"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"), RangeError);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"});\n\ntest('throws"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" RangeError for partially"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" valid input"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" with garbage', ()"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" => {\n  assert"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832351,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":".throws(() =>"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" parseDuration('5"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"s"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" garbage"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"'), RangeError);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.throws"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"(() => parseDuration"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('garbage "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"5s'), Range"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Error);\n});\n\ntest"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"('handles decimal"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" values"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"', () => {\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.equal(parse"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Duration('1."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"5h"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"'), 9"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832352,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 6"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0 * 1"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"000);\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"  assert.equal(parse"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"Duration('2"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":".5s'),"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":" 250"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[{"delta":{"content":"0);\n});\n```"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[{"delta":{},"index":0,"finish_reason":"stop","matched_stop":2,"logprobs":null}],"lastOne":false}
+
+data: {"id":"e0cff9a32d074e78a343e89ea5723fb1","object":"chat.completion.chunk","created":1792832353,"model":"LongCat-2.5-Preview","choices":[],"usage":{"completion_tokens":1165,"prompt_tokens":187,"total_tokens":1352,"prompt_tokens_details":{"cached_tokens":128,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}},"lastOne":true}
+
+data: [DONE]
+
