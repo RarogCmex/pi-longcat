@@ -56,7 +56,7 @@ Environment variables:
 | variable | default | effect |
 |---|---|---|
 | `LONGCAT_API_KEY` | – | key fallback when nothing is stored via `/login` (stored wins) |
-| `LONGCAT_SURFACE` | `chat` | `chat` or `responses`; registers that one adapter. `anthropic` is recognized and refused with the measured reason |
+| `LONGCAT_SURFACE` | `responses` | `responses` or `chat`; registers that one adapter. Responses is the default since 2026-10-24 (operator decision, measured preconditions below); `chat` opts back. `anthropic` is recognized and refused with the measured reason |
 | `LONGCAT_BASE_URL` | `https://api.longcat.chat/openai/v1` | proxy/mirror override, applied to the active surface |
 | `LONGCAT_CNY_PER_USD` | `6.7252` (2026-09-15) | FX rate for the cost report |
 
@@ -104,7 +104,7 @@ out of the live overlay, so a refresh cannot re-add one):
 
 Image notes for `LongCat-2.5-Preview`: the gateway rejects an image whose area is ≤ 256 px
 (measured: an 8×8 png → 400 "Image too small (area=64px), minimum required area: >256px"),
-and images are consumed and correctly described with thinking enabled; the same probe answers wrongly with thinking disabled (measured 2026-10-11).
+and images are consumed and correctly described with thinking enabled ON THE CHAT surface; the same probe answers wrongly with thinking disabled (measured 2026-10-11), and — since the Responses surface became the default — vision through base64 data-url images is UNRELIABLE there (green read as blue/teal in 5 of 6 runs vs 4/4 correct on chat, 2026-10-24); use LONGCAT_SURFACE=chat for image work.
 <!-- MODELS:END -->
 
 ## Pricing and currency policy
@@ -225,10 +225,10 @@ measure a switch by what it costs you elsewhere):
 The gateway serves **three** wire surfaces. All three were probed live on
 2026-10-10/11; two are reachable from this plugin and one is registered.
 
-| surface | endpoint | state as of 2026-10-11 | why |
+| surface | endpoint | state as of 2026-10-24 | why |
 |---|---|---|---|
-| OpenAI Chat Completions | `POST /openai/v1/chat/completions` | **registered (default)** | documented; enforces the output cap; real HTTP statuses on failure; the thinking off switch works even with an image in the request |
-| OpenAI Responses | `POST /openai/v1/responses` | **registered behind `LONGCAT_SURFACE=responses`** | real; found by probing before the platform documented it (`m-spanname: OpenaiController.nativeResponses`; bogus subpaths under the same prefix 404, so it is a registered route, not a catch-all). An official `api/responses` doc page exists as of the 2026-10-24 capture. Buys typed reasoning items and replay; costs four measured defects, below |
+| OpenAI Responses | `POST /openai/v1/responses` | **registered (default since 2026-10-24)** | officially documented by the platform (the `api/responses` page, captured 2026-10-24; before that it was found by probing — `m-spanname: OpenaiController.nativeResponses`, and bogus subpaths 404, so it was always a registered route, not a catch-all). A pi-shaped multi-turn tool loop was measured through the shipped stack before the switch (DD2-M1/M2, 2026-10-24). Buys typed reasoning items and replay; the measured defects it still carries are listed below, each with its mitigation — including **unreliable vision through base64 images** (1/6 correct colour reads vs 4/4 on chat, 2026-10-24): for image work, `LONGCAT_SURFACE=chat` |
+| OpenAI Chat Completions | `POST /openai/v1/chat/completions` | **registered behind `LONGCAT_SURFACE=chat`** (was the default until 2026-10-24) | documented; enforces the output cap with a 400 naming the ceiling; real HTTP statuses on failure; its `thinking:{"type":"disabled"}` switch works on both models even with an image in the request. Opt back in for the working 2.5 off switch or the cap oracle |
 | Anthropic Messages | `POST /anthropic/v1/messages` | **checked, works, deliberately NOT registered** | the gateway side is fine (streaming, `tool_use` blocks, thinking on/off all measured). The blocker is on pi's side: its Anthropic adapter authenticates with `x-api-key` (`pi-ai/dist/api/anthropic-messages.js:843-845`) and this gateway answers that header with `401 missing_api_key` (measured 2026-10-11, free). Registering it would need a header-injecting fetch wrapper for no capability the other two lack. `LONGCAT_SURFACE=anthropic` prints that reason instead of silently doing nothing |
 | `/openai/native/chat/completions` | – | **checked and absent (2026-10-10)** | the FAQ names this path; it 404s (`{"status":404,"path":"/openai/native/chat/completions"}`). Recorded so nobody re-adds it from the docs |
 | `/openai/v1/embeddings`, `GET /v1/models` at the host root | – | **checked and absent (2026-10-10)** | both 404 |
@@ -238,51 +238,60 @@ a surface that was not registered, and the picker shows 2 ids rather than 4 or 6
 The support matrix is uniform (both models answered on all three surfaces), which
 is why this is one env switch rather than per-model `api` pinning.
 
-### Why chat is the default and not Responses
+### Surface choice: Responses since 2026-10-24 (and what it still costs)
 
-The house priority is "OpenAI Responses first", and it is normally right. On this
-gateway the measurements say otherwise, and each line below is a recorded probe
-(`research/probe-ledger.md`):
+Chat completions was the original default (2026-10-11): the house priority is
+"OpenAI Responses first", but on this gateway the Responses advantages had
+measured absent and four defects measured present. **The operator flipped the
+default on 2026-10-24** after three of the four objections were closed or
+mapped, each with its evidence in `research/probe-ledger.md`:
 
-1. **It was undocumented when chosen, and its documentation is thin.** The
-   platform docs listed two formats; `/responses` was found by probing
-   (2026-10-10). Since 2026-10-24 an official `api/responses` page exists
-   (documenting `reasoning:{effort,summary}`, flat tool shapes,
-   `prompt_cache_key`, structured outputs and "no `[DONE]` marker"), which
-   removes the "can change without notice" objection — but the three measured
-   defects below predate it and none was fixed by it.
-2. **It does not enforce the output cap.** `max_output_tokens: 131073` was
-   *accepted* for a model whose cap is 131072 (and a streaming request with
-   `max_output_tokens: -1` was accepted too, then failed as an SSE
-   `response.failed` with `usage: 0`). Chat and Anthropic both reject with the
-   ceiling named. So the free cap oracle is dead on this surface and a client-side
-   bound is the only bound.
-3. **It answers some failures with HTTP 200.** A non-streaming invalid field
-   returns `200 {"error":{"code":"invalid_prompt",…}}`; `GET /models/{unknown}`
-   does the same. pi would read that as an empty stream and report "stream ended
-   before a terminal response event" — which pi's retry catalog treats as
-   transient, so a permanent error would burn the whole retry budget. `errors.ts`
-   re-statuses those bodies, but this surface is the only reason that wrapper
-   exists.
-4. **Its thinking off switch fails with an image present — and on
-   LongCat-2.5-Preview it fails outright.** `reasoning: {"effort":"none"}`
-   zeroed reasoning for a text-only 2.0 request (output 8 → 2) but not for one
-   carrying an image (output 8, `reasoning_tokens: 7`), while chat's
-   `thinking:{"type":"disabled"}` kept working with the same image. On 2026-10-24
-   the text-only exemption died for 2.5-Preview: `effort:"none"` → 161 reasoning
-   tokens, chat-style `thinking:{"type":"disabled"}` on this surface → 299, both
-   together → 125. **No switch zeroes reasoning for 2.5-Preview on Responses**,
-   while 2.0's `effort:"none"` still does (0 tokens). Chat keeps working for both.
-5. **The usual Responses advantage is not one here.** Cache accounting that
-   reports hits works on the chat surface too: `cached_tokens` 768 of 836 on the
-   second of two identical requests (2026-10-11).
+1. **"Undocumented" — closed.** The platform published an official
+   `api/responses` page (captured 2026-10-24): `reasoning:{effort,summary}`,
+   `prompt_cache_key`, flat tool shapes, structured outputs, custom tools,
+   "no `[DONE]` marker". The route can no longer change without a documented
+   contract to hold it to.
+2. **"No multi-turn evidence" — closed for one loop.** A pi-shaped two-turn
+   tool loop ran through the shipped stack on 2026-10-24 (DD2-M1/M2):
+   `toolUse` with parsed arguments, then a turn-2 request replaying
+   `system + user + reasoning + function_call + function_call_output` (captured
+   from pi's own `onPayload`) completed with the tool's answer in the text.
+   Long sessions and compaction on this surface remain unexercised — see "What
+   is not verified".
+3. **"The off switch fails" — mapped, and answered with honesty.**
+   `effort:"none"` zeroes reasoning on LongCat-2.0 (re-measured 0 tokens,
+   2026-10-24) but nothing zeroes it on LongCat-2.5-Preview (`effort:"none"`
+   → 161 reasoning tokens, `thinking:{"type":"disabled"}` → 299, both → 125). The
+   plugin now HIDES `off` for the 2.5 family on this surface instead of selling
+   a dead switch (see [Thinking](#thinking)).
+4. **Still true, accepted with the switch:** the cap oracle is dead here
+   (`max_output_tokens: 131073` accepted for a 131072-capped model; a
+   streaming `-1` accepted too, then `response.failed` with `usage: 0`), so
+   client-side bounds are the only bounds; and some failures arrive as HTTP
+   200 + an in-band `{"error":…}` body, which `withGatewayErrorRemediation`
+   re-statuses — that wrapper exists because of this surface, and now runs on
+   the default path rather than beside it. The cache-reporting "advantage" is
+   moot: the chat surface reports `cached_tokens` too (768 of 836,
+   2026-10-11), and pi's Responses adapter sends `prompt_cache_key` natively,
+   so the hook that paid for chat is a no-op here.
+5. **The one defect the switch does NOT mitigate — unreliable vision.** Found
+   by the post-switch harness run and then isolated (DD3, 2026-10-24): the
+   same green-256×256 png the chat surface reads as "Green" 4/4 was read
+   correctly **1/6** on Responses ("Blue", "teal"×2, two truncations). Images
+   ARE tokenized (input 112 tokens); the *reading* is the failure, and the
+   doc's "image URLs must be publicly accessible" hints base64 data-urls are
+   second-class there. The harness colour check is chat-only because of it;
+   users who paste screenshots should set `LONGCAT_SURFACE=chat` until the
+   gateway behaves. This is the known cost of the new default.
 
-What Responses still buys, measured: `store:false`, `prompt_cache_key` and
-`reasoning:{effort,summary}` are all accepted, and pi's exact captured body —
-including `include:["reasoning.encrypted_content"]`, which no doc mentions — was
-sent live and completed normally (ledger row `R8-responses-pi-exact`). So
-`LONGCAT_SURFACE=responses` is a supported configuration, not a experiment; it is
-just not the default.
+What Responses buys on the default path, measured: typed reasoning items with
+replay (DD2), `store:false` and `prompt_cache_key` accepted and echoed (S4,
+2026-10-10), and pi's exact captured body — including
+`include:["reasoning.encrypted_content"]`, which no doc mentions — sent live
+and completed normally (ledger row `R8-responses-pi-exact`).
+`LONGCAT_SURFACE=chat` remains a supported configuration with two things the
+default cannot offer: a working thinking-off for 2.5-Preview, and a gateway
+that enforces the output cap with a 400 naming the ceiling.
 
 ## Non-chat modalities
 
@@ -320,11 +329,16 @@ allowed to read as "absent".
 
 **3. Deliberately not investigated**
 
-- Whether images are accepted on the **Responses** surface in production: the
-  probe was run once (`input_image` with `image_url` as a string, input 103 vs 22
-  for text-only ⇒ consumed) but the colour answer was not read there, and the
-  surface is not the default. A user who sets `LONGCAT_SURFACE=responses` and
-  pastes a screenshot gets an unverified path.
+- Whether images are *read correctly* on the **Responses** surface — **measured
+  UNRELIABLE 2026-10-24**: the same generated green 256×256 png bytes that chat
+  reads as "Green" 4/4 were read correctly **1/6** on Responses ("Blue", "teal"
+  ×2, two reasoning-truncations, one "Green"; ledger DD3-IR* + live/image-colour,
+  verdict rule pre-registered in `research/probe-image-responses.ts`).
+  Consumption itself is proven (input 112 tokens vs ~22 text-only). The new
+  `api/responses` doc's "image URLs must be publicly accessible" is consistent
+  with base64 data-url images being second-class there; the mechanism is not
+  observable from outside. **For image work use `LONGCAT_SURFACE=chat`** — the
+  harness's colour check is chat-only for this reason.
 - **PDF / document parts**, **audio input**, and **file uploads**: no endpoint,
   no doc mention, not probed.
 - Whether the platform's *web* app capabilities (LongCat Chat, CatPaw agents) are
@@ -713,6 +727,37 @@ hit at ~10 s pacing over 90 requests.
 All dates are 2026-10 unless noted. "Free" means the gateway rejected the request
 or performed no inference; the ledger is the checkable form of that claim.
 
+**Default-surface switch (2026-10-24, operator decision)** —
+`DEFAULT_SURFACE` flipped from `openai-completions` to `openai-responses`, and
+the 2.5 family's dead `off` switch was hidden on that surface
+(`LONGCAT_THINKING_RESPONSES_25`, `off: null`; operator: "переходим на responses
+по умолчанию… убрать off"). Preconditions measured the same day before the flip:
+the pi-shaped multi-turn tool loop on Responses passed through the shipped
+stack (DD2-M1/M2, KEY1, ¥0.0016 — turn 2 replayed `reasoning + function_call +
+function_call_output` from pi's own `onPayload` bytes and completed with the
+tool's answer), and was re-run after the map change (2× green). Offline:
+typecheck exit 0, **141 tests** green (two new: the responses level-map pair and
+`thinkingLevelsFor`). The wire-format suite pins the new bytes: 2.5×Responses
+with no level sends **no `reasoning` field at all** (pi's `off !== null` guard,
+openai-responses.js:303) instead of a dead `effort:"none"`, while
+2.0×Responses keeps `{effort:"none"}` (measured to zero its reasoning).
+
+**The flip then found a defect the pre-flight had missed** — which is why the
+billed harness re-ran after the change, not only before it: the image-colour
+check on the new default first truncated at cap 64 (`stop=length`, `text=""`),
+then — cap raised to 128 — answered **"Blue" for the green png**. Isolated by
+`research/probe-image-responses.ts` (DD3, ¥0.0045, verdict rule pre-registered
+in the file): same png bytes, thinking on — **Responses read the colour
+correctly 1/6** ("Green"×1, "Blue"×1, "teal"×2, truncated×2) **vs chat 4/4**;
+images tokenize on both (input 112), the *reading* fails on Responses,
+consistent with the new doc's "image URLs must be publicly accessible". The
+colour check is therefore **chat-only** (a check that flakes by gateway design
+is worse than a recorded defect), the caveat ships in `LONGCAT_VISION_CAVEAT`
+and the wire-surfaces table, and the operator was given the revert choice with
+this evidence. Final post-gate runs: default (Responses) **18 pass / 1 skip,
+¥0.003739**; `LONGCAT_SURFACE=chat` **18 pass / 1 skip, ¥0.005564**; free run
+on the new default **11/11, ¥0.000000**. Version 0.2.0.
+
 **Doc-drift round (2026-10-24)** — operator request: "посмотреть свежую
 документацию, особенно LongCat-2.5-Preview; проверить reasoning-режимы, качество
 кода". All twelve doc pages re-captured and diffed against the 2026-10-10 set:
@@ -965,21 +1010,30 @@ Stated plainly, so no untested claim reads as a tested one.
   prove it); whether `prompt_cache_key` routing is per-node or per-cluster is not
   observable from outside; and no invoice was consulted, so the ¥ figures are
   computed from published rates and reported usage.
-- **The Responses surface as a daily driver.** All 18 harness checks passed with
-  `LONGCAT_SURFACE=responses` (2026-10-11, KEY8, ¥0.0049), including its own
-  thinking off/on readout on LongCat-2.0 (`reasoning:{effort:"none"}` → output 2
-  vs 27 with `effort:"low"`; none → 0 reasoning tokens re-measured 2026-10-24)
-  and confirmation that the `prompt_cache_key` hook is a no-op there. Known-bad
-  since 2026-10-24: **2.5-Preview's off switch does not work on this surface**
-  (no token zeroes its reasoning — `effort:"none"` 161, `thinking:disabled` 299,
-  both 125), so an "off" selection there silently bills reasoning; the plugin
-  now HIDES `off` (`null`) for that model×surface pair (operator decision,
-  implemented 2026-10-24: `LONGCAT_THINKING_RESPONSES_25`) — honest UI, clamped
-  up to `low`, same billing either way.
-  Still unverified: a **multi-turn** agent loop, reasoning-item replay
-  (`include:["reasoning.encrypted_content"]` was accepted, never exercised
-  across turns), the tool loop on this surface, and its cap-validation gap
-  under a real session.
+- **The Responses surface as a daily driver** — now the DEFAULT surface
+  (operator decision 2026-10-24), so this bullet is the risk record for the
+  configuration every user gets. Verified on it: the harness green (18 pass /
+  1 skip, ¥0.0037 post-switch; the skip is the chat-only image check, below),
+  the 2.0 thinking off/on readout (`effort:"none"` → reasoning_tokens 0,
+  re-measured 2026-10-24), and ONE pi-shaped multi-turn tool loop on
+  2.5-Preview through the shipped stack (DD2-M1/M2, 2026-10-24, run twice —
+  before and after the off-hiding change): turn 2 replayed `reasoning +
+  function_call + function_call_output` and completed correctly. **Known-bad
+  on this surface: vision through base64 data-url images is unreliable** — the
+  green png read correctly 1/6 on Responses vs 4/4 on chat (DD3, 2026-10-24),
+  which the post-switch billed harness caught by failing ("Blue" for green).
+  The colour check is chat-only for that reason; image work wants
+  `LONGCAT_SURFACE=chat`. The 2.5-Preview off switch does not exist on this
+  surface (no token zeroes its reasoning — `effort:"none"` 161,
+  `thinking:disabled` 299, both 125; 2026-10-24), so the plugin hides `off`
+  there (operator decision, implemented: `LONGCAT_THINKING_RESPONSES_25`) —
+  the picker offers only `low` and explicit off requests clamp up, billing
+  reasoning that this pair bills regardless. Still unverified: LONG sessions
+  (compaction, auto-retry under a drained balance), multi-turn loops deeper
+  than one tool round, reasoning-item replay across many turns (the encrypted
+  content arrived empty in DD2 — `encrypted=false` — so deep replay may lean
+  on plain reasoning items only), and the cap-validation gap under a real
+  session.
 - **Anthropic surface beyond single calls**: multi-turn replay of `thinking`
   blocks, `tool_result` shape, and whether a `system` parameter is required when
   pi folds system messages. Moot while it is unregistered.

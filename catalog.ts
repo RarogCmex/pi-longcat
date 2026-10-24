@@ -214,8 +214,12 @@ export function thinkingLevelsFor(id: string, api: GatewayApi, levels: ThinkingL
  * unreliable at --thinking off".
  */
 export const LONGCAT_VISION_CAVEAT =
-  "images are consumed and correctly described with thinking enabled; the same " +
-  "probe answers wrongly with thinking disabled (measured 2026-10-11)";
+  "images are consumed and correctly described with thinking enabled ON THE CHAT " +
+  "surface; the same probe answers wrongly with thinking disabled (measured " +
+  "2026-10-11), and — since the Responses surface became the default — vision " +
+  "through base64 data-url images is UNRELIABLE there (green read as blue/teal " +
+  "in 5 of 6 runs vs 4/4 correct on chat, 2026-10-24); use LONGCAT_SURFACE=chat " +
+  "for image work";
 
 /** Minimum image area the gateway enforces, in pixels (measured, see below). */
 export const MIN_IMAGE_AREA_PX = 256;

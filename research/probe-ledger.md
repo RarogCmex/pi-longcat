@@ -16,11 +16,11 @@ Rules (pi-provider-plugin Phase 5, pitfalls L35/L41/L42):
 
 | | |
 |---|---|
-| ledger rows | 329 |
-| calls that generated (BILLED) | 232 |
-| input tokens bought | 183085 |
-| output tokens bought | 40071 |
-| **total spend** | **¥0.636043 ≈ $0.094576** |
+| ledger rows | 449 |
+| calls that generated (BILLED) | 290 |
+| input tokens bought | 191002 |
+| output tokens bought | 41277 |
+| **total spend** | **¥0.661807 ≈ $0.098407** |
 | accepted rows whose usage was never captured | 3 — C3b-microcoding-2.5-16k, CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
 | rows planned "free" that came back accepted and generated (L35 audit) | 6 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic, DD-A8-budget-over, DD-A9-temp-1.5, live-temperature-drift-run1, live-temperature-drift-run2 |
 
@@ -38,7 +38,7 @@ an invalid `thinking.type` planned as a guaranteed rejection and accepted+billed
 
 | key | rows | billed rows | input tokens | output tokens | ¥ | ~$ |
 |---|---|---|---|---|---|---|
-| KEY1 | 205 | 154 | 60835 | 6809 | 0.131033 | 0.019484 |
+| KEY1 | 325 | 212 | 68752 | 8015 | 0.156797 | 0.023315 |
 | KEY1..KEY9 | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | KEY1/garbage/none | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | KEY2 | 21 | 21 | 3884 | 1117 | 0.012188 | 0.001812 |
@@ -391,6 +391,126 @@ the two are never averaged together.
 | 0 | `live/cache-hit` | KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
 | 0 | `live/responses-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
 | 0 | `live/responses-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 30 | 0 | 0.00028600 |
+| 199 | `DD2-M1-turn1` | KEY1 | openai-responses | 200 | BILLED | 185 | 41 | 0 | 0.00069800 |
+| 200 | `DD2-M2-turn2` | KEY1 | openai-responses | 200 | BILLED | 260 | 46 | 0 | 0.00088800 |
+| 201 | `DD2-payload-analysis` | KEY1 | local | n/a | free (rejected/no inference) | – | – | – | 0 |
+| 202 | `DD2-M1-turn1` | KEY1 | openai-responses | 200 | BILLED | 57 | 46 | 128 | 0.00048712 |
+| 203 | `DD2-M2-turn2` | KEY1 | openai-responses | 200 | BILLED | 265 | 69 | 0 | 0.00108200 |
+| 204 | `DD2-payload-analysis` | KEY1 | local | n/a | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/listing` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/top-p-range` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | KEY1 | openai-responses | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | KEY1 | openai-responses | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/listing` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/top-p-range` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | KEY1 | openai-responses | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | KEY1 | openai-responses | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/liveness` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 35 | 0 | 0.00032600 |
+| 0 | `live/temperature-override` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/tool-roundtrip` | KEY1 | openai-responses | 200 | BILLED | 51 | 16 | 128 | 0.00023512 |
+| 0 | `live/image-colour` | KEY1 | openai-responses | 200 | BILLED | 112 | 64 | 0 | 0.00073600 |
+| 0 | `live/cache-key-warm` | KEY1 | openai-responses | 200 | BILLED | 757 | 2 | 0 | 0.00153000 |
+| 0 | `live/cache-key-changed-tail` | KEY1 | openai-responses | 200 | BILLED | 117 | 3 | 640 | 0.00028360 |
+| 0 | `live/cache-key-control-unkeyed` | KEY1 | openai-responses | 200 | BILLED | 117 | 2 | 640 | 0.00027560 |
+| 0 | `live/cache-warm` | KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/cache-hit` | KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/responses-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/responses-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 37 | 0 | 0.00034200 |
+| 0 | `live/listing` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/top-p-range` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | KEY1 | openai-responses | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | KEY1 | openai-responses | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/liveness` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 18 | 0 | 0.00019000 |
+| 0 | `live/temperature-override` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/tool-roundtrip` | KEY1 | openai-responses | 200 | BILLED | 51 | 29 | 128 | 0.00033912 |
+| 0 | `live/image-colour` | KEY1 | openai-responses | 200 | BILLED | 112 | 39 | 0 | 0.00053600 |
+| 0 | `live/cache-key-warm` | KEY1 | openai-responses | 200 | BILLED | 758 | 2 | 0 | 0.00153200 |
+| 0 | `live/cache-key-changed-tail` | KEY1 | openai-responses | 200 | BILLED | 118 | 2 | 640 | 0.00027760 |
+| 0 | `live/cache-key-control-unkeyed` | KEY1 | openai-responses | 200 | BILLED | 118 | 3 | 640 | 0.00028560 |
+| 0 | `live/cache-warm` | KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/cache-hit` | KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/responses-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/responses-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 46 | 0 | 0.00041400 |
+| 205 | `DD3-IR1-responses` | KEY1 | openai-responses | 200 | BILLED | 103 | 128 | 0 | 0.00123000 |
+| 206 | `DD3-IR2-responses` | KEY1 | openai-responses | 200 | BILLED | 103 | 63 | 0 | 0.00071000 |
+| 207 | `DD3-IR3-responses` | KEY1 | openai-responses | 200 | BILLED | 103 | 55 | 0 | 0.00064600 |
+| 208 | `DD3-IR4-chat` | KEY1 | openai-completions | 200 | BILLED | 102 | 116 | 0 | 0.00113200 |
+| 209 | `DD3-IR5-chat` | KEY1 | openai-completions | 200 | BILLED | 102 | 76 | 0 | 0.00081200 |
+| 0 | `live/listing` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/top-p-range` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | KEY1 | openai-responses | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | KEY1 | openai-responses | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/liveness` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 30 | 0 | 0.00028600 |
+| 0 | `live/temperature-override` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/tool-roundtrip` | KEY1 | openai-responses | 200 | BILLED | 51 | 16 | 128 | 0.00023512 |
+| 0 | `live/cache-key-warm` | KEY1 | openai-responses | 200 | BILLED | 756 | 2 | 0 | 0.00152800 |
+| 0 | `live/cache-key-changed-tail` | KEY1 | openai-responses | 200 | BILLED | 116 | 2 | 640 | 0.00027360 |
+| 0 | `live/cache-key-control-unkeyed` | KEY1 | openai-responses | 200 | BILLED | 116 | 2 | 640 | 0.00027360 |
+| 0 | `live/cache-warm` | KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/cache-hit` | KEY1 | openai-responses | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/responses-off` | KEY1 | openai-responses | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/responses-on` | KEY1 | openai-responses | 200 | BILLED | 23 | 45 | 0 | 0.00040600 |
+| 0 | `live/listing` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.5-Preview` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/retrieve/LongCat-2.0` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.5-Preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/cap-sweep/LongCat-2.0` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/unknown-model` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/top-p-range` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/image-floor` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/garbage-key` | KEY1 | openai-completions | 401 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-retrieve` | KEY1 | GET | 200 | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/inband-responses` | KEY1 | openai-responses | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 0 | `live/overflow-probe (not run)` | KEY1 | openai-completions | not-sent | free (rejected/no inference) | – | – | – | 0 |
+| 0 | `live/liveness` | KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-off` | KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/thinking-on` | KEY1 | openai-completions | 200 | BILLED | 23 | 43 | 0 | 0.00039000 |
+| 0 | `live/temperature-override` | KEY1 | openai-completions | 200 | BILLED | 26 | 2 | 0 | 0.00006800 |
+| 0 | `live/tool-roundtrip` | KEY1 | openai-completions | 200 | BILLED | 173 | 16 | 0 | 0.00047400 |
+| 0 | `live/image-colour` | KEY1 | openai-completions | 200 | BILLED | 111 | 60 | 0 | 0.00070200 |
+| 0 | `live/cache-key-warm` | KEY1 | openai-completions | 200 | BILLED | 756 | 2 | 0 | 0.00152800 |
+| 0 | `live/cache-key-changed-tail` | KEY1 | openai-completions | 200 | BILLED | 116 | 2 | 640 | 0.00027360 |
+| 0 | `live/cache-key-control-unkeyed` | KEY1 | openai-completions | 200 | BILLED | 756 | 2 | 0 | 0.00152800 |
+| 0 | `live/cache-warm` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 0 | `live/cache-hit` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
 
 ## What each row was for
 
@@ -723,3 +843,123 @@ the two are never averaged together.
 - **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
 - **0 `live/responses-off`** (cap asked: 8) — live/check.ts --billed run
 - **0 `live/responses-on`** (cap asked: 64) — live/check.ts --billed run
+- **199 `DD2-M1-turn1`** (maxTokens 300, 120 s wall) — Responses multi-turn, turn 1: does 2.5-Preview emit a function_call item pi parses as toolUse?
+- **200 `DD2-M2-turn2`** (maxTokens 400, 120 s wall) — Responses multi-turn, turn 2: assistant replay (incl. reasoning items) + function_call_output backfill — does the gateway accept it and finish?
+- **201 `DD2-payload-analysis`** (local analysis of the captured payload) — what turn 2's REQUEST replayed (no API call)
+- **202 `DD2-M1-turn1`** (maxTokens 300, 120 s wall) — Responses multi-turn, turn 1: does 2.5-Preview emit a function_call item pi parses as toolUse?
+- **203 `DD2-M2-turn2`** (maxTokens 400, 120 s wall) — Responses multi-turn, turn 2: assistant replay (incl. reasoning items) + function_call_output backfill — does the gateway accept it and finish?
+- **204 `DD2-payload-analysis`** (local analysis of the captured payload) — what turn 2's REQUEST replayed (no API call)
+- **0 `live/listing`** (cap asked: -) — live/check.ts free run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts free run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts free run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts free run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts free run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts free run
+- **0 `live/top-p-range`** (cap asked: 4) — live/check.ts free run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts free run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts free run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts free run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts free run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts free run
+- **0 `live/listing`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts --billed run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/top-p-range`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts --billed run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/liveness`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/temperature-override`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/tool-roundtrip`** (cap asked: 200) — live/check.ts --billed run
+- **0 `live/image-colour`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/cache-key-warm`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-changed-tail`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/responses-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/responses-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/listing`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts --billed run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/top-p-range`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts --billed run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/liveness`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/temperature-override`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/tool-roundtrip`** (cap asked: 200) — live/check.ts --billed run
+- **0 `live/image-colour`** (cap asked: 128) — live/check.ts --billed run
+- **0 `live/cache-key-warm`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-changed-tail`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/responses-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/responses-on`** (cap asked: 64) — live/check.ts --billed run
+- **205 `DD3-IR1-responses`** (max_output_tokens 128, 120 s) — image colour stability on Responses (N=3)
+- **206 `DD3-IR2-responses`** (max_output_tokens 128, 120 s) — image colour stability on Responses (N=3)
+- **207 `DD3-IR3-responses`** (max_output_tokens 128, 120 s) — image colour stability on Responses (N=3)
+- **208 `DD3-IR4-chat`** (max_tokens 128, 120 s) — image colour stability on chat, control (N=2)
+- **209 `DD3-IR5-chat`** (max_tokens 128, 120 s) — image colour stability on chat, control (N=2)
+- **0 `live/listing`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts --billed run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/top-p-range`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts --billed run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/liveness`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/temperature-override`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/tool-roundtrip`** (cap asked: 200) — live/check.ts --billed run
+- **0 `live/cache-key-warm`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-changed-tail`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/responses-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/responses-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/listing`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.5-Preview`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/retrieve/LongCat-2.0`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.5-Preview`** (cap asked: 262145) — live/check.ts --billed run
+- **0 `live/cap-sweep/LongCat-2.0`** (cap asked: 131073) — live/check.ts --billed run
+- **0 `live/unknown-model`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/top-p-range`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/image-floor`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/garbage-key`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/inband-retrieve`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/inband-responses`** (cap asked: -5) — live/check.ts --billed run
+- **0 `live/overflow-probe (not run)`** (cap asked: -) — live/check.ts --billed run
+- **0 `live/liveness`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-off`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/thinking-on`** (cap asked: 64) — live/check.ts --billed run
+- **0 `live/temperature-override`** (cap asked: 8) — live/check.ts --billed run
+- **0 `live/tool-roundtrip`** (cap asked: 200) — live/check.ts --billed run
+- **0 `live/image-colour`** (cap asked: 128) — live/check.ts --billed run
+- **0 `live/cache-key-warm`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-changed-tail`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
+- **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
+- **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run

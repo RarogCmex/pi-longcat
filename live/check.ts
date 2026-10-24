@@ -3,7 +3,7 @@
  *
  *   node live/check.ts                 # free checks only — spends nothing
  *   node live/check.ts --billed        # + the accepted-call checks (itemized)
- *   LONGCAT_SURFACE=responses node live/check.ts --billed
+ *   LONGCAT_SURFACE=chat node live/check.ts --billed   # the non-default surface (Responses is the default since 2026-10-24)
  *
  * Key resolution: `LONGCAT_API_KEY`, else `KEY1` from `secret.env` in the repo
  * root (never printed, never committed), else every test skips.
@@ -52,11 +52,13 @@
  *   5. the in-band HTTP-200 error paths are re-statused by our fetch wrapper;
  *   6. the top_p range and the image-area floor are still enforced;
  *   7. (billed) liveness, the thinking switch measured by its OUTPUT, a tool
- *      round trip, image consumption with a non-guessable colour, cache
- *      accounting proven with exactly two requests, and — since 2026-10-24 —
- *      the temperature override policy (an out-of-range temperature is ACCEPTED
- *      and generates; it was a 400 until the gateway changed, which the free
- *      run of that date caught by failing).
+ *      round trip, image consumption with a non-guessable colour (CHAT surface
+ *      only since 2026-10-24 — vision through base64 data-url images is
+ *      measured unreliable on Responses: 1/6 correct vs 4/4 on chat, DD3),
+ *      cache accounting proven with exactly two requests, and — since
+ *      2026-10-24 — the temperature override policy (an out-of-range
+ *      temperature is ACCEPTED and generates; it was a 400 until the gateway
+ *      changed, which the free run of that date caught by failing).
  *
  * The billed checks drive the SAME wrapped adapter production uses
  * (`withGatewayErrorRemediation(openAICompletionsApi())`) and the same model
@@ -562,7 +564,7 @@ test("live/free: an oversized-prompt overflow probe is DELIBERATELY not run", { 
 
 const skipBilled = !KEY ? SKIP : !BILLED_MODE ? "pass --billed to run the accepted-call checks (each is itemized in the ledger)" : false;
 
-test("live/billed: the chat surface completes through the shipped adapter", { skip: skipBilled }, async () => {
+test("live/billed: the registered surface completes through the shipped adapter", { skip: skipBilled }, async () => {
   const model = modelById("LongCat-2.0");
   const { message, status } = await ask("liveness", model, "Reply with exactly one word: ok", { maxTokens: 8, reasoning: undefined });
   assert.equal(status, 200);
@@ -615,7 +617,14 @@ test("live/billed: a tool round trip returns stopReason toolUse with usable argu
   assert.equal(typeof call.arguments.zone, "string", "arguments must arrive parsed, not as a string blob");
 });
 
-test("live/billed: 2.5-Preview consumes an image and names a colour the prompt cannot suggest", { skip: skipBilled }, async () => {
+test("live/billed: 2.5-Preview consumes an image and names a colour the prompt cannot suggest (chat surface only)", {
+  skip:
+    skipBilled || SURFACE !== "openai-completions"
+      ? SURFACE !== "openai-completions"
+        ? "image-colour is chat-only since 2026-10-24: vision through data-url images is measured UNRELIABLE on the Responses surface (1/6 correct colour reads vs 4/4 on chat, same png bytes — ledger DD3-IR*, live/image-colour; a check that flakes by gateway design is worse than a recorded defect)"
+        : skipBilled
+      : false,
+}, async () => {
   const model = modelById("LongCat-2.5-Preview");
   // GREEN, 256x256 (above the measured floor). "Green" cannot come from the
   // prompt, and the text-only control for this exact question answered "Red"
@@ -623,6 +632,13 @@ test("live/billed: 2.5-Preview consumes an image and names a colour the prompt c
   // Thinking must be ON: measured, the same probe with thinking off answers
   // "White" (catalog.ts LONGCAT_VISION_CAVEAT).
   const green = solidPng(256, [0x18, 0xc8, 0x28]);
+  // Budget 64 → 128 on 2026-10-24: reasoning shares max_tokens with the answer,
+  // and a Responses-surface run truncated at 64 (out=64, stop=length, text="";
+  // ledger live/image-colour 10:33Z). The check is chat-ONLY since the same day:
+  // on Responses the SAME png bytes misread green as "Blue"/"teal" or truncated
+  // in 5 of 6 runs (1/6 correct vs 4/4 on chat — DD3-IR*, verdict rule
+  // pre-registered in research/probe-image-responses.ts). Asserting a colour
+  // there would be asserting a coin flip, so the defect is recorded, not tested.
   // pi's transcript vocabulary is `{type:"image", data, mimeType}` — NOT the
   // OpenAI wire shape. Sending the wire shape produced `400 Invalid base64 image
   // data` on the first run of this harness, because pi re-serialized a part it
@@ -632,7 +648,7 @@ test("live/billed: 2.5-Preview consumes an image and names a colour the prompt c
     "image-colour",
     model,
     [{ type: "text", text: "What single colour is this image? Answer with one word." }, { type: "image", data: green, mimeType: "image/png" }],
-    { maxTokens: 64, reasoning: "low" },
+    { maxTokens: 128, reasoning: "low" },
   );
   const answer = message.content.filter((c: any) => c.type === "text").map((c: any) => c.text).join(" ");
   assert.equal(message.stopReason, "stop", `image request failed: ${message.errorMessage ?? message.stopReason}`);
@@ -684,7 +700,7 @@ test("live/billed: cache accounting is proven with exactly two identical long-pr
   assert.ok(cost!.cacheRead > 0 && cost!.cacheRead < cost!.input + cost!.cacheRead, `a cache hit must be priced and cheaper than a miss: ${JSON.stringify(cost)}`);
 });
 
-test("live/billed: the Responses surface (when registered) completes and honours effort:none", { skip: skipBilled || SURFACE !== "openai-responses" ? (SURFACE !== "openai-responses" ? "run with LONGCAT_SURFACE=responses" : skipBilled) : false }, async () => {
+test("live/billed: the Responses surface (when registered) completes and honours effort:none", { skip: skipBilled || SURFACE !== "openai-responses" ? (SURFACE !== "openai-responses" ? "Responses-only check; this run registered chat" : skipBilled) : false }, async () => {
   const model = modelById("LongCat-2.0");
   const off = await ask("responses-off", model, "Reply with exactly one word: ok", { maxTokens: 8, reasoning: undefined });
   assert.equal(off.message.stopReason, "stop", String(off.message.errorMessage ?? ""));

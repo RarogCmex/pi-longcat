@@ -1,0 +1,62 @@
+data: {"type":"response.created","response":{"id":"resp_237f0f93c1e043fa8ed59f73c32d6f02","object":"response","created_at":1792838589,"status":"in_progress","background":false,"max_output_tokens":128,"model":"LongCat-2.5-Preview","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":0}
+
+data: {"type":"response.in_progress","response":{"id":"resp_237f0f93c1e043fa8ed59f73c32d6f02","object":"response","created_at":1792838589,"status":"in_progress","background":false,"max_output_tokens":128,"model":"LongCat-2.5-Preview","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":1}
+
+data: {"type":"response.output_item.added","output_index":0,"item":{"id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","type":"reasoning","summary":[],"content":[]},"sequence_number":2}
+
+data: {"type":"response.content_part.added","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"","annotations":[],"logprobs":[]},"sequence_number":3}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":"\n","obfuscation":"obf_278dde6c4","sequence_number":4,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":"The","obfuscation":"obf_317156075","sequence_number":5,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" user is","obfuscation":"obf_3b54cda26","sequence_number":6,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" asking what","obfuscation":"obf_4538453d7","sequence_number":7,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" single color the","obfuscation":"obf_4f1bbcd88","sequence_number":8,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" image is.","obfuscation":"obf_58ff34739","sequence_number":9,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" Looking at the image, it appears to","obfuscation":"obf_62e2ac0ea","sequence_number":10,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" be a solid te","obfuscation":"obf_6cc623a9b","sequence_number":11,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":"al color. Te","obfuscation":"obf_76a99b44c","sequence_number":12,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":"al is a blue-green color. The","obfuscation":"obf_808d12dfd","sequence_number":13,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" image shows","obfuscation":"obf_8a708a7ae","sequence_number":14,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" a uniform","obfuscation":"obf_94540215f","sequence_number":15,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" color that looks","obfuscation":"obf_9e3779b10","sequence_number":16,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" like teal.","obfuscation":"obf_a81af14c1","sequence_number":17,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" Let me answer with","obfuscation":"obf_b1fe68e72","sequence_number":18,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":" one word: \"","obfuscation":"obf_bbe1e0823","sequence_number":19,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"delta":"teal\".","obfuscation":"obf_c5c5581d4","sequence_number":20,"content_index":0}
+
+data: {"type":"response.reasoning_text.done","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid teal color. Teal is a blue-green color. The image shows a uniform color that looks like teal. Let me answer with one word: \"teal\".","sequence_number":21,"content_index":0}
+
+data: {"type":"response.content_part.done","item_id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid teal color. Teal is a blue-green color. The image shows a uniform color that looks like teal. Let me answer with one word: \"teal\".","annotations":[],"logprobs":[]},"sequence_number":22}
+
+data: {"type":"response.output_item.done","output_index":0,"item":{"id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","type":"reasoning","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid teal color. Teal is a blue-green color. The image shows a uniform color that looks like teal. Let me answer with one word: \"teal\"."}]},"sequence_number":23}
+
+data: {"type":"response.output_item.added","output_index":1,"item":{"id":"msg_11f3dda2d20c41ef94a53b5f9370a557","type":"message","status":"in_progress","role":"assistant","content":[]},"sequence_number":24}
+
+data: {"type":"response.content_part.added","item_id":"msg_11f3dda2d20c41ef94a53b5f9370a557","output_index":1,"content_index":0,"part":{"type":"output_text","text":"","annotations":[],"logprobs":[]},"sequence_number":25}
+
+data: {"type":"response.output_text.delta","item_id":"msg_11f3dda2d20c41ef94a53b5f9370a557","output_index":1,"content_index":0,"delta":"teal","logprobs":[],"obfuscation":"obf_1011a25bfa","sequence_number":26}
+
+data: {"type":"response.output_text.done","item_id":"msg_11f3dda2d20c41ef94a53b5f9370a557","output_index":1,"content_index":0,"text":"teal","logprobs":[],"sequence_number":27}
+
+data: {"type":"response.content_part.done","item_id":"msg_11f3dda2d20c41ef94a53b5f9370a557","output_index":1,"content_index":0,"part":{"type":"output_text","text":"teal","annotations":[],"logprobs":[]},"sequence_number":28}
+
+data: {"type":"response.output_item.done","output_index":1,"item":{"id":"msg_11f3dda2d20c41ef94a53b5f9370a557","type":"message","status":"completed","role":"assistant","content":[{"type":"output_text","text":"teal","annotations":[],"logprobs":[]}]},"sequence_number":29}
+
+data: {"type":"response.completed","response":{"id":"resp_237f0f93c1e043fa8ed59f73c32d6f02","object":"response","created_at":1792838589,"status":"completed","background":false,"completed_at":1792838591,"max_output_tokens":128,"model":"LongCat-2.5-Preview","output":[{"type":"reasoning","id":"rs_resp_237f0f93c1e043fa8ed59f73c32d6f02","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid teal color. Teal is a blue-green color. The image shows a uniform color that looks like teal. Let me answer with one word: \"teal\"."}]},{"type":"message","id":"msg_11f3dda2d20c41ef94a53b5f9370a557","status":"completed","role":"assistant","content":[{"type":"output_text","text":"teal","annotations":[],"logprobs":[]}]}],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"default","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","usage":{"input_tokens":103,"input_tokens_details":{"cached_tokens":0},"output_tokens":63,"output_tokens_details":{"reasoning_tokens":58},"total_tokens":166},"metadata":{}},"sequence_number":30}
+

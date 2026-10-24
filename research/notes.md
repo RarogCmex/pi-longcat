@@ -317,3 +317,45 @@ Listing (2 ids), per-model details (window 1048576, modalities, ¥2/¥0.04/¥8,
 unknown-model 400, image-area floor 400 naming 256px, garbage key 401 through
 the shipped wrapper, both in-band HTTP-200 error paths (`GET /models/{unknown}`
 and `/responses` with max_output_tokens -5) — all as recorded on 2026-10-10/11.
+
+## 10. Default-surface switch — 2026-10-24 (operator decision) `[M]`
+
+Operator: "переходим на responses по умолчанию (если уже нет). Да, убрать off.
+Сделать коммиты." Two changes, in this order of evidence:
+
+1. **Precondition probe (DD2, `research/probe-responses-multiturn.ts`)**: the
+   one thing Responses had never exercised — a multi-turn tool loop. Through
+   the shipped stack (`withGatewayErrorRemediation(openAIResponsesApi())`,
+   `buildModels`, the `injectPromptCacheKey` hook, the remediated fetch) on
+   2.5-Preview: turn 1 → `stopReason toolUse`, `get_current_time({zone:"UTC"})`
+   parsed; turn 2 replayed pi's own bytes — captured at `onPayload`:
+   `[message:system, message:user, reasoning, function_call,
+   function_call_output]` with `include:["reasoning.encrypted_content"]` — and
+   completed with the tool's answer in the text. Reasoning items were replayed
+   WITHOUT encrypted content (gateway returned none; `encrypted=false`) and it
+   still worked. ¥0.0016, KEY1, rows DD2-M1/M2. Re-run after the map change:
+   green again.
+2. **`off` hidden for the 2.5 family on Responses** (`off: null` — see §9.4),
+   then **`DEFAULT_SURFACE = "openai-responses"`** in models.ts. Wire-format
+   suite pins the new bytes (no `reasoning` field for 2.5×Responses with no
+   level; `{effort:"none"}` kept for 2.0×Responses). Offline suite 141 green.
+3. **The flip then FOUND a defect the pre-flight missed** (this is why the
+   harness runs after a change, not only before): the billed image-colour check
+   on the new default truncated at cap 64 (stop=length, text="") and, with the
+   cap raised to 128, answered **"Blue"** for the green png (live/image-colour
+   10:33Z/10:39Z). Isolated by `research/probe-image-responses.ts` (DD3, verdict
+   rule pre-registered in the file): same png bytes, thinking on, cap 128 —
+   **Responses 1/6 correct** ("Green" ×1, "Blue" ×1, "teal" ×2, truncated ×2,
+   incl. the harness rows) vs **chat 4/4 "Green"** (incl. today's earlier chat
+   run). Images ARE tokenized on both (input 112); the READING fails on
+   Responses, consistent with the new api/responses doc's "image URLs must be
+   publicly accessible" (base64 data-urls second-class there — mechanism not
+   observable from outside). Consequences: the harness colour check is
+   **chat-only** (a check that flakes by gateway design is worse than a recorded
+   defect), LONGCAT_VISION_CAVEAT + README carry "use LONGCAT_SURFACE=chat for
+   image work", and the operator was informed with the A/B choice (revert the
+   flip vs proceed documented). DD3 cost ¥0.0045, KEY1.
+4. Residual risk (recorded in README "What is not verified"): long sessions,
+   compaction, deeper multi-turn, the dead cap oracle, and now the vision
+   defect above on the new default; `LONGCAT_SURFACE=chat` keeps the working
+   2.5 off switch, vision, and the cap-enforcing gateway.

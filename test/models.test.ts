@@ -73,9 +73,9 @@ describe("currency", () => {
 });
 
 describe("surface resolution", () => {
-  test("defaults to chat completions", () => {
-    assert.equal(DEFAULT_SURFACE, "openai-completions");
-    assert.deepEqual(resolveSurface(env({})), { api: "openai-completions", recognized: true });
+  test("defaults to the Responses surface (operator decision 2026-10-24)", () => {
+    assert.equal(DEFAULT_SURFACE, "openai-responses");
+    assert.deepEqual(resolveSurface(env({})), { api: "openai-responses", recognized: true });
   });
 
   test("accepts short and long names, case-insensitively, trimmed", () => {

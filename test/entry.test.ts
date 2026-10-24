@@ -118,22 +118,22 @@ describe("registration", () => {
   let loaded: Awaited<ReturnType<typeof load>>;
   beforeEach(() => { loaded?.restore(); });
 
-  test("registers exactly one provider, id longcat, on the default chat surface", async () => {
+  test("registers exactly one provider, id longcat, on the default Responses surface", async () => {
     loaded = await load();
     try {
       assert.equal(loaded.pi.registered.length, 1);
       const provider = loaded.pi.registered[0];
       assert.equal(provider.id, "longcat");
-      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-completions", "openai-completions"]);
+      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-responses", "openai-responses"]);
       assert.deepEqual(provider.getModels().map((m: any) => m.id), ["LongCat-2.5-Preview", "LongCat-2.0"]);
     } finally { loaded.restore(); }
   });
 
-  test("LONGCAT_SURFACE=responses registers the Responses surface only", async () => {
-    loaded = await load({ LONGCAT_SURFACE: "responses" });
+  test("LONGCAT_SURFACE=chat registers the chat surface only", async () => {
+    loaded = await load({ LONGCAT_SURFACE: "chat" });
     try {
       const provider = loaded.pi.registered[0];
-      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-responses", "openai-responses"]);
+      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-completions", "openai-completions"]);
       assert.equal(provider.getModels().length, 2, "one surface per process: 2 ids, not 4");
     } finally { loaded.restore(); }
   });
@@ -142,7 +142,7 @@ describe("registration", () => {
     loaded = await load({ LONGCAT_SURFACE: "respones" });
     try {
       const provider = loaded.pi.registered[0];
-      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-completions", "openai-completions"]);
+      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-responses", "openai-responses"]);
       assert.equal(loaded.pi.handlers.get("session_start")?.length, 1, "a typo must not pass silently (P52)");
       loaded.pi.emit("session_start", {}, UI_CTX(loaded.notified));
       assert.equal(loaded.notified.length, 1);
@@ -160,7 +160,7 @@ describe("registration", () => {
       loaded.pi.emit("session_start", {}, UI_CTX(loaded.notified));
       assert.match(loaded.notified[0] ?? "", /x-api-key/);
       assert.match(loaded.notified[0] ?? "", /401 missing_api_key/);
-      assert.deepEqual(loaded.pi.registered[0].getModels().map((m: any) => m.api), ["openai-completions", "openai-completions"]);
+      assert.deepEqual(loaded.pi.registered[0].getModels().map((m: any) => m.api), ["openai-responses", "openai-responses"]);
     } finally { loaded.restore(); }
   });
 

@@ -7,18 +7,21 @@
  * zero-inference key check, an additive live overlay from `GET /models`, and
  * readable messages for the gateway's auth and balance failures.
  *
- * Wire surfaces. The gateway serves three (all probed live 2026-10-10/11):
- *   - `POST /openai/v1/chat/completions` — registered by default. Documented,
+ * Wire surfaces. The gateway serves three (all probed live 2026-10-10/11,
+ * re-checked 2026-10-24):
+ *   - `POST /openai/v1/responses` — **registered by default since 2026-10-24**
+ *     (operator decision; officially documented by the platform that day, and a
+ *     pi-shaped multi-turn tool loop was measured through the shipped stack —
+ *     ledger DD2-M1/M2). Buys typed reasoning items and replay. Two measured
+ *     caveats ride along: it does not enforce the output cap (131073 accepted),
+ *     it answers some failures with HTTP 200 + an in-band error body (hence
+ *     `withGatewayErrorRemediation`), and LongCat-2.5-Preview has NO working
+ *     thinking-off switch on it (measured) — so that model×surface pair offers
+ *     only the `low` level instead of selling a dead "off".
+ *   - `POST /openai/v1/chat/completions` — `LONGCAT_SURFACE=chat`. Documented,
  *     enforces the output cap (131073 → 400 naming 131072), answers failures
  *     with real HTTP statuses, and its `thinking:{"type":"disabled"}` switch is
- *     honoured even when the request carries an image.
- *   - `POST /openai/v1/responses` — `LONGCAT_SURFACE=responses`. Real but
- *     UNDOCUMENTED (found by probing: `m-spanname: OpenaiController.
- *     nativeResponses`); it buys typed reasoning items and replay, and costs
- *     three measured defects: it does not enforce the output cap (131073
- *     accepted), it answers some failures with HTTP 200 + an in-band error body
- *     (hence `withGatewayErrorRemediation`), and `reasoning:{"effort":"none"}`
- *     stops working once an image is in the request.
+ *     honoured on both models even when the request carries an image.
  *   - `POST /anthropic/v1/messages` — works (streaming, `tool_use`, thinking
  *     on/off all measured) but is NOT registered: pi's Anthropic adapter
  *     authenticates with `x-api-key` (`pi-ai/dist/api/anthropic-messages.js:
@@ -44,9 +47,12 @@
  *    addressed?", and the measured answer is that the key is the routing handle —
  *    a prefix warm under a key MISSES when the same bytes are sent without one,
  *    while a changed final message still HITS under a stable key (cells D1-D5).
- *    pi omits the field on chat routes, so the default surface was leaving a 50×
- *    input-price discount on the table for every multi-turn session. See
- *    `injectPromptCacheKey` in errors.ts for the measurements and the guards.
+ *    pi omits the field on chat routes, so the then-default chat surface was
+ *    leaving a 50× input-price discount on the table for every multi-turn
+ *    session. Since the 2026-10-24 default flip the hook is a no-op in the
+ *    default configuration (pi's Responses adapter sends the key itself) and
+ *    keeps paying for `LONGCAT_SURFACE=chat`. See `injectPromptCacheKey` in
+ *    errors.ts for the measurements and the guards.
  *
  * An asserted absence is an answer to the questions asked, not a permanent verdict;
  * the flip updated the tests, the README and the journal together.
