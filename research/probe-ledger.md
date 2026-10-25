@@ -16,21 +16,31 @@ Rules (pi-provider-plugin Phase 5, pitfalls L35/L41/L42):
 
 | | |
 |---|---|
-| ledger rows | 449 |
-| calls that generated (BILLED) | 290 |
-| input tokens bought | 191002 |
-| output tokens bought | 41277 |
-| **total spend** | **¥0.661807 ≈ $0.098407** |
-| accepted rows whose usage was never captured | 3 — C3b-microcoding-2.5-16k, CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
+| ledger rows | 493 |
+| calls that generated (BILLED) | 334 |
+| input tokens bought | 193393 |
+| output tokens bought | 58943 |
+| **total spend** | **¥0.807917 ≈ $0.120133** |
+| accepted rows whose usage was never captured | 3 — C3b-microcoding-2.5-16k (classified `BILLED-uncaptured`), plus CAP2-chat-2.5-131073 and R2-IM-2.5-textonly, which were **client-side aborts/timeouts** but are classified `free (rejected/no inference)`; see the note below |
 | rows planned "free" that came back accepted and generated (L35 audit) | 6 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic, DD-A8-budget-over, DD-A9-temp-1.5, live-temperature-drift-run1, live-temperature-drift-run2 |
 
-Rows whose usage was never captured are named above and are **not** estimated —
-the house rule is "not captured" rather than a plausible number. Three classes
-produce them: a client-side abort guard firing mid-generation (the cap probes,
-and `C3b-microcoding-2.5-16k`, which a 120 s wall clock cut off while the model
-was still thinking — its class reads BILLED-uncaptured because the server kept
+The 3 "uncaptured" rows are named above and are **not** estimated — the house rule
+is "not captured" rather than a plausible number. Three classes produce them: a
+client-side abort guard firing mid-generation (the cap probes, and
+`C3b-microcoding-2.5-16k`, which a 120 s wall clock cut off while the model was
+still thinking — its class reads BILLED-uncaptured because the server kept
 generating after we hung up), a request timeout, and a stream that ended before
 the usage event. A row in this list is a hole in the accounting, not a free call.
+
+**Classification gap (re-read 2026-10-25):** two of the three are filed as
+`free (rejected/no inference)` although they never reached a verdict —
+`CAP2-chat-2.5-131073` (`http: ABORTED(3000ms)`) and `R2-IM-2.5-textonly`
+(`http: ERR:The operation was aborted due to timeout`) are client-side aborts, so
+"rejected" is not what happened. Their cost stays 0 either way (the abort means
+no usage event, and the house rule is "not captured"), but the label
+understates the uncertainty: an abort is not a rejection. Not rewritten here —
+flagged for the operator rather than silently reclassified.
+
 The 2 "suspicious" rows are the honest L35 misses from the first research round:
 an invalid `thinking.type` planned as a guaranteed rejection and accepted+billed.
 
@@ -38,17 +48,17 @@ an invalid `thinking.type` planned as a guaranteed rejection and accepted+billed
 
 | key | rows | billed rows | input tokens | output tokens | ¥ | ~$ |
 |---|---|---|---|---|---|---|
-| KEY1 | 325 | 212 | 68752 | 8015 | 0.156797 | 0.023315 |
+| KEY4 | 25 | 24 | 108049 | 31065 | 0.463113 | 0.068862 |
+| KEY1 | 369 | 256 | 71143 | 25681 | 0.302907 | 0.045041 |
+| KEY3 | 5 | 5 | 4804 | 801 | 0.016354 | 0.002432 |
+| KEY2 | 21 | 21 | 3884 | 1117 | 0.012188 | 0.001812 |
+| KEY6 | 23 | 11 | 2460 | 125 | 0.005956 | 0.000886 |
+| KEY8 | 25 | 13 | 1879 | 140 | 0.004939 | 0.000734 |
+| KEY5 | 2 | 2 | 1146 | 6 | 0.002340 | 0.000348 |
+| KEY7 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
+| KEY9 | 13 | 1 | 14 | 4 | 0.000060 | 0.000009 |
 | KEY1..KEY9 | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | KEY1/garbage/none | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
-| KEY2 | 21 | 21 | 3884 | 1117 | 0.012188 | 0.001812 |
-| KEY3 | 5 | 5 | 4804 | 801 | 0.016354 | 0.002432 |
-| KEY4 | 25 | 24 | 108049 | 31065 | 0.463113 | 0.068862 |
-| KEY5 | 2 | 2 | 1146 | 6 | 0.002340 | 0.000348 |
-| KEY6 | 23 | 11 | 2460 | 125 | 0.005956 | 0.000886 |
-| KEY7 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
-| KEY8 | 25 | 13 | 1879 | 140 | 0.004939 | 0.000734 |
-| KEY9 | 13 | 1 | 14 | 4 | 0.000060 | 0.000009 |
 | garbage | 3 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | none | 4 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 
@@ -963,3 +973,12 @@ the two are never averaged together.
 - **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
 - **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
 - **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
+- **0 `DD-E0-task-divcount`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot: does the divcount task (smallest n divisible by 12 with 12 divisors, answer 60) reason moderately instead of saturating the cap?
+- **0 `DD-E0-task-seats`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot: the 4-people/4-chairs deduction task (answer 3) — second candidate
+- **0 `DD-E0-task-lastdigit`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot: last digit of 7^2024 (answer 1) — rejected: only 69 reasoning tokens
+- **0 `DD-E0-task-banana`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot: BANANA arrangements with no two A's adjacent (answer 12) — rejected: only 148 tokens
+- **0 `DD-E1-pilot-low`** (max_output_tokens 2048, 300 s timeout) — FIRST candidate (enumeration, answer 38) at effort=low: reasoning_tokens 2047/2048, finish=incomplete, answer lost — the task saturated the cap, so it was abandoned (kept as evidence)
+- **0 `DD-E2-divcount-effort-{none,minimal,low,medium,high,xhigh}-r{1,2,3}`** (max_output_tokens 2048, 300 s timeout) — the scale: does effort move reasoning_tokens on divcount? 18 rows, medians 324/323/450/268/315/338, Kruskal–Wallis p=0.713 — no
+- **0 `DD-E2-seats-effort-{none,minimal,low,medium,high,xhigh}-r{1,2}`** (max_output_tokens 2048, 300 s timeout) — the same scale on a second task (12 rows, medians 222/298/297/295/207/293) — high is the LOWEST; conclusion not an artefact of one prompt
+- **0 `DD-E3-nofield-divcount-r{1,2,3}`** (max_output_tokens 2048, 300 s timeout) — baseline: NO reasoning field (what pi sends for 2.5×Responses with no level), medians 327 — mid-pack against the six levels
+- **0 `DD-E4-summary-{auto,concise,detailed}-r{1,2}`** (max_output_tokens 2048, 300 s timeout) — the OTHER half of pi's shipped bytes: does summary move reasoning_tokens at effort=high? 6 rows, medians 330/366/321 — no

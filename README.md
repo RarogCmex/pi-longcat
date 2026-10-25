@@ -199,6 +199,20 @@ Consequences in code:
   Anthropic surface the chat map drives `thinking: {type:"disabled"}`, also
   measured honoured.
 
+**The Responses effort scale is decorative — measured at N=3, not inferred**
+(2026-10-25, ledger `DD-E*`, **¥0.146**): the six documented levels
+`none…xhigh` produce `reasoning_tokens` indistinguishable from sending **no**
+`reasoning` field at all — `divcount` medians 324 / 323 / 450 / 268 / 315 / 338
+vs the no-field baseline 327, **Kruskal–Wallis H = 2.918, df = 5, p = 0.713**;
+on a second task `high` was the *lowest* of the six (207), so this is not an
+artefact of one prompt. The gateway validates `reasoning.summary`'s vocabulary
+(`"bogus"` → 400) but **not** `reasoning.effort`'s (`"bogus-level"` → 200,
+`"HIGH"` → 200, only `""` → 400), and the response merely echoes the field back
+(`reasoning:{"effort":"high","summary":null}`). So `low` is not a limitation
+of this plugin — it is the whole of what the gateway offers on
+2.5-Preview×Responses. `summary` was swept at N=2 and moves nothing either
+(medians 330 / 366 / 321 vs 315 without it).
+
 **Two side effects of the off switch that are not about tokens** (pitfalls T29:
 measure a switch by what it costs you elsewhere):
 
@@ -590,6 +604,16 @@ no-extra-field baseline of 39 — noise, not a scale. This independently confirm
 review's reading and is why `supportsReasoningEffort: false` is pinned and no
 `thinkingTokenBudgetField` is declared.
 
+On the **Responses** surface the same conclusion now has a proper sample rather
+than N=1: the documented scale `none…xhigh` was swept at **N=3 per level** on a
+task that requires reasoning (smallest n divisible by 12 with exactly 12
+divisors, answer 60) and is statistically indistinguishable from sending nothing
+at all — Kruskal–Wallis **p = 0.713**; a second task put `high` lowest of the six.
+The first candidate task (an enumeration) had to be dropped because it
+**saturated the cap** (2047 of 2048 reasoning tokens, `finish=incomplete`, answer
+lost), which would have made every level report the same number and the question
+unanswerable. See [Thinking](#thinking) and `research/notes.md` §11.
+
 ### 8. Tool-call reliability across the thinking switch (N=5 per cell, pitfalls T29)
 
 `tool_choice` left at the default so *willingness* is what is measured; the prompt
@@ -818,6 +842,23 @@ green: chat **18/18, ¥0.005826**; `LONGCAT_SURFACE=responses` **19/19,
 works; a 2.5-Preview off-switch check on that surface would fail by design of
 the gateway, not of the harness). Day total: 78 ledger rows, 44 billed,
 **¥0.0566 (~$0.0084)**.
+
+**Effort-scale round (2026-10-25)** — operator: "Выполни платный прогон. Возьми
+задачу, которая требует размышлений." Motivation: the one gap in the doc-drift
+round was that the effort scale had been measured at **N=1 per level**. Free
+pre-checks first (same day): `supported_parameters` unchanged, the `api/responses`
+and `api/model-params` pages **byte-identical** to the 2026-10-24 captures, and a
+new asymmetry — `reasoning.summary` vocabulary **is** validated (400 "must be one
+of concise, detailed, auto") while `reasoning.effort` is **not** (`"bogus-level"`
+and `"HIGH"` → 200, only `""` → 400). Probes: `research/probe-task-pilot.ts`
+(task selection, incl. the discarded saturating candidate) and
+`research/probe-effort-scale.ts`; ledger rows `DD-E0-*`…`DD-E4-*` — **44 rows, 44
+billed, ¥0.14611 (~$0.0217)** on KEY1. Result: the six levels are
+indistinguishable from omitting the field (Kruskal–Wallis H = 2.918, df = 5,
+**p = 0.713**; `divcount` medians 324/323/450/268/315/338 vs baseline 327), `high`
+was lowest on a second task, `summary` is flat at N=2, and correctness is not
+level-dependent (36/39). **No code change** — the existing `low`-only map is
+confirmed as the whole of what the gateway offers on 2.5-Preview×Responses.
 
 **pi 1.4.0 re-verification (2026-10-22)** — the host on this machine moved from
 1.1.0 to 1.4.0. Offline: `npm run typecheck` (global `tsc` 7.1.0-dev.20260823.1)

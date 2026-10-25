@@ -173,6 +173,13 @@ export const LONGCAT_THINKING: ThinkingLevelMap = {
  * openai-responses.js:303), leaving the gateway's think-by-default. Honest UI:
  * a switch that does nothing is worse than no switch. Operator decision
  * 2026-10-24.
+ *
+ * The "no off switch" half was then re-measured at a real sample on 2026-10-25
+ * (ledger DD-E2/E3, research/notes.md §11): the six documented effort levels
+ * are indistinguishable from sending NO reasoning field at all — divcount
+ * medians 324/323/450/268/315/338 vs baseline 327, Kruskal–Wallis p = 0.713 —
+ * and `summary` is flat too. So `low` is the whole of what this pair offers,
+ * not a limitation of the map.
  */
 export const LONGCAT_THINKING_RESPONSES_25: ThinkingLevelMap = {
   off: null,

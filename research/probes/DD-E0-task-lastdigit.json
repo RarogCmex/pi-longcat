@@ -1,0 +1,76 @@
+data: {"type":"response.created","response":{"id":"resp_bed3f977e7a148cda3648c1cccb3ed76","object":"response","created_at":1792915024,"status":"in_progress","background":false,"max_output_tokens":2048,"model":"LongCat-2.5-Preview","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":0}
+
+data: {"type":"response.in_progress","response":{"id":"resp_bed3f977e7a148cda3648c1cccb3ed76","object":"response","created_at":1792915024,"status":"in_progress","background":false,"max_output_tokens":2048,"model":"LongCat-2.5-Preview","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":1}
+
+data: {"type":"response.output_item.added","output_index":0,"item":{"id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","type":"reasoning","summary":[],"content":[]},"sequence_number":2}
+
+data: {"type":"response.content_part.added","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"","annotations":[],"logprobs":[]},"sequence_number":3}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"\n","obfuscation":"obf_278dde6c4","sequence_number":4,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"We","obfuscation":"obf_317156075","sequence_number":5,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" need last","obfuscation":"obf_3b54cda26","sequence_number":6,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" decimal","obfuscation":"obf_4538453d7","sequence_number":7,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" digit of 7","obfuscation":"obf_4f1bbcd88","sequence_number":8,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"^202","obfuscation":"obf_58ff34739","sequence_number":9,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"4. The powers","obfuscation":"obf_62e2ac0ea","sequence_number":10,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" of 7 mod","obfuscation":"obf_6cc623a9b","sequence_number":11,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" 1","obfuscation":"obf_76a99b44c","sequence_number":12,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"0 cycle","obfuscation":"obf_808d12dfd","sequence_number":13,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":": 7,","obfuscation":"obf_8a708a7ae","sequence_number":14,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" 9, ","obfuscation":"obf_94540215f","sequence_number":15,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"3, 1","obfuscation":"obf_9e3779b10","sequence_number":16,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":", then","obfuscation":"obf_a81af14c1","sequence_number":17,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" repeats with","obfuscation":"obf_b1fe68e72","sequence_number":18,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" period 4.","obfuscation":"obf_bbe1e0823","sequence_number":19,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" 202","obfuscation":"obf_c5c5581d4","sequence_number":20,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"4 mod 4","obfuscation":"obf_cfa8cfb85","sequence_number":21,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" = 0,","obfuscation":"obf_d98c47536","sequence_number":22,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" so it","obfuscation":"obf_e36fbeee7","sequence_number":23,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"'s the","obfuscation":"obf_ed5336898","sequence_number":24,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" ","obfuscation":"obf_f736ae249","sequence_number":25,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":"4th element:","obfuscation":"obf_1011a25bfa","sequence_number":26,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"delta":" 1.","obfuscation":"obf_10afd9d5ab","sequence_number":27,"content_index":0}
+
+data: {"type":"response.reasoning_text.done","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"text":"\nWe need last decimal digit of 7^2024. The powers of 7 mod 10 cycle: 7, 9, 3, 1, then repeats with period 4. 2024 mod 4 = 0, so it's the 4th element: 1.","sequence_number":28,"content_index":0}
+
+data: {"type":"response.content_part.done","item_id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"\nWe need last decimal digit of 7^2024. The powers of 7 mod 10 cycle: 7, 9, 3, 1, then repeats with period 4. 2024 mod 4 = 0, so it's the 4th element: 1.","annotations":[],"logprobs":[]},"sequence_number":29}
+
+data: {"type":"response.output_item.done","output_index":0,"item":{"id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","type":"reasoning","summary":[],"content":[{"type":"reasoning_text","text":"\nWe need last decimal digit of 7^2024. The powers of 7 mod 10 cycle: 7, 9, 3, 1, then repeats with period 4. 2024 mod 4 = 0, so it's the 4th element: 1."}]},"sequence_number":30}
+
+data: {"type":"response.output_item.added","output_index":1,"item":{"id":"msg_fa77c4bcc5074c96bea042b7d8936bc7","type":"message","status":"in_progress","role":"assistant","content":[]},"sequence_number":31}
+
+data: {"type":"response.content_part.added","item_id":"msg_fa77c4bcc5074c96bea042b7d8936bc7","output_index":1,"content_index":0,"part":{"type":"output_text","text":"","annotations":[],"logprobs":[]},"sequence_number":32}
+
+data: {"type":"response.output_text.delta","item_id":"msg_fa77c4bcc5074c96bea042b7d8936bc7","output_index":1,"content_index":0,"delta":"1","logprobs":[],"obfuscation":"obf_146526afd1","sequence_number":33}
+
+data: {"type":"response.output_text.done","item_id":"msg_fa77c4bcc5074c96bea042b7d8936bc7","output_index":1,"content_index":0,"text":"1","logprobs":[],"sequence_number":34}
+
+data: {"type":"response.content_part.done","item_id":"msg_fa77c4bcc5074c96bea042b7d8936bc7","output_index":1,"content_index":0,"part":{"type":"output_text","text":"1","annotations":[],"logprobs":[]},"sequence_number":35}
+
+data: {"type":"response.output_item.done","output_index":1,"item":{"id":"msg_fa77c4bcc5074c96bea042b7d8936bc7","type":"message","status":"completed","role":"assistant","content":[{"type":"output_text","text":"1","annotations":[],"logprobs":[]}]},"sequence_number":36}
+
+data: {"type":"response.completed","response":{"id":"resp_bed3f977e7a148cda3648c1cccb3ed76","object":"response","created_at":1792915024,"status":"completed","background":false,"completed_at":1792915026,"max_output_tokens":2048,"model":"LongCat-2.5-Preview","output":[{"type":"reasoning","id":"rs_resp_bed3f977e7a148cda3648c1cccb3ed76","summary":[],"content":[{"type":"reasoning_text","text":"\nWe need last decimal digit of 7^2024. The powers of 7 mod 10 cycle: 7, 9, 3, 1, then repeats with period 4. 2024 mod 4 = 0, so it's the 4th element: 1."}]},{"type":"message","id":"msg_fa77c4bcc5074c96bea042b7d8936bc7","status":"completed","role":"assistant","content":[{"type":"output_text","text":"1","annotations":[],"logprobs":[]}]}],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"default","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","usage":{"input_tokens":28,"input_tokens_details":{"cached_tokens":0},"output_tokens":73,"output_tokens_details":{"reasoning_tokens":69},"total_tokens":101},"metadata":{}},"sequence_number":37}
+

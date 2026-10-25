@@ -374,3 +374,97 @@ Operator: "переходим на responses по умолчанию (если �
    compaction, deeper multi-turn, the dead cap oracle, and now the vision
    defect above on the new default; `LONGCAT_SURFACE=chat` keeps the working
    2.5 off switch, vision, and the cap-enforcing gateway.
+
+## 11. Effort-scale round — 2026-10-25 `[M]` (operator: "Выполни платный прогон. Возьми задачу, которая требует размышлений.")
+
+Operator question: "проверить поддержку уровней размышления для Longcat 2.5
+preview, какие доступны? почему через pi задаётся только low?" The answer's one
+gap was that §9.4's effort scale was measured at **N=1 per level**, which cannot
+separate "the scale is decorative" from "the scale is real and the spread is
+natural variance at the fixed temperature 1.0". This round buys the sample size
+on a task that actually needs reasoning.
+
+### 11.1 Free pre-checks `[M 2026-10-25, KEY1, ~¥0.0003]`
+
+- `GET /models/{id}`: `supported_parameters` **unchanged** — still
+  `[max_tokens, temperature, top_p, stream, tools, tool_choice, thinking]`;
+  neither `reasoning` nor `reasoning_effort` is in the machine-readable contract.
+- Docs `api/responses` + `api/model-params` re-fetched and converted with
+  `research/html2txt.mjs`: **byte-identical** to the 2026-10-24 captures
+  (`diff` empty), so the prose still promises
+  `effort: none/minimal/low/medium/high/xhigh` + `summary: auto/concise/detailed`.
+- **`reasoning.effort` vocabulary is NOT validated**: `"bogus-level"` → 200,
+  `"HIGH"` → 200, only `""` → 400 ("must be a non-empty string…"). The documented
+  scale is therefore not enforced server-side.
+- **`reasoning.summary` vocabulary IS validated**: `"bogus"` → 400 "must be one
+  of concise, detailed, auto". The asymmetry (typed summary, untyped effort) is
+  itself evidence about which knob the gateway actually parses.
+- The response **echoes** the field (`reasoning:{"effort":"high","summary":null}`)
+  — the value is stored, which says nothing about whether the model uses it.
+
+### 11.2 Task selection — the first candidate was unusable `[M 2026-10-25]`
+
+`research/probe-task-pilot.ts` (4 candidates, one call each at `effort=low`,
+`max_output_tokens` 2048, every expected answer re-derived by exhaustive
+enumeration in the file):
+
+| candidate | task | reasoning_tokens | answer |
+|---|---|---|---|
+| enumeration | integers ≤1000 divisible by 7, not by 3 or 5, odd digit sum → **38** | **2047 / 2048** | **NONE** (`finish=incomplete`) |
+| `divcount` | smallest n divisible by 12 with exactly 12 divisors → **60** | 331 | 60 ✓ |
+| `seats` | 4 people in chairs 1–4, four constraints → **3** | 175 | 3 ✓ |
+| `lastdigit` | last decimal digit of 7^2024 → **1** | 69 | 1 ✓ |
+| `banana` | arrangements of BANANA with no two A's adjacent → **12** | 148 | 12 ✓ |
+
+The enumeration candidate **saturated the cap** (`DD-E1-pilot-low`, kept as
+evidence): a task that saturates makes the scale unmeasurable, because every
+level would report the cap. Chosen: `divcount` as the primary (331 tokens at
+effort=low, answered correctly) and `seats` as a cheaper second task so the
+conclusion is not an artefact of one prompt.
+
+### 11.3 The grid — the scale is DECORATIVE `[M 2026-10-25, KEY1]`
+
+`research/probe-effort-scale.ts`: `max_output_tokens` 2048 (high enough that a
+real high-effort cell is not truncated into the others), temperature fixed at
+1.0 by the gateway, `reasoning:{effort}` with **no** `summary` so the effort
+effect is not confounded.
+
+`divcount`, N=3 per level, `reasoning_tokens`:
+
+| level | r1 | r2 | r3 | median | range |
+|---|---|---|---|---|---|
+| none | 324 | 265 | 541 | **324** | 265–541 |
+| minimal | 449 | 323 | 254 | **323** | 254–449 |
+| low | 313 | 450 | 472 | **450** | 313–472 |
+| medium | 268 | 425 | 251 | **268** | 251–425 |
+| high | 316 | 292 | 315 | **315** | 292–316 |
+| xhigh | 338 | 343 | 267 | **338** | 267–343 |
+| *baseline: no `reasoning` field* | 319 | 345 | 327 | **327** | 319–345 |
+
+`seats`, N=2 per level, medians: none 222, minimal 298, low 297, medium 295,
+**high 207** (the LOWEST of the six), xhigh 293.
+
+`summary` knob at `effort=high` on `divcount`, N=2, medians: auto 330, concise
+366, detailed 321 — against the grid's `high` without `summary` at 315, i.e. the
+knob moves nothing either.
+
+- **Kruskal–Wallis across the six `divcount` groups: H = 2.918, df = 5,
+  p = 0.713** — no difference. The between-level spread of medians (268–450,
+  1.7×) is smaller than the within-level spread (e.g. none: 265–541, 2.0×), and
+  the baseline — *no field at all*, which is exactly what pi sends for
+  2.5×Responses when no level is requested — sits at 327, mid-pack.
+- No cache confound: `cached_tokens = 0` on every grid cell.
+- Correctness is not level-dependent either: 36/39 calls right (`divcount` grid
+  16/18, baseline 3/3, `summary` 5/6; `seats` 12/12), and the failures
+  (`minimal-r1`→12, `low-r2`→10, `detailed-r1`→10) are scattered across levels.
+
+### 11.4 Consequence
+
+Confirms the existing catalog decision and adds the number that was missing:
+on 2.5-Preview×Responses **the six documented effort levels are statistically
+indistinguishable from sending nothing**, so `low`-only is not a limitation of
+the plugin — it is the whole of what the gateway offers. No code change. `off`
+remains dead on that pair (§9.4) and live on chat and on 2.0×Responses.
+Probes: `research/probe-effort-scale.ts`, `research/probe-task-pilot.ts`; ledger
+rows `DD-E0-*`, `DD-E1-*`, `DD-E2-*`, `DD-E3-*`, `DD-E4-*` — **44 rows, 44
+billed, ¥0.14611 (~$0.0217)** on KEY1; bodies in `research/probes/DD-E*.json`.
