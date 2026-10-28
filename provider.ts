@@ -12,11 +12,13 @@ import {
   createProvider,
   envApiKeyAuth,
   type ApiKeyAuth,
+  type AssistantMessageEventStream,
   type Provider,
   type ProviderStreams,
 } from "@earendil-works/pi-ai";
 import { fetchLongCatModels } from "./discovery.ts";
 import { remediateInBandResponse } from "./errors.ts";
+import { repairMessageToolCalls, repairToolCall, toolRepairEnabled } from "./repair.ts";
 import {
   buildModels,
   cnyPerUsd,
@@ -80,6 +82,79 @@ export function withGatewayErrorRemediation(api: ProviderStreams): ProviderStrea
   }
   return wrapped;
 }
+
+/**
+ * Wrap a wire surface so malformed tool-call arguments are repaired before they
+ * leave the adapter.
+ *
+ * Measured reason (2026-10-28): this gateway accepts `strict: true` on a tool
+ * schema and ignores it, so nothing upstream guarantees that a tool call's
+ * arguments are JSON. `LongCat-2.5-Preview` loses the opening quote of long
+ * free-text values often enough that it refused **1.29% of all its tool calls**
+ * in the recorded sessions (47 of 3644) while qwen/grok/glm/kimi sat at 0.00%.
+ * pi-ai turns such a text into `arguments: {}` + `argumentsError`, and pi then
+ * refuses the call inside `validateToolArguments` — **before** `tool_call`
+ * handlers run — so recovery is impossible from an extension and
+ * `tool.argumentsError` has to be intercepted on the stream. See `repair.ts` for
+ * the class of breakage, the 14-of-18 live reproduction, and the commit rule.
+ *
+ * The wrap is deliberately a *proxy*, not a rebuilt stream: pi may consume an
+ * adapter stream either by iterating events or (`complete()`) by awaiting
+ * `result()` alone, and a wrapper that only fills a second stream would deadlock
+ * the second path. Events are mutated in place and then yielded unchanged, so
+ * ordering, timing and back-pressure are exactly the adapter's. Repair fires on
+ * the events that can carry an `argumentsError` (`toolcall_end`, and the final
+ * `done`/`error` message); a valid call is never parsed, let alone rewritten.
+ * `LONGCAT_TOOL_REPAIR=off` returns the surface untouched.
+ */
+export function withToolArgumentRepair(api: ProviderStreams, env: EnvReader = processEnv): ProviderStreams {
+  if (!toolRepairEnabled(env)) return api;
+
+  const repairEvent = (event: RepairEvent): void => {
+    if (event?.type === "toolcall_end" && event.toolCall) repairToolCall(event.toolCall);
+    const message = event?.type === "done" ? event.message : event?.type === "error" ? event.error : undefined;
+    if (message) repairMessageToolCalls(message);
+  };
+
+  const wrapStream = (stream: AssistantMessageEventStream): AssistantMessageEventStream => {
+    const wrapped = {
+      async *[Symbol.asyncIterator]() {
+        for await (const event of stream) {
+          repairEvent(event as RepairEvent);
+          yield event;
+        }
+      },
+      async result() {
+        const message = await stream.result();
+        repairMessageToolCalls(message);
+        return message;
+      },
+    };
+    return wrapped as unknown as AssistantMessageEventStream;
+  };
+
+  const wrapped: ProviderStreams = {
+    stream: (model, context, options) => wrapStream(api.stream(model, context, options)),
+    streamSimple: (model, context, options) => wrapStream(api.streamSimple(model, context, options)),
+  };
+  if (api.fetchDeferred) {
+    wrapped.fetchDeferred = (model, handle, options) =>
+      wrapStream(api.fetchDeferred!(model, handle, options));
+  }
+  if (api.cancelDeferred) {
+    wrapped.cancelDeferred = (model, handle, options) =>
+      api.cancelDeferred!(model, handle, options);
+  }
+  return wrapped;
+}
+
+/** Only the event fields the repair layer reads. */
+type RepairEvent = {
+  type?: string;
+  toolCall?: Parameters<typeof repairToolCall>[0];
+  message?: { content?: unknown };
+  error?: { content?: unknown };
+};
 
 /**
  * Zero-inference key check used by `/login`.

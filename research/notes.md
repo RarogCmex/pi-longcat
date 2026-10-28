@@ -468,3 +468,91 @@ remains dead on that pair (§9.4) and live on chat and on 2.0×Responses.
 Probes: `research/probe-effort-scale.ts`, `research/probe-task-pilot.ts`; ledger
 rows `DD-E0-*`, `DD-E1-*`, `DD-E2-*`, `DD-E3-*`, `DD-E4-*` — **44 rows, 44
 billed, ¥0.14611 (~$0.0217)** on KEY1; bodies in `research/probes/DD-E*.json`.
+
+## 12. Tool-call argument repair — 2026-10-28 `[M]`
+
+Trigger: operator report — `Invalid arguments for tool "debi_skill": Unexpected
+token 'p', ..." "query": pentest: c"... is not valid JSON` in session
+`01a18390-074c-7114-b2ed-09923917ace0` (LongCat-2.5-Preview, thinking `low`,
+SADNES). The `Received arguments:` body showed the class: `"query": pentest:
+check leaked casino credentials …, "role": sadnes, "load": primary` — long
+free-text values (and sometimes enums) without opening quotes.
+
+### 12.1 How big it is `[M 2026-10-28]`
+
+Measured over **all** recorded pi sessions (`~/.pi/agent/sessions`, 2109 files):
+
+| metric | value |
+|---|---|
+| tool calls with `argumentsError` | 57 |
+| … of which "value after `:` not in quotes" | **49 (86%)** |
+| … on `longcat/LongCat-2.5-Preview` | 47 |
+| LongCat error rate | **47 / 3644 tool calls = 1.29%** |
+| qwen3.8-max / grok-4.6 / glm-5.3 / kimi-k3 | 0 of 45–50k each = **0.00%** |
+| deepseek-flash | 5 / 13082 = 0.04% |
+| tools with long free text, on LongCat | `debi_think` 8/13, `debi_session_end` 3/6, `debi_skill` 6/23 |
+
+So it is a model property, not a tool-schema defect; tools whose arguments are
+long prose are simply where a lost quote is most likely.
+
+### 12.2 `strict` on this gateway is a no-op `[M 2026-10-28]`
+
+Direct `POST /openai/v1/responses` probes (KEY5, `research/probe-tool-repair.ts`
+energy: 18 requests, ~¥0.02) with the real `debi_skill` schema:
+
+- no `strict`: 3/3 broken (+1 refusal to call);
+- `strict: true`: 3/3 broken — the gateway **accepts the flag** and answers with
+  `"role": null, …` plus the same unquoted values, i.e. it does not enforce and
+  does not reject;
+- schema reduced to 3 fields: 4/4 broken; with an explicit "value is one JSON
+  string in double quotes" description: 2 broken + 2 refusals;
+- english/russian, with/without a colon in the value, short/long: all broken.
+
+TOTAL across the probe: **14 broken, 0 valid**. No prompt or schema shape helps;
+the repair must be client-side. This also retro-justifies
+`supportsStrictMode: false` in `models.ts` with a mechanism, not just an absence.
+
+### 12.3 Where it has to run (and where it cannot) `[M, code-read]`
+
+pi's order is `prepareToolCallArguments` (receives `{}` — the raw text is gone) →
+`validateToolArguments` (throws on `argumentsError`) → `beforeToolCall` (our
+`tool_call` hook never runs). `pi-ai`'s `repairJson` only escapes control
+characters and bad escape sequences; unquoted values are outside it. Therefore:
+not `prepareArguments`, not a `tool_call` handler, not `message_end` on the
+LongCat path — the only place that still has the text is the adapter's
+`toolcall_end` event (`ToolCall.argumentsError`), i.e. the provider stream.
+
+### 12.4 The pass and what it recovers `[M]`
+
+`repair.ts` is a single left-to-right finite-state walk (in-string / after-`:` /
+elsewhere) that quotes bare values up to `, "key":` or the object's own closing
+bracket; whitespace and the separating comma stay outside the quotes. A repaired
+text is committed only if it parses as a non-empty object **and** keeps every
+top-level key the text announced (nested keys are compared separately, because a
+value may legitimately contain `"key":` text — one live case has `"options":
+{"view": …}`).
+
+Replayed over the 49 recorded refusals: **45 recovered (92%)**, 0 keys lost, 0
+changes on valid JSON. The 4 left are a different class — a value that *does*
+open a quote and then carries an unescaped quote or a raw newline inside itself
+(and `edit.edits[].oldText` with `\n`/`\"`); those keep pi's honest refusal.
+
+### 12.5 Wiring and live confirmation `[M]`
+
+`withToolArgumentRepair` wraps the surface (`stream`, `streamSimple`,
+`fetchDeferred`) as a **proxy**, not a rebuilt stream: pi sometimes consumes an
+adapter stream by iterating events (`forwardStream`) and sometimes only by
+awaiting `result()` (`complete()`), and a wrapper that fed a second stream would
+deadlock the second path. Events are mutated in place and yielded unchanged.
+
+Confirmed end-to-end in a real `pi -p --debi` run on 2026-10-28 against a local
+proxy that replays the recorded broken SSE (`LONGCAT_BASE_URL=…:8787`):
+`[longcat] repair: tool-call arguments recovered (tool="debi_skill",
+keys=action,query,role,load, 183 chars of raw text)` — i.e. the repair fires
+before pi's validation in the real runtime, not only in the test harness.
+
+Regression cover: `test/repair.test.ts` (22 tests incl. the recorded corpus and
+the "valid JSON is never touched" invariant), `test/provider.test.ts`
+(`withToolArgumentRepair` — in-place fix, `result()`-only path, off switch, no
+pass-through layer), `test/tool-argument-repair-wire.test.ts` (a recorded SSE
+through the real Responses adapter, with a negative control).

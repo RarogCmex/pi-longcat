@@ -20,6 +20,7 @@ import {
   keyLooksValid,
   longcatApiKeyAuth,
   withGatewayErrorRemediation,
+  withToolArgumentRepair,
 } from "../provider.ts";
 import { BASE_URL, PROVIDER_ID } from "../models.ts";
 
@@ -149,6 +150,165 @@ describe("withGatewayErrorRemediation", () => {
     assert.equal(typeof wrapped.fetchDeferred, "function");
     assert.equal(typeof wrapped.cancelDeferred, "function");
     assert.equal(typeof wrapped.streamSimple, "function");
+  });
+});
+
+describe("withToolArgumentRepair", () => {
+  /**
+   * An adapter stream with the two members pi actually uses — `for await` and
+   * `result()`. A real AssistantMessageEventStream is not needed to prove the
+   * wrapper, and constructing one would drag the queue implementation into the
+   * assertion instead of the behaviour under test.
+   */
+  const source = (events: any[]) => {
+    const stream = {
+      async *[Symbol.asyncIterator]() {
+        for (const event of events) yield event;
+      },
+      result: async () => {
+        const done = events.find((event) => event.type === "done");
+        const error = events.find((event) => event.type === "error");
+        return done?.message ?? error?.error;
+      },
+    };
+    return stream as any;
+  };
+
+  const brokenText =
+    '{"action": "route", "query": pentest: check leaked casino credentials against live site, ' +
+    'dump peers/requisites via API, "role": sadnes, "load": primary, "name": "", "period": 0}';
+  const argumentsError = `Unexpected token 'p', ..." "query": pentest: c"... is not valid JSON\n\nReceived arguments:\n${brokenText}`;
+
+  /** One turn as the Responses adapter emits it: start → toolcall_* → done. */
+  const turn = (argumentsError?: string) => {
+    const block: any = { type: "toolCall", id: "call_1", name: "debi_skill", arguments: {} };
+    if (argumentsError) block.argumentsError = argumentsError;
+    const message: any = { role: "assistant", content: [block], stopReason: "toolUse" };
+    const events = [
+      { type: "start", partial: message },
+      { type: "toolcall_start", contentIndex: 0, partial: message },
+      { type: "toolcall_end", contentIndex: 0, toolCall: block, partial: message },
+      { type: "done", reason: "toolUse", message },
+    ];
+    return { block, message, events };
+  };
+
+  const streamsFor = (events: any[]) => {
+    const seen: string[] = [];
+    const api = {
+      stream: (_m: any, _c: any) => {
+        seen.push("stream");
+        return source(events);
+      },
+      streamSimple: (_m: any, _c: any) => {
+        seen.push("streamSimple");
+        return source(events);
+      },
+      fetchDeferred: (_m: any, _h: any) => {
+        seen.push("fetchDeferred");
+        return source(events);
+      },
+      cancelDeferred: async () => {
+        seen.push("cancelDeferred");
+      },
+    } as any;
+    return { api, seen };
+  };
+
+  test("a broken tool call is repaired on the stream, in place, before pi sees it", async () => {
+    const { block, events } = turn(argumentsError);
+    const { api } = streamsFor(events);
+    const wrapped = withToolArgumentRepair(api, () => undefined);
+    const drained: any[] = [];
+    for await (const event of wrapped.stream({} as any, transcript, {} as any)) drained.push(event);
+
+    assert.deepEqual(
+      drained.map((event) => event.type),
+      ["start", "toolcall_start", "toolcall_end", "done"],
+      "event order and count must be exactly the adapter's",
+    );
+    assert.equal(block.argumentsError, undefined, "the refusal must be gone from the block itself");
+    assert.equal(block.arguments.role, "sadnes");
+    assert.match(block.arguments.query, /^pentest: check leaked casino credentials against live site/);
+    assert.equal(block.arguments.period, 0);
+    // The done message carries the same block — pi validates THAT one.
+    assert.equal(drained[3].message.content[0], block);
+  });
+
+  test("result() alone (pi's complete() path) also receives the repaired call", async () => {
+    const { block, events } = turn(argumentsError);
+    const { api } = streamsFor(events);
+    const wrapped = withToolArgumentRepair(api, () => undefined);
+    // No iteration at all: a wrapper built on a second stream would deadlock here.
+    const message = await wrapped.stream({} as any, transcript, {} as any).result();
+    assert.equal(message.content[0], block);
+    assert.equal(block.argumentsError, undefined);
+    assert.equal(block.arguments.action, "route");
+  });
+
+  test("a valid call is passed through untouched", async () => {
+    const { block, events } = turn();
+    block.arguments = { action: "route", query: "pentest: check" };
+    const snapshot = JSON.parse(JSON.stringify(block));
+    const { api } = streamsFor(events);
+    const wrapped = withToolArgumentRepair(api, () => undefined);
+    for await (const _ of wrapped.stream({} as any, transcript, {} as any)) {
+      /* drain */
+    }
+    assert.deepEqual(block, snapshot);
+  });
+
+  test("an unrecoverable text keeps its honest refusal", async () => {
+    const raw = '{"edits": [{"oldText": "line\\n with \\"quote\\", "newText": "x"}]}';
+    const { block, events } = turn(`Expected ',' or '}' after property value\n\nReceived arguments:\n${raw}`);
+    const { api } = streamsFor(events);
+    const wrapped = withToolArgumentRepair(api, () => undefined);
+    for await (const _ of wrapped.stream({} as any, transcript, {} as any)) {
+      /* drain */
+    }
+    assert.match(String(block.argumentsError), /Received arguments:/);
+    assert.deepEqual(block.arguments, {});
+  });
+
+  test("streamSimple, fetchDeferred and cancelDeferred survive the wrap", async () => {
+    const simpleTurn = turn(argumentsError);
+    const deferredTurn = turn(argumentsError);
+    const seen: string[] = [];
+    const api = {
+      stream: () => source([]),
+      streamSimple: () => {
+        seen.push("streamSimple");
+        return source(simpleTurn.events);
+      },
+      fetchDeferred: () => {
+        seen.push("fetchDeferred");
+        return source(deferredTurn.events);
+      },
+      cancelDeferred: async () => {
+        seen.push("cancelDeferred");
+      },
+    } as any;
+    const wrapped = withToolArgumentRepair(api, () => undefined) as any;
+    assert.equal(typeof wrapped.streamSimple, "function");
+    assert.equal(typeof wrapped.fetchDeferred, "function");
+    assert.equal(typeof wrapped.cancelDeferred, "function");
+
+    for await (const _ of wrapped.streamSimple({} as any, transcript, {} as any)) {
+      /* drain */
+    }
+    assert.equal(simpleTurn.block.argumentsError, undefined, "streamSimple must be repaired too");
+
+    await wrapped.fetchDeferred({} as any, {} as any, {} as any).result();
+    assert.equal(deferredTurn.block.argumentsError, undefined, "a deferred result must be repaired too");
+
+    await wrapped.cancelDeferred({} as any, {} as any);
+    assert.deepEqual(seen, ["streamSimple", "fetchDeferred", "cancelDeferred"]);
+  });
+
+  test("LONGCAT_TOOL_REPAIR=off returns the surface itself, not a wrapper", () => {
+    const { api } = streamsFor(turn(argumentsError).events);
+    const wrapped = withToolArgumentRepair(api, (name) => (name === "LONGCAT_TOOL_REPAIR" ? "off" : undefined));
+    assert.equal(wrapped, api, "the off switch must not leave a pass-through layer behind");
   });
 });
 

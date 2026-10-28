@@ -83,7 +83,7 @@ import {
   shouldClarifyQuota,
 } from "./errors.ts";
 import { PROVIDER_ID, resolveSurface } from "./models.ts";
-import { buildLongCatProvider, withGatewayErrorRemediation } from "./provider.ts";
+import { buildLongCatProvider, withGatewayErrorRemediation, withToolArgumentRepair } from "./provider.ts";
 
 /** The only piece of `ExtensionContext` this file needs beyond the typed surface. */
 type SessionCtx = { sessionManager?: { getSessionId?: () => string | undefined } };
@@ -182,7 +182,13 @@ export default function (pi: ExtensionAPI) {
 
   const { api, requested, recognized, unavailable } = resolveSurface();
   const streams = api === "openai-responses" ? openAIResponsesApi() : openAICompletionsApi();
-  pi.registerProvider(buildLongCatProvider(api, withGatewayErrorRemediation(streams)));
+  // Two wrappers, in this order: the fetch-level in-band error remediation owns
+  // the wire, and the argument repair owns the events that leave the adapter —
+  // it must sit outermost so it sees `toolcall_end` after the adapter parsed it
+  // and before pi validates it (see provider.ts for both measurements).
+  pi.registerProvider(
+    buildLongCatProvider(api, withToolArgumentRepair(withGatewayErrorRemediation(streams))),
+  );
 
   // The vision caveat surfaced where it bites (operator request, 2026-10-24):
   // image reading on the Responses surface is measured UNRELIABLE (DD3: a green

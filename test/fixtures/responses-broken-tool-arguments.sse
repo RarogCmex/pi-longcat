@@ -1,0 +1,58 @@
+data: {"type":"response.created","response":{"id":"resp_92f4e3f31c8142dbae2e115fa4641b36","object":"response","created_at":1793209860,"status":"in_progress","background":false,"max_output_tokens":300,"model":"LongCat-2.5-Preview","output":[],"parallel_tool_calls":true,"reasoning":{"effort":null,"summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[{"type":"function","name":"debi_skill","description":"Роутер скиллов профиля: route / load / grep / list.","parameters":{"type":"object","properties":{"action":{"type":"string","enum":["route","load","grep","list"],"description":"Режим"},"query":{"type":"string","description":"route: текст задачи как есть"},"role":{"type":"string","description":"route: подсказка роли"},"load":{"type":"string","enum":["none","primary","all"],"description":"route: сколько контента"}}},"strict":true}],"truncation":"disabled","metadata":{}},"sequence_number":0}
+
+data: {"type":"response.in_progress","response":{"id":"resp_92f4e3f31c8142dbae2e115fa4641b36","object":"response","created_at":1793209860,"status":"in_progress","background":false,"max_output_tokens":300,"model":"LongCat-2.5-Preview","output":[],"parallel_tool_calls":true,"reasoning":{"effort":null,"summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[{"type":"function","name":"debi_skill","description":"Роутер скиллов профиля: route / load / grep / list.","parameters":{"type":"object","properties":{"action":{"type":"string","enum":["route","load","grep","list"],"description":"Режим"},"query":{"type":"string","description":"route: текст задачи как есть"},"role":{"type":"string","description":"route: подсказка роли"},"load":{"type":"string","enum":["none","primary","all"],"description":"route: сколько контента"}}},"strict":true}],"truncation":"disabled","metadata":{}},"sequence_number":1}
+
+data: {"type":"response.output_item.added","output_index":0,"item":{"id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","type":"reasoning","summary":[],"content":[]},"sequence_number":2}
+
+data: {"type":"response.content_part.added","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"","annotations":[],"logprobs":[]},"sequence_number":3}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"delta":"\n","obfuscation":"obf_278dde6c4","sequence_number":4,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"delta":"The","obfuscation":"obf_317156075","sequence_number":5,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"delta":" user wants me to","obfuscation":"obf_3b54cda26","sequence_number":6,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"delta":" call the debi","obfuscation":"obf_4538453d7","sequence_number":7,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"delta":"_skill tool with the","obfuscation":"obf_4f1bbcd88","sequence_number":8,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"delta":" specified parameters","obfuscation":"obf_58ff34739","sequence_number":9,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"delta":".","obfuscation":"obf_62e2ac0ea","sequence_number":10,"content_index":0}
+
+data: {"type":"response.reasoning_text.done","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"text":"\nThe user wants me to call the debi_skill tool with the specified parameters.","sequence_number":11,"content_index":0}
+
+data: {"type":"response.content_part.done","item_id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"\nThe user wants me to call the debi_skill tool with the specified parameters.","annotations":[],"logprobs":[]},"sequence_number":12}
+
+data: {"type":"response.output_item.done","output_index":0,"item":{"id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","type":"reasoning","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user wants me to call the debi_skill tool with the specified parameters."}]},"sequence_number":13}
+
+data: {"type":"response.output_item.added","output_index":1,"item":{"id":"item_a12ab3f341c04ac98c85eb21132d7920","type":"function_call","status":"in_progress","call_id":"call_71865d5fa2dc4ca0b36828aa","name":"debi_skill","arguments":""},"sequence_number":14}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":"{\"action\": \"route\"","sequence_number":15}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":", \"query\": pentest:","sequence_number":16}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":" check leaked casino credentials","sequence_number":17}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":" against live site,","sequence_number":18}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":" dump peers/requ","sequence_number":19}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":"isites via API","sequence_number":20}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":", origin discovery behind","sequence_number":21}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":" Cloudflare","sequence_number":22}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":", \"role\": \"\"","sequence_number":23}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":", \"load\": ","sequence_number":24}
+
+data: {"type":"response.function_call_arguments.delta","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","output_index":1,"delta":"\"none\"}","sequence_number":25}
+
+data: {"type":"response.function_call_arguments.done","item_id":"item_a12ab3f341c04ac98c85eb21132d7920","name":"debi_skill","output_index":1,"arguments":"{\"action\": \"route\", \"query\": pentest: check leaked casino credentials against live site, dump peers/requisites via API, origin discovery behind Cloudflare, \"role\": \"\", \"load\": \"none\"}","sequence_number":26}
+
+data: {"type":"response.output_item.done","output_index":1,"item":{"id":"item_a12ab3f341c04ac98c85eb21132d7920","type":"function_call","status":"completed","call_id":"call_71865d5fa2dc4ca0b36828aa","name":"debi_skill","arguments":"{\"action\": \"route\", \"query\": pentest: check leaked casino credentials against live site, dump peers/requisites via API, origin discovery behind Cloudflare, \"role\": \"\", \"load\": \"none\"}"},"sequence_number":27}
+
+data: {"type":"response.completed","response":{"id":"resp_92f4e3f31c8142dbae2e115fa4641b36","object":"response","created_at":1793209860,"status":"completed","background":false,"completed_at":1793209862,"max_output_tokens":300,"model":"LongCat-2.5-Preview","output":[{"type":"reasoning","id":"rs_resp_92f4e3f31c8142dbae2e115fa4641b36","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user wants me to call the debi_skill tool with the specified parameters."}]},{"type":"function_call","id":"item_a12ab3f341c04ac98c85eb21132d7920","status":"completed","call_id":"call_71865d5fa2dc4ca0b36828aa","name":"debi_skill","arguments":"{\"action\": \"route\", \"query\": pentest: check leaked casino credentials against live site, dump peers/requisites via API, origin discovery behind Cloudflare, \"role\": \"\", \"load\": \"none\"}"}],"parallel_tool_calls":true,"reasoning":{"effort":null,"summary":null},"service_tier":"default","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[{"type":"function","name":"debi_skill","description":"Роутер скиллов профиля: route / load / grep / list.","parameters":{"type":"object","properties":{"action":{"type":"string","enum":["route","load","grep","list"],"description":"Режим"},"query":{"type":"string","description":"route: текст задачи как есть"},"role":{"type":"string","description":"route: подсказка роли"},"load":{"type":"string","enum":["none","primary","all"],"description":"route: сколько контента"}}},"strict":true}],"truncation":"disabled","usage":{"input_tokens":336,"input_tokens_details":{"cached_tokens":0},"output_tokens":82,"output_tokens_details":{"reasoning_tokens":17},"total_tokens":418},"metadata":{}},"sequence_number":28}
+

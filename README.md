@@ -635,6 +635,51 @@ plugin's own vision finding, so it is reported with its N rather than as "tools 
 fine": one cell in five is within noise, and the same switch measurably *does*
 change vision quality and compound-duration correctness.
 
+## Tool-call argument repair (measured 2026-10-28)
+
+LongCat-2.5-Preview occasionally emits tool-call arguments that are not JSON: a long
+free-text value loses its *opening* quote (and sometimes an enum loses both), so
+`JSON.parse` dies at the value. pi-ai turns that into `arguments: {}` plus an
+`argumentsError`, and pi refuses the call in `validateToolArguments` — **before** any
+`tool_call` handler runs, which is why an extension cannot recover it.
+
+Scale, from the operator's real sessions (`~/.pi/agent/sessions`, 2109 files):
+
+| | |
+|---|---|
+| refused tool calls, all models | 57 |
+| of them this exact class (unquoted value) | **49 (86%)** |
+| LongCat's own error rate | **47 of 3644 calls = 1.29%** |
+| qwen3.8-max / grok-4.6 / glm-5.3 / kimi-k3 | 0 of 45–50k calls each = **0.00%** |
+| tools carrying long free text (on LongCat) | `debi_think` 8/13, `debi_skill` 6/23 |
+
+`strict` is not a defence here: a direct probe (`POST /openai/v1/responses`, 18
+requests, three schema shapes, english/russian, with and without `strict`) produced
+**14 broken and 0 valid** argument objects — the gateway accepts `strict: true` and
+sends back the same unquoted values. That is why the catalog pins
+`supportsStrictMode: false`, and why the repair lives on the client.
+
+`withToolArgumentRepair` (`provider.ts` → `repair.ts`) wraps the surface's stream and
+fixes `argumentsError` in place on `toolcall_end` and on the final `done`/`error`
+message, before pi validates. Nothing is re-sent to the gateway; no extra tokens.
+
+The commit rule is strict on purpose: a repaired text is accepted only when it
+parses as a non-empty JSON **object** and keeps every *top-level* key the text
+announced (a truncated value that silently drops `query` would be worse than the
+refusal it replaces). On the 49 recorded refusals the pass recovers **45 (92%)**,
+changes nothing on valid JSON, and leaves the remaining 4 exactly as they were —
+those are a different class (a value that opens a quote and then puts an unescaped
+quote or raw newline inside itself), which needs a general JSON-repair library
+rather than this finite-state pass. `test/tool-argument-repair-wire.test.ts` replays
+a recorded broken SSE through pi's **real** Responses adapter: without the wrapper
+the call arrives broken, with it the call is complete and the event order is
+unchanged.
+
+```
+LONGCAT_TOOL_REPAIR=off        # disable the wrapper entirely (no pass-through layer left behind)
+LONGCAT_TOOL_REPAIR_DEBUG=1    # one stderr line per committed repair: tool, keys, raw length
+```
+
 ## Error paths
 
 Step 0 was run before any rewrite was written: each recorded body was driven
@@ -1187,7 +1232,8 @@ KEY3), `research/probe-battery{,2,3}.ts` (the review-driven battery, KEY4).
 `LONGCAT_LIVE_LEDGER=<path>` makes `live/check.ts` append its rows to the same
 ledger.
 
-Layout and dependency direction (`catalog → models → provider → index`); only
+Layout and dependency direction (`catalog → models → provider → index`, with
+`repair.ts` read by `provider.ts`); only
 `index.ts` touches the pi runtime, everything else loads under plain `node --test`,
 which is what makes the offline suite possible without pi mocking:
 
@@ -1199,7 +1245,8 @@ catalog.ts    pure data + provenance, the exclusion list, isKnownId
 models.ts     catalog -> pi Model: currency, compat, surface/base-URL resolution
 discovery.ts  live overlay: never throws, bounded, additive, unknowns-only
 errors.ts     in-band re-statusing + three narrow rewrites
-test/         offline suite (146 tests) + the no-network preload + generated fixtures
+repair.ts     tool-call argument repair: quoted-token pass, commit rule, env switches
+test/         offline suite (176 tests) + the no-network preload + generated fixtures
 live/check.ts the live harness (free by default, --billed opt-in, asserting ledger)
 research/     docs capture, probe bodies, notes, ledger, the research probe runners
 scripts/      link-pi, fixture/README/ledger generators

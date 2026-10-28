@@ -21,7 +21,8 @@ import { fileURLToPath } from "node:url";
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const SKIP_DIRS = new Set([".git", "node_modules"]);
 const SKIP_FILES = new Set(["secret.env", "package-lock.json"]);
-const TEXT_EXT = /\.(ts|js|mjs|cjs|json|md|py|txt|yml|yaml|env|html)$/i;
+// `jsonl` and `sse` are here for the recorded fixtures: a fixture is shipped text too.
+const TEXT_EXT = /\.(ts|js|mjs|cjs|json|jsonl|sse|md|py|txt|yml|yaml|env|html)$/i;
 
 function* walk(dir: string): Generator<string> {
   for (const entry of readdirSync(dir)) {
