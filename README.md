@@ -5,8 +5,8 @@ coding agent: `api.longcat.chat`, two models, 1M-token context, CNY billing, a
 measured thinking on/off switch, `/login`, a live catalog overlay, and error
 paths that reach pi's own retry and auto-compaction machinery.
 
-Built against **pi 1.1.0** and re-verified on **pi 1.4.0** (2026-10-22;
-`@earendil-works/pi-coding-agent`, realpath
+Built against **pi 1.1.0**, re-verified on **pi 1.4.0** (2026-10-22) and again on
+**pi 1.5.0** (2026-11-03; `@earendil-works/pi-coding-agent`, realpath
 `~/.nvm/versions/node/v26.10.0/lib/node_modules/@earendil-works/pi-coding-agent`,
 typechecked with the global `tsc` 7.1.0-dev.20260823.1 — `npx tsc` does not
 resolve a compiler in a bare tree). Line citations into pi's `dist/` are 1.4.0
@@ -929,6 +929,20 @@ from `pi (<platform> <release>; <arch>)` to `pi/1.4.0 (<platform>; node/<version
 <arch>)` (`getIdentityHeaders`, `dist/utils/identity.js`). That header was not
 re-measured against the gateway; the free dead-key runs below reached it far
 enough to be answered with the gateway's normal 401.
+
+**pi 1.5.0 re-verification (2026-11-03)** — the host on this machine moved from
+1.4.0 to 1.5.0. Offline: `npm run typecheck` (global `tsc` 7.1.0-dev.20260823.1)
+exit 0 against the symlinked pi 1.5.0 types, and **176 tests** green under the
+no-network preload. The one real 1.5.0 break was the TypeBox re-export: pi-ai 1.5.0
+stopped re-exporting it, so `test/wire-format.test.ts` and `live/check.ts` now import
+`Type` from the host's bundled `typebox` (linked by `scripts/link-pi.mjs`); the test
+assertions did not change. Loading re-checked offline: `pi -ne -e <repo> --offline
+--list-models longcat` prints the same **3** rows. No other 1.5.0 item reaches this
+package: no tools are registered (the pi-schema coercion change does not apply),
+there is no custom tool renderer (`keyText()`/`keyHint()`), no inline custom UI
+(`blocked` on `ctx.ui.custom()`), no `pi.exec()` call, no `Usage`/`AssistantMessage`
+construction, and the new host catalogs and MCP OAuth are host-side. The first
+`CHANGELOG.md` ships in this release; pi 1.5.0 reads it from the package root.
 
 **Real-pi pass (free half), re-run on 1.4.0 (2026-10-22)** — the same method as
 the 2026-10-11 pass (isolated `PI_CODING_AGENT_DIR`, a deliberately dead key,

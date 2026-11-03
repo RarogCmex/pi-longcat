@@ -77,10 +77,14 @@ import {
   isContextOverflow,
   isRetryableAssistantError,
   normalizeContext,
-  Type,
   type AssistantMessage,
   type TranscriptContext,
 } from "@earendil-works/pi-ai";
+// pi 1.5.0: pi-ai no longer re-exports TypeBox. Pi maps the old import to the
+// compat entry plus its bundled TypeBox at runtime, but `tsc` sees neither, so
+// the builder comes from `typebox` directly — the form the 1.5.0 docs prescribe
+// for new code.
+import { Type } from "typebox";
 import { CATALOG, CATALOG_BY_ID, MIN_IMAGE_AREA_PX } from "../catalog.ts";
 import { BASE_URL, buildModels, resolveSurface, type GatewayApi, type LongCatModel } from "../models.ts";
 import { injectPromptCacheKey, remediateInBandResponse, clarifyAuthError, shouldClarifyAuth } from "../errors.ts";
