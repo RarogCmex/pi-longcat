@@ -88,12 +88,15 @@ export const REWRITE_PREFIX = "LongCat: ";
  */
 export const AUTH_TAG = "[longcat-auth]";
 export const QUOTA_TAG = "[longcat-balance]";
+/** Platform-wide concurrency ceiling — see `clarifyCapacityError`. */
+export const CAPACITY_TAG = "[longcat-capacity]";
 
 /** Which of our rewrites produced this message, if any. */
-export function classifyRewritten(message: { errorMessage?: string }): "auth" | "balance" | undefined {
+export function classifyRewritten(message: { errorMessage?: string }): "auth" | "balance" | "capacity" | undefined {
   const text = message.errorMessage ?? "";
   if (text.includes(AUTH_TAG)) return "auth";
   if (text.includes(QUOTA_TAG)) return "balance";
+  if (text.includes(CAPACITY_TAG)) return "capacity";
   return undefined;
 }
 
@@ -110,7 +113,31 @@ const CONTEXT_OVERFLOW_RE =
 
 /** Rate limits are vetoed first: a busy gateway must never launder into a compaction. */
 const RATE_LIMIT_RE =
-  /rate.?limit|too many requests|requests per (?:second|minute)|\b429\b|频率|限流|过于频繁|访问量过大/i;
+  /rate.?limit|too many requests|requests per (?:second|minute)|concurren|\b429\b|频率|限流|过于频繁|访问量过大/i;
+
+/**
+ * The platform's own concurrent-request ceiling, measured 2026-11-03:
+ *
+ *   HTTP 429 {"message":"Too many concurrent responses create requests; global
+ *   concurrency limit reached (96/96)","type":"rate_limit_error",
+ *   "code":"request_rate_limited"}
+ *
+ * Deliberately narrower than `RATE_LIMIT_RE`: a per-key rate limit
+ * (`rate_limit_exceeded`, "too many requests", "requests per minute") is a
+ * different operational fact — this one says the platform is saturated for
+ * EVERYONE, so rotating keys or topping up changes nothing, and only time or less
+ * parallelism helps. `request_rate_limited` alone is not enough to tell them
+ * apart (the documented code covers both); the concurrency wording is what makes
+ * the call.
+ */
+const CONCURRENCY_LIMIT_RE =
+  /global concurrency limit|concurrency limit reached|concurren\w*[^.\n]{0,32}(?:limit|cap|ceiling|exceed)/i;
+
+/** True for the platform-wide concurrency ceiling, false for an ordinary rate limit. */
+export function isConcurrencyLimitError(errorMessage: string): boolean {
+  if (!errorMessage) return false;
+  return CONCURRENCY_LIMIT_RE.test(errorMessage);
+}
 
 export const OVERFLOW_MARKER = "context_length_exceeded: ";
 
@@ -176,7 +203,10 @@ export function statusForGatewayError(error: GatewayError): number {
   if (code === "invalid_api_key" || type === "authentication_error") return 401;
   if (code === "insufficient_quota" || code === "insufficient_balance") return 402;
   if (type === "permission_error") return 403;
-  if (code === "rate_limit_exceeded" || type === "rate_limit_error") return 429;
+  // `request_rate_limited` is the code measured on the platform-wide concurrency
+  // 429 (2026-11-03). It arrives together with `type: "rate_limit_error"`, but a
+  // body carrying only the code must still be retryable, not a 400.
+  if (code === "rate_limit_exceeded" || code === "request_rate_limited" || type === "rate_limit_error") return 429;
   if (type === "server_error" || code === "internal_error") return 500;
   return 400;
 }
@@ -311,6 +341,27 @@ export function shouldClarifyQuota(message: { errorMessage?: string }): boolean 
   // user what a balance error looks like, and must not be read as one.
   if (text.includes(AUTH_TAG)) return false;
   return /insufficient_quota|insufficient[_ -]balance|\b402\b|payment required|余额不足|请充值|欠费/i.test(text);
+}
+
+/**
+ * Rewrites the platform-wide concurrency 429 into the distinction the user needs:
+ * it is not the key and not the balance, and the only actions that work are time
+ * and less parallelism. Keeps every token pi classifies on — the composed text
+ * carries `429`, so the rewrite (which re-quotes it) stays retryable, which is
+ * what a freed slot deserves. Idempotent via `REWRITE_PREFIX`.
+ */
+export function clarifyCapacityError(errorMessage: string): string | null {
+  if (!errorMessage) return null;
+  if (!isConcurrencyLimitError(errorMessage)) return null;
+  if (errorMessage.startsWith(REWRITE_PREFIX)) return null;
+  return (
+    `${REWRITE_PREFIX}the platform is holding its own concurrent-request ceiling ` +
+    `(the measured body says "global concurrency limit reached (96/96)"). This is not your ` +
+    `key and not your balance — every key of this account would hit the same wall while the ` +
+    `platform is saturated, so rotating keys or topping up changes nothing. Wait a few seconds ` +
+    `and let pi's retry take the freed slot, or run fewer requests at once (parallel subagents, ` +
+    `a batch of sessions). Original error: ${errorMessage} ${CAPACITY_TAG}`
+  );
 }
 
 /**

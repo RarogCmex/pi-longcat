@@ -27,10 +27,13 @@ import {
 } from "@earendil-works/pi-ai";
 import {
   AUTH_TAG,
+  CAPACITY_TAG,
   QUOTA_TAG,
   classifyRewritten,
   clarifyAuthError,
+  clarifyCapacityError,
   clarifyQuotaError,
+  isConcurrencyLimitError,
   normalizeOverflowError,
   parseInBandError,
   remediateInBandResponse,
@@ -278,5 +281,74 @@ describe("auth and balance clarification", () => {
     }
     assert.equal(shouldClarifyAuth(assistant("429 rate_limit_exceeded: incorrect api key wording")), false, "a rate limit wins");
     assert.equal(shouldClarifyAuth(assistant("")), false);
+  });
+});
+
+/**
+ * The platform-wide concurrency cap, measured 2026-11-03 while five subagents ran
+ * on LongCat at once:
+ *
+ *   HTTP 429 {"message":"Too many concurrent responses create requests; global
+ *   concurrency limit reached (96/96)","type":"rate_limit_error","param":null,
+ *   "code":"request_rate_limited"}
+ *
+ * It is NOT a per-key rate limit and NOT a quota problem: 96/96 is the platform's
+ * own request ceiling, so a single account saturating it says nothing about the
+ * key, the balance, or this package's pacing. What the user needs is that
+ * distinction plus the one action that works (wait / lower concurrency), because
+ * the obvious reaction — rotate the key or top up — fixes nothing. It stays
+ * retryable: 429 is in pi's transient catalog and the right answer for a slot
+ * that frees up.
+ */
+const CONCURRENCY_BODY = JSON.stringify({
+  message: "Too many concurrent responses create requests; global concurrency limit reached (96/96)",
+  type: "rate_limit_error",
+  param: null,
+  code: "request_rate_limited",
+});
+
+describe("the platform-wide concurrency cap (429 request_rate_limited)", () => {
+  test("pi composes it as a 429 and keeps it retryable", async () => {
+    const composed = await compose(chatApi, chatModel, { status: 429, body: CONCURRENCY_BODY });
+    assert.match(composed, /\b429\b/);
+    assert.match(composed, /global concurrency limit reached/);
+    assert.equal(isRetryableAssistantError(assistant(composed)), true, "a freed slot is worth waiting for");
+  });
+
+  test("the documented code maps to 429 even without the type field", () => {
+    // The measured envelope carries BOTH `code` and `type`; a body with only the
+    // code must not fall through to 400, which would make it non-retryable.
+    assert.equal(statusForGatewayError({ code: "request_rate_limited", message: "x" }), 429);
+    assert.equal(statusForGatewayError({ code: "request_rate_limited", message: "x", type: "rate_limit_error" }), 429);
+  });
+
+  test("only the concurrency wording is classified; a plain rate limit is not", async () => {
+    assert.equal(isConcurrencyLimitError(`${await compose(chatApi, chatModel, { status: 429, body: CONCURRENCY_BODY })}`), true);
+    assert.equal(isConcurrencyLimitError("429 rate_limit_exceeded: too many requests"), false);
+    assert.equal(isConcurrencyLimitError("429: requests per minute exceeded"), false);
+    assert.equal(isConcurrencyLimitError(""), false);
+  });
+
+  test("the rewrite names the platform ceiling, keeps 429, and stays out of auth/quota", () => {
+    const composed = `429: ${CONCURRENCY_BODY}`;
+    const clarified = clarifyCapacityError(composed)!;
+    assert.ok(clarified.startsWith("LongCat: "));
+    assert.ok(clarified.includes(CAPACITY_TAG));
+    assert.match(clarified, /96\/96|platform/i);
+    assert.match(clarified, /concurren/i);
+    assert.match(clarified, /\b429\b/, "the retryable token survives the rewrite");
+    assert.equal(isRetryableAssistantError(assistant(clarified)), true);
+    assert.equal(classifyRewritten(assistant(clarified)), "capacity");
+    assert.equal(shouldClarifyAuth(assistant(clarified)), false);
+    assert.equal(shouldClarifyQuota(assistant(clarified)), false);
+    assert.equal(normalizeOverflowError(clarified), null, "a busy platform never launders into compaction");
+    assert.equal(clarifyCapacityError(clarified), null, "idempotent");
+  });
+
+  test("a capacity failure is never filed under auth or balance by the turn_end predicates", () => {
+    const clarified = clarifyCapacityError(`429: ${CONCURRENCY_BODY}`)!;
+    assert.equal(shouldClarifyAuth(assistant(clarified)), false);
+    assert.equal(shouldClarifyQuota(assistant(clarified)), false);
+    assert.equal(classifyRewritten(assistant(clarified)), "capacity");
   });
 });

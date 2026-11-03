@@ -4,6 +4,53 @@ Entries are read by pi 1.5.0 and shown under "Extension Updates" on the first fr
 launch after the package version grows. Headings must stay in the `## [x.y.z]` form —
 pi's parser (`dist/utils/changelog.js`) only recognises a version triple.
 
+## [0.4.0] — 2026-11-03
+
+**The platform-wide concurrency 429 gets an explanation.** Measured, not
+hypothesised: five subagents on `longcat/LongCat-2.5-Preview` ran concurrently and
+the gateway answered
+
+```
+HTTP 429 {"message":"Too many concurrent responses create requests; global
+concurrency limit reached (96/96)","type":"rate_limit_error","param":null,
+"code":"request_rate_limited"}
+```
+
+**Verified against pi 1.5.0 (2026-11-03):** `npm run typecheck` clean,
+**183/183** offline tests green (7 new). No live probe was spent — the failure is
+the evidence.
+
+- **Step 0 first.** The recorded body was driven through pi's real adapters
+  (`test/errors.test.ts`, `compose()`): pi composes `429: {…}` on chat and
+  `longcat API error (429): {…}` on Responses, and
+  `isRetryableAssistantError === true`. So pi's classification was already correct
+  — a freed slot is worth waiting for — and what was missing was the diagnosis.
+- **Fixed: a body carrying only `request_rate_limited` was a non-retryable 400.**
+  `statusForGatewayError` keyed 429 on `rate_limit_exceeded`/`rate_limit_error`;
+  the measured envelope carries both, but a body with just the code fell through
+  to 400 and pi would never retry a transient condition. The code now maps to 429
+  on its own.
+- **New `isConcurrencyLimitError`** — deliberately narrower than the existing
+  rate-limit veto: it fires on `global concurrency limit`/`concurrency limit
+  reached`/`concurren…limit|cap|ceiling|exceed`, and NOT on `rate_limit_exceeded`,
+  "too many requests", or "requests per minute". The distinction is operational:
+  a per-key rate limit and a saturated platform need different reactions. The
+  rate-limit veto itself learned `concurren`, so a busy platform still can never
+  launder into a compaction.
+- **New `clarifyCapacityError`** (`message_end`): says the ceiling is the
+  platform's own (96/96), that every key of the account hits the same wall, so
+  rotating keys or topping up changes nothing, and that the actions that work are
+  waiting for pi's retry or running fewer requests at once. Keeps `429` verbatim
+  in the original text, so `isRetryableAssistantError` still says true, and is
+  tagged `[longcat-capacity]` so it can never be filed under auth or balance.
+- **New TUI entry `longcat-capacity-help`** (`turn_end`, deduped on customType),
+  and `classifyRewritten` grew a `"capacity"` result; the three-way classification
+  replaced the previous binary auth/balance branch.
+- **7 new tests**: composition + retryability, the code-only status mapping, the
+  narrow predicate (positives and negatives), the rewrite's contents and
+  retryability, its non-interference with auth/quota/overflow, and the entry
+  wiring with dedupe.
+
 ## [0.3.1] — 2026-11-03
 
 **Re-verified against pi 1.5.0** (2026-11-03): `npm run typecheck` clean, **176/176**

@@ -688,7 +688,7 @@ through pi's **real** adapters and the composed `errorMessage` read back
 SDK, so pi already gets the status *and* the vendor code
 (`401: {"code":"invalid_api_key","message":"incorrect api key",…}`), and pi's own
 retry catalog classifies it correctly. There is therefore **no classifier layer**
-here — only one transport fix and three narrow rewrites.
+here — only one transport fix and four narrow rewrites.
 
 **1. In-band HTTP-200 errors (the one real fix).** Two paths answer `200` with an
 error body: non-streaming `POST /openai/v1/responses` with an invalid field, and
@@ -720,12 +720,27 @@ verbatim, so pi's classification cannot change (asserted against pi's real
 `isRetryableAssistantError` / `isContextOverflow` / `getOverflowPatterns`, in both
 directions).
 
-**3. Balance failure → the top-up page** and the sentence that matters
+**3. Platform-wide concurrency 429 → "not your key, not your balance"**
+(`message_end`, then a TUI-only persistent entry). Measured 2026-11-03, while five
+subagents were running on LongCat at once: HTTP 429
+`{"message":"Too many concurrent responses create requests; global concurrency
+limit reached (96/96)","type":"rate_limit_error","param":null,
+"code":"request_rate_limited"}`. pi composes it as a 429 and keeps it retryable —
+correctly, a freed slot is worth waiting for — but the *diagnosis* is what is
+missing: 96/96 is the platform's own request ceiling, so the wall is shared by
+every account and every key, and the two obvious reactions (rotate the key, top
+up) fix nothing. The rewrite says that, keeps `429` in the text so the message
+stays retryable, and is classified by its own `[longcat-capacity]` tag so it can
+never be filed under auth or balance. `statusForGatewayError` also learned the
+measured code: `request_rate_limited` alone (a body without `type`) now maps to
+429 instead of falling through to a non-retryable 400.
+
+**4. Balance failure → the top-up page** and the sentence that matters
 operationally: the key was accepted, so rotating it will not help, and on this
 platform every key of one account shares its balance. Keeps `402` /
 `insufficient_quota` in the text so pi's non-retryable deny-list still matches.
 
-**4. Overflow → pi's compaction marker.** The documented code is
+**5. Overflow → pi's compaction marker.** The documented code is
 `context_length_exceeded`, which pi-ai already matches
 (`/context[_ ]length[_ ]exceeded/i`), so for the documented body the normalizer is
 a **no-op** — asserted, so it can never double-prefix. It exists for wordings pi
@@ -802,6 +817,25 @@ documented as "enforced per API key" with **no published numbers**, and none was
 hit at ~10 s pacing over 90 requests.
 
 ## Verification log
+
+### 2026-11-03 — the platform-wide concurrency 429
+
+Triggered by a real failure, not a hypothesis: five subagents on
+`longcat/LongCat-2.5-Preview` ran concurrently and the gateway answered
+`429 {"message":"Too many concurrent responses create requests; global concurrency
+limit reached (96/96)","type":"rate_limit_error","param":null,
+"code":"request_rate_limited"}`. Step 0 first: the body was driven through pi's
+real adapters (`test/errors.test.ts`, `compose()`), which showed the composed text
+(`429: {…}` on chat, `longcat API error (429): {…}` on Responses) and
+`isRetryableAssistantError === true` — so pi's classification was already right
+and only the explanation was missing. Then, test-first: a failing test for
+`statusForGatewayError({code:"request_rate_limited"})` (it returned 400 — a
+permanent error for a transient condition), then `isConcurrencyLimitError`
+(narrower than the rate-limit veto: it does not fire on `rate_limit_exceeded` or
+"requests per minute"), then `clarifyCapacityError` with its `[longcat-capacity]`
+tag, the `message_end` rewrite and the `longcat-capacity-help` TUI entry.
+**183/183** offline tests green, `tsc` clean. No live probe was spent: the body is
+the failure itself.
 
 All dates are 2026-10 unless noted. "Free" means the gateway rejected the request
 or performed no inference; the ledger is the checkable form of that claim.

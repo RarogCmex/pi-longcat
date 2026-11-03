@@ -75,9 +75,11 @@ import { openAICompletionsApi, openAIResponsesApi } from "@earendil-works/pi-ai"
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import {
   clarifyAuthError,
+  clarifyCapacityError,
   clarifyQuotaError,
   classifyRewritten,
   injectPromptCacheKey,
+  isConcurrencyLimitError,
   normalizeOverflowError,
   shouldClarifyAuth,
   shouldClarifyQuota,
@@ -104,14 +106,17 @@ export default function (pi: ExtensionAPI) {
     return rewritten === undefined ? undefined : (rewritten as typeof event.payload);
   });
 
-  // Three rewrites, all guarded to this provider and to error-stopped assistant
+  // Four rewrites, all guarded to this provider and to error-stopped assistant
   // messages, applied in one order:
   //   1. overflow → the `context_length_exceeded:` marker pi's compaction keys on
   //      (first, so an overflow that also looks auth-ish still compacts, and with
   //      a rate-limit veto so a 429 can never be laundered into compaction);
-  //   2. balance (402 / insufficient_quota) → the top-up page, plus the fact that
+  //   2. platform-wide concurrency 429 → the distinction that matters: the
+  //      platform is saturated, not the key and not the balance, so rotate/top-up
+  //      fixes nothing (measured 2026-11-03, `global concurrency limit reached`);
+  //   3. balance (402 / insufficient_quota) → the top-up page, plus the fact that
   //      the key was accepted so rotating it will not help;
-  //   3. credential (401 invalid_api_key) → an actionable sentence.
+  //   4. credential (401 invalid_api_key) → an actionable sentence.
   // Each keeps the original text, so pi's own retry classification is unchanged
   // (asserted against pi's real classifiers in test/errors.test.ts).
   pi.on("message_end", (event) => {
@@ -124,6 +129,10 @@ export default function (pi: ExtensionAPI) {
     const overflow = normalizeOverflowError(raw);
     if (overflow) return { message: { ...message, errorMessage: overflow } };
 
+    if (isConcurrencyLimitError(raw)) {
+      const capacity = clarifyCapacityError(raw);
+      if (capacity) return { message: { ...message, errorMessage: capacity } };
+    }
     if (shouldClarifyQuota(message)) {
       const quota = clarifyQuotaError(raw);
       if (quota) return { message: { ...message, errorMessage: quota } };
@@ -159,19 +168,38 @@ export default function (pi: ExtensionAPI) {
     // tag first and fall back to the raw-text predicates for a message this
     // process never rewrote (a persisted session re-hydrated elsewhere).
     const classified = classifyRewritten(msg);
-    const quota = classified ? classified === "balance" : shouldClarifyQuota(msg);
-    if (classified ? classified !== "auth" && classified !== "balance" : !quota && !shouldClarifyAuth(msg)) return;
-    const customType = quota ? "longcat-balance-help" : "longcat-auth-help";
+    // Three classes now, and the tag decides when our own rewrite is what turn_end
+    // sees (pi replaces the stored message in place); the raw-text predicates are
+    // the fallback for a session re-hydrated elsewhere (pitfalls P51).
+    const kind: "auth" | "balance" | "capacity" | undefined =
+      classified ??
+      (shouldClarifyQuota(msg)
+        ? "balance"
+        : shouldClarifyAuth(msg)
+          ? "auth"
+          : isConcurrencyLimitError(msg.errorMessage ?? "")
+            ? "capacity"
+            : undefined);
+    if (!kind) return;
+    const customType =
+      kind === "balance" ? "longcat-balance-help" : kind === "auth" ? "longcat-auth-help" : "longcat-capacity-help";
     if (event.entries.some((e) => (e as { customType?: string }).customType === customType)) return;
-    const content = quota
-      ? "LongCat: this account has no usable balance (402 / `insufficient_quota`). The key was " +
-        "accepted, so rotating it will not help — every key of one account shares its balance. " +
-        "Top up at https://longcat.chat/platform (Billing → Recharge), or switch to a funded " +
-        "account with `/login longcat` / `LONGCAT_API_KEY`."
-      : "LongCat: the API key was rejected (401 `invalid_api_key`). Check it at " +
-        "https://longcat.chat/platform/api_keys, then run `/login longcat` or update " +
-        "`LONGCAT_API_KEY`. An empty balance is a different error (402), so a key that works " +
-        "elsewhere may simply be out of credit.";
+    const content =
+      kind === "balance"
+        ? "LongCat: this account has no usable balance (402 / `insufficient_quota`). The key was " +
+          "accepted, so rotating it will not help — every key of one account shares its balance. " +
+          "Top up at https://longcat.chat/platform (Billing → Recharge), or switch to a funded " +
+          "account with `/login longcat` / `LONGCAT_API_KEY`."
+        : kind === "auth"
+          ? "LongCat: the API key was rejected (401 `invalid_api_key`). Check it at " +
+            "https://longcat.chat/platform/api_keys, then run `/login longcat` or update " +
+            "`LONGCAT_API_KEY`. An empty balance is a different error (402), so a key that works " +
+            "elsewhere may simply be out of credit."
+          : "LongCat: the platform is at its own concurrent-request ceiling (429 `request_rate_limited`, " +
+            "\"global concurrency limit reached\"). This is not your key and not your balance — while " +
+            "the platform is saturated every key of this account hits the same wall, so rotating or " +
+            "topping up changes nothing. Wait for a slot (pi retries a 429 on its own) or run fewer " +
+            "requests at once: parallel subagents and batches of sessions are what fills it.";
     return {
       entries: [
         ...event.entries,

@@ -394,6 +394,38 @@ describe("turn_end persistent help", () => {
     } finally { loaded.restore(); }
   });
 
+  test("the platform-wide concurrency 429 gets its own entry, and the rewrite is text the turn_end layer can read", async () => {
+    loaded = await load();
+    try {
+      // Measured 2026-11-03 while five subagents ran at once: HTTP 429
+      // `{"message":"Too many concurrent responses create requests; global
+      // concurrency limit reached (96/96)", "type":"rate_limit_error",
+      // "code":"request_rate_limited"}`. The point of the entry is the
+      // distinction — not the key, not the balance, only time/less parallelism.
+      const raw =
+        '429: {"message":"Too many concurrent responses create requests; global concurrency limit reached (96/96)","type":"rate_limit_error","param":null,"code":"request_rate_limited"}';
+      const { message, turnResult } = runTurn(loaded.pi, raw);
+      assert.match(String(message.errorMessage), /^LongCat: /, "the rewrite happened");
+      assert.match(String(message.errorMessage), /global concurrency limit/i);
+      const entries = (turnResult?.entries ?? []) as any[];
+      assert.equal(entries.length, 1);
+      assert.equal(entries[0].customType, "longcat-capacity-help");
+      assert.match(entries[0].content, /not your key and not your balance/);
+      assert.match(entries[0].content, /fewer\s+requests at once|requests at once/);
+    } finally { loaded.restore(); }
+  });
+
+  test("a capacity entry does not stack, and an ordinary rate limit still adds nothing", async () => {
+    loaded = await load();
+    try {
+      const raw = "429: global concurrency limit reached (96/96)";
+      const first = runTurn(loaded.pi, raw);
+      const entries = first.turnResult.entries as any[];
+      assert.equal(entries.length, 1);
+      assert.equal(runTurn(loaded.pi, raw, { entries }).turnResult, undefined, "deduped on customType");
+    } finally { loaded.restore(); }
+  });
+
   test("a non-error outcome, a rate limit and an overflow add nothing", async () => {
     loaded = await load();
     try {
