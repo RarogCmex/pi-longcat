@@ -1,0 +1,108 @@
+data: {"type":"response.created","response":{"id":"resp_d0107a3c2dac4d648d281d2adab61052","object":"response","created_at":1794038685,"status":"in_progress","background":false,"max_output_tokens":128,"model":"LongCat-2.5","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":0}
+
+data: {"type":"response.in_progress","response":{"id":"resp_d0107a3c2dac4d648d281d2adab61052","object":"response","created_at":1794038685,"status":"in_progress","background":false,"max_output_tokens":128,"model":"LongCat-2.5","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":1}
+
+data: {"type":"response.output_item.added","output_index":0,"item":{"id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","type":"reasoning","summary":[],"content":[]},"sequence_number":2}
+
+data: {"type":"response.content_part.added","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"","annotations":[],"logprobs":[]},"sequence_number":3}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"\n","obfuscation":"obf_278dde6c4","sequence_number":4,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"The","obfuscation":"obf_317156075","sequence_number":5,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" user is asking what","obfuscation":"obf_3b54cda26","sequence_number":6,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" single color the image","obfuscation":"obf_4538453d7","sequence_number":7,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" is. Looking","obfuscation":"obf_4f1bbcd88","sequence_number":8,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" at the image,","obfuscation":"obf_58ff34739","sequence_number":9,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" it appears to be a solid cyan","obfuscation":"obf_62e2ac0ea","sequence_number":10,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"/teal color.","obfuscation":"obf_6cc623a9b","sequence_number":11,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" The color","obfuscation":"obf_76a99b44c","sequence_number":12,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" looks like a bright","obfuscation":"obf_808d12dfd","sequence_number":13,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" cyan or","obfuscation":"obf_8a708a7ae","sequence_number":14,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" turquoise. Let","obfuscation":"obf_94540215f","sequence_number":15,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" me identify","obfuscation":"obf_9e3779b10","sequence_number":16,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" it more precisely.","obfuscation":"obf_a81af14c1","sequence_number":17,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" It's","obfuscation":"obf_b1fe68e72","sequence_number":18,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" a solid","obfuscation":"obf_bbe1e0823","sequence_number":19,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" uniform","obfuscation":"obf_c5c5581d4","sequence_number":20,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" color that","obfuscation":"obf_cfa8cfb85","sequence_number":21,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" looks like cyan","obfuscation":"obf_d98c47536","sequence_number":22,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" (","obfuscation":"obf_e36fbeee7","sequence_number":23,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"a","obfuscation":"obf_ed5336898","sequence_number":24,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" blue","obfuscation":"obf_f736ae249","sequence_number":25,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"-green color","obfuscation":"obf_1011a25bfa","sequence_number":26,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"). The answer should","obfuscation":"obf_10afd9d5ab","sequence_number":27,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" be one word.","obfuscation":"obf_114e114f5c","sequence_number":28,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" \"Cyan\"","obfuscation":"obf_11ec48c90d","sequence_number":29,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" seems appropriate,","obfuscation":"obf_128a8042be","sequence_number":30,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" or \"teal","obfuscation":"obf_1328b7bc6f","sequence_number":31,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"\" or \"tur","obfuscation":"obf_13c6ef3620","sequence_number":32,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"quoise\". Looking at","obfuscation":"obf_146526afd1","sequence_number":33,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" the RGB,","obfuscation":"obf_15035e2982","sequence_number":34,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" it appears to be","obfuscation":"obf_15a195a333","sequence_number":35,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" around","obfuscation":"obf_163fcd1ce4","sequence_number":36,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" (","obfuscation":"obf_16de049695","sequence_number":37,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"2","obfuscation":"obf_177c3c1046","sequence_number":38,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"6","obfuscation":"obf_181a7389f7","sequence_number":39,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":", 21","obfuscation":"obf_18b8ab03a8","sequence_number":40,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"1","obfuscation":"obf_1956e27d59","sequence_number":41,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":", 2","obfuscation":"obf_19f519f70a","sequence_number":42,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"1","obfuscation":"obf_1a935170bb","sequence_number":43,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":") which is","obfuscation":"obf_1b3188ea6c","sequence_number":44,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" a cyan/t","obfuscation":"obf_1bcfc0641d","sequence_number":45,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"urquoise color.","obfuscation":"obf_1c6df7ddce","sequence_number":46,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" I'd say \"","obfuscation":"obf_1d0c2f577f","sequence_number":47,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":"cyan\" is the","obfuscation":"obf_1daa66d130","sequence_number":48,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"delta":" best","obfuscation":"obf_1e489e4ae1","sequence_number":49,"content_index":0}
+
+data: {"type":"response.reasoning_text.done","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid cyan/teal color. The color looks like a bright cyan or turquoise. Let me identify it more precisely. It's a solid uniform color that looks like cyan (a blue-green color). The answer should be one word. \"Cyan\" seems appropriate, or \"teal\" or \"turquoise\". Looking at the RGB, it appears to be around (26, 211, 21) which is a cyan/turquoise color. I'd say \"cyan\" is the best","sequence_number":50,"content_index":0}
+
+data: {"type":"response.content_part.done","item_id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid cyan/teal color. The color looks like a bright cyan or turquoise. Let me identify it more precisely. It's a solid uniform color that looks like cyan (a blue-green color). The answer should be one word. \"Cyan\" seems appropriate, or \"teal\" or \"turquoise\". Looking at the RGB, it appears to be around (26, 211, 21) which is a cyan/turquoise color. I'd say \"cyan\" is the best","annotations":[],"logprobs":[]},"sequence_number":51}
+
+data: {"type":"response.output_item.done","output_index":0,"item":{"id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","type":"reasoning","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid cyan/teal color. The color looks like a bright cyan or turquoise. Let me identify it more precisely. It's a solid uniform color that looks like cyan (a blue-green color). The answer should be one word. \"Cyan\" seems appropriate, or \"teal\" or \"turquoise\". Looking at the RGB, it appears to be around (26, 211, 21) which is a cyan/turquoise color. I'd say \"cyan\" is the best"}]},"sequence_number":52}
+
+data: {"type":"response.incomplete","response":{"id":"resp_d0107a3c2dac4d648d281d2adab61052","object":"response","created_at":1794038685,"status":"incomplete","background":false,"incomplete_details":{"reason":"max_output_tokens"},"max_output_tokens":128,"model":"LongCat-2.5","output":[{"type":"reasoning","id":"rs_resp_d0107a3c2dac4d648d281d2adab61052","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid cyan/teal color. The color looks like a bright cyan or turquoise. Let me identify it more precisely. It's a solid uniform color that looks like cyan (a blue-green color). The answer should be one word. \"Cyan\" seems appropriate, or \"teal\" or \"turquoise\". Looking at the RGB, it appears to be around (26, 211, 21) which is a cyan/turquoise color. I'd say \"cyan\" is the best"}]}],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","usage":{"input_tokens":103,"input_tokens_details":{"cached_tokens":0},"output_tokens":128,"output_tokens_details":{"reasoning_tokens":127},"total_tokens":231},"metadata":{}},"sequence_number":53}
+

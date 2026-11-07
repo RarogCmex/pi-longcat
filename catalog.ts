@@ -8,6 +8,16 @@
  *   ids            GET /openai/v1/models, live 2026-10-10, on all nine keys:
  *                  ["LongCat-2.5-Preview", "LongCat-2.0"] — identical list per
  *                  key, so the listing is account-global, not key-scoped.
+ *                  Re-read 2026-11-07 on all nine keys: ["LongCat-2.5-Preview",
+ *                  "LongCat-2.5", "LongCat-2.0"], still identical per key. The
+ *                  change log gained "Version: 2026-11-02 — LongCat-2.5 Now
+ *                  Available" and the docs were rewritten around it: quick start,
+ *                  api/model-params, the FAQ and every pricing page now name
+ *                  LongCat-2.5 and no longer mention 2.5-Preview or 2.0 — while
+ *                  BOTH are still served (8-token liveness calls on each completed
+ *                  on 2026-11-07). The catalog keeps all three: dropping a working
+ *                  id because a web page stopped linking it would break users
+ *                  mid-session. The two undocumented ones say so in priceNote.
  *   contextWindow  GET /openai/v1/models → `context_window: 1048576` and
  *                  GET /openai/v1/models/{id} → `context_length: 1048576`
  *                  (two machine-readable sources agree, 2026-10-10).
@@ -33,15 +43,32 @@
  *                  Caveat: enforced on the chat and Anthropic surfaces only —
  *                  /openai/v1/responses ACCEPTED max_output_tokens 131073
  *                  (measured 2026-10-10), so the cap oracle is dead there.
+ *                  Re-swept 2026-11-07: LongCat-2.5 → 400 at 262145 naming 262144
+ *                  (api/model-params still publishes 262,144 for it), and
+ *                  2.5-Preview unchanged. But **2.0's 131073 was ACCEPTED (HTTP
+ *                  200, billed, 28 tokens)** — the first 200 this oracle has ever
+ *                  produced here — and 262145 then 400s naming 262144, so the
+ *                  validator's ceiling for 2.0 moved to 262144 while GET /models
+ *                  still advertises `max_output_tokens: 131072` for the same id.
+ *                  The two sources now disagree and nothing free can settle which
+ *                  one generation honours: an accepted request proves the
+ *                  VALIDATOR gave way, not that 2.0 emits 131073 tokens. So the
+ *                  catalog keeps the conservative published 131072 clamp and
+ *                  records the disagreement instead of raising a user's cap on the
+ *                  strength of a validator that stopped rejecting. Fixtures:
+ *                  CAP7-chat-2.0-262145.json (the 400),
+ *                  CAP8-chat-2.0-131073-accepted.json (the 200).
  *   prices (¥/1M)  GET /openai/v1/models/{id} → pricing {prompt "2",
- *                  completion "8", cached_tokens "0.04"} for BOTH models
- *                  (2026-10-10). Matches the CNY column of the pricing page
+ *                  completion "8", cached_tokens "0.04"} for all three ids
+ *                  (2026-10-10, re-read 2026-11-07: LongCat-2.5 carries the same
+ *                  three numbers). Matches the CNY column of the pricing page
  *                  (¥2 / ¥8 / ¥0.04), not the USD column ($0.30 / $1.20 /
  *                  $0.006) ⇒ these keys bill in CNY. Cache-hit accounting was
  *                  then measured, not assumed: two identical 836-token chat
  *                  calls reported cached_tokens 0 then 768 (2026-10-11).
  *   input mods     GET /openai/v1/models/{id} → architecture.input_modalities:
- *                  ["text","image"] for 2.5-Preview, ["text"] for 2.0.
+ *                  ["text","image"] for 2.5-Preview, ["text"] for 2.0,
+ *                  ["text","image","video"] for LongCat-2.5 (2026-11-07).
  *                  2.5-Preview vision was then proven behaviourally (2026-10-11):
  *                  a generated 256×256 GREEN png (a colour the prompt cannot
  *                  suggest) was named "Green" with thinking enabled, and the
@@ -50,6 +77,14 @@
  *                  image" — see LONGCAT_VISION_CAVEAT.
  *                  2.0 accepted the identical image part and DROPPED it: input
  *                  tokens unchanged at 19 with and without the image (2026-10-11).
+ *                  LongCat-2.5 is listed as ["text","image","video"] (2026-11-07).
+ *                  Video is advertised but NOT registered: pi 1.5.0's
+ *                  `ModelInputModality` is exactly ["text","image"]
+ *                  (pi-ai/dist/providers/model-schema.js:5), so no field value
+ *                  would let pi send a `video_url` block. The gateway does parse
+ *                  one — a bogus `video_url` is rejected with 400 "Failed to
+ *                  download video from URL" on BOTH 2.5 and 2.5-Preview (measured
+ *                  2026-11-07), which proves the block is read, not ignored.
  *   thinking       `supported_parameters` on both models lists `thinking`;
  *                  docs specify {"type":"enabled"} / {"type":"disabled"}.
  *                  Measured 2026-10-10/11 on the chat surface: enabled →
@@ -207,6 +242,28 @@ export function thinkingLevelsFor(id: string, api: GatewayApi, levels: ThinkingL
 /**
  * Measured caveat that belongs next to any "supports images" claim.
  *
+ * **Re-measured 2026-11-07 and the old surface story does not survive.** The probe
+ * below (solid-colour PNG, "what single colour") was re-run on the current platform
+ * — 256×256 green, five cells per run, three runs (research/probe-25-vision.ts,
+ * ledger rows GA-V-*):
+ *   - LongCat-2.5, chat, thinking on   → 5/15 green
+ *   - LongCat-2.5, chat, thinking off  → 1/9 green
+ *   - LongCat-2.5, Responses, low      → 6/15 green
+ *   - LongCat-2.5-Preview, chat        → 2/6 green (it was 4/4 on 2026-10-24)
+ *   - solid RED png, chat, thinking on → 0/6 ("Magenta", "lavender", "Yellow", "Pink"…)
+ *   - solid BLUE png, chat, thinking on → 2/6
+ * So the Responses-only defect this plugin warns about (DD3, 2026-10-24: 1/6 vs
+ * 4/4) is no longer a surface difference — it is a platform-wide wobble on small
+ * solid-colour images, and with it goes the "use the chat surface for image work"
+ * advice.
+ *
+ * Three controls say the image is nevertheless read: a text-only run of the same
+ * question answers "I don't see an image attached"; image tokens are billed
+ * (19 → 102 at 256², 345 at 512²); and a 512×512 white field with 2 or 3 black
+ * bars was counted correctly 4/4 on LongCat-2.5 (same day). Naming the colour of
+ * a small image is the unreliable part; structure is not.
+ *
+ * The original 2026-10-11 measurement, kept for provenance:
  * 2026-10-11, LongCat-2.5-Preview, generated solid-colour PNGs, question "What
  * single colour is this image? Answer with one word.":
  *   thinking enabled, max_tokens 64  → "Green" for a green 256×256 png, with
@@ -221,17 +278,47 @@ export function thinkingLevelsFor(id: string, api: GatewayApi, levels: ThinkingL
  * unreliable at --thinking off".
  */
 export const LONGCAT_VISION_CAVEAT =
-  "images are consumed and correctly described with thinking enabled ON THE CHAT " +
-  "surface; the same probe answers wrongly with thinking disabled (measured " +
-  "2026-10-11), and — since the Responses surface became the default — vision " +
-  "through base64 data-url images is UNRELIABLE there (green read as blue/teal " +
-  "in 5 of 6 runs vs 4/4 correct on chat, 2026-10-24); use LONGCAT_SURFACE=chat " +
-  "for image work";
+  "images are accepted and genuinely consumed on both surfaces and on both " +
+  "image-capable ids, LongCat-2.5 and its Preview (image tokens billed: 19 → 102 " +
+  "for a 256×256 png, 345 for 512×512; a " +
+  "text-only run of the same question answers \"I don't see an image attached\", " +
+  "measured 2026-11-07) and structural reading works (a white field with 2 or 3 " +
+  "black bars was counted correctly 4/4 on LongCat-2.5, same day); but naming the " +
+  "COLOUR of a small image is unreliable on BOTH image-capable ids and BOTH " +
+  "surfaces (green named green in 5/15 chat runs on 2.5, 6/15 on Responses, 2/6 " +
+  "on 2.5-Preview; a " +
+  "solid RED png 0/6) — treat fine colour/detail claims about small images as " +
+  "suspect, and note that switching surface no longer changes the outcome";
 
-/** Minimum image area the gateway enforces, in pixels (measured, see below). */
-export const MIN_IMAGE_AREA_PX = 256;
+/**
+ * Minimum image AREA in px² the gateway enforces: a request is rejected with
+ * `Image too small (area=Npx), minimum required area: >200px` unless W×H > 200.
+ * Measured 2026-11-07 by bracket, every cell free: 64 px (8×8) and 196 px (14×14)
+ * are rejected, 225 px (15×15) is accepted. It was >256 px when first measured on
+ * 2026-10-11 (the same 8×8 request named 256 back then), and the docs' new
+ * "Minimum area W × H at least 200 px" agrees with today's number, so the platform
+ * relaxed it.
+ */
+export const MIN_IMAGE_AREA_PX = 200;
 
 export const CATALOG: readonly CatalogEntry[] = [
+  {
+    id: "LongCat-2.5",
+    name: "LongCat 2.5",
+    contextWindow: 1_048_576, // listing + retrieve agree; not independently measured (see header)
+    maxTokens: 262_144, // measured 2026-11-07: 262145 → 400 "is not less or equal to 262144"
+    input: ["text", "image"], // listing adds "video"; pi 1.5.0 has no video modality (see header)
+    thinking: { kind: "toggle", levels: LONGCAT_THINKING },
+    cny: { input: 2, output: 8, cacheRead: 0.04 },
+    priceNote:
+      "The documented model since the 2026-11-02 change log (the docs no longer " +
+      "link 2.5-Preview or 2.0 at all). " + LONGCAT_VISION_CAVEAT +
+      `. Images with an area of ${MIN_IMAGE_AREA_PX} px² or less are rejected with 400 ` +
+      '("Image too small (area=64px), minimum required area: >200px", measured 2026-11-07). ' +
+      "Native tool calling measured working (finish_reason tool_calls, 2026-11-07); the " +
+      "thinking off switch works on the chat surface and is still dead on Responses " +
+      "(`reasoning:{effort:\"none\"}` → 23 reasoning tokens, 2026-11-07).",
+  },
   {
     id: "LongCat-2.5-Preview",
     name: "LongCat 2.5 Preview",
@@ -241,16 +328,18 @@ export const CATALOG: readonly CatalogEntry[] = [
     thinking: { kind: "toggle", levels: LONGCAT_THINKING },
     cny: { input: 2, output: 8, cacheRead: 0.04 },
     priceNote:
-      "Preview model: the platform retired the Flash family on 2026-05-29 and " +
-      "lists no stable replacement date. " + LONGCAT_VISION_CAVEAT +
-      `. Images below ${MIN_IMAGE_AREA_PX} px of area are rejected with 400 ` +
-      '("Image too small (area=64px), minimum required area: >256px", measured 2026-10-11).',
+      "Superseded by LongCat-2.5 but STILL SERVED, and no longer documented by the " +
+      "platform (the docs stopped linking it between 2026-10-24 and 2026-11-07; a " +
+      "live 8-token call on 2026-11-07 still completed, so it stays registered). " +
+      LONGCAT_VISION_CAVEAT +
+      `. Images with an area of ${MIN_IMAGE_AREA_PX} px² or less are rejected with 400 ` +
+      '("Image too small (area=64px), minimum required area: >200px", measured 2026-11-07).',
   },
   {
     id: "LongCat-2.0",
     name: "LongCat 2.0",
     contextWindow: 1_048_576, // listing + retrieve agree; not independently measured (see header)
-    maxTokens: 131_072, // measured 2026-10-10: 131073 → 400 "is not less or equal to 131072"
+    maxTokens: 131_072, // published clamp; the validator now allows 262144 — see the header
     // Text only. The listing says input_modalities ["text"], and an image part
     // sent anyway was accepted with ZERO effect: input tokens identical (19)
     // with and without the png, and the model reasoned "We are given an image?
@@ -259,6 +348,12 @@ export const CATALOG: readonly CatalogEntry[] = [
     thinking: { kind: "toggle", levels: LONGCAT_THINKING },
     cny: { input: 2, output: 8, cacheRead: 0.04 },
     priceNote:
+      "No longer documented by the platform (its docs stopped mentioning 2.0 between " +
+      "2026-10-24 and 2026-11-07) but still served: a live 8-token call on 2026-11-07 " +
+      "completed. Its output ceiling is now CONTRADICTORY: GET /models advertises " +
+      "131072 and the catalog keeps that clamp, while the validator accepted " +
+      "max_tokens 131073 (HTTP 200) and only rejected 262145, naming 262144 — see the " +
+      "header. " +
       "Native tool calling measured working on the chat surface " +
       "(finish_reason tool_calls) and on the Anthropic surface (stop_reason " +
       "tool_use), 2026-10-10.",

@@ -1,5 +1,5 @@
 CopyModels & Pricing ​
-Pay-As-You-Go currently supports LongCat-2.5-Preview. ​
+Pay-As-You-Go currently supports LongCat-2.5. ​
 Item | Discounted Price $/1M Tokens (limited-time) |
 Uncached Input | $0.30 |
 Cached Input | $0.006 |
@@ -11,6 +11,3 @@ Cached Input | ¥0.04 |
 Output | ¥8 |
 
 Prices are subject to change. The prices shown on the LongCat API Platform and your billing records are authoritative.
-
-Next
-LongCat-2.0

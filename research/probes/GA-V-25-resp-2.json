@@ -1,0 +1,88 @@
+data: {"type":"response.created","response":{"id":"resp_c5e60a6c6bd44081a8a09f93253e9c62","object":"response","created_at":1794040298,"status":"in_progress","background":false,"max_output_tokens":384,"model":"LongCat-2.5","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":0}
+
+data: {"type":"response.in_progress","response":{"id":"resp_c5e60a6c6bd44081a8a09f93253e9c62","object":"response","created_at":1794040298,"status":"in_progress","background":false,"max_output_tokens":384,"model":"LongCat-2.5","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":1}
+
+data: {"type":"response.output_item.added","output_index":0,"item":{"id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","type":"reasoning","summary":[],"content":[]},"sequence_number":2}
+
+data: {"type":"response.content_part.added","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"","annotations":[],"logprobs":[]},"sequence_number":3}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"\n","obfuscation":"obf_278dde6c4","sequence_number":4,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"The","obfuscation":"obf_317156075","sequence_number":5,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" user wants a single","obfuscation":"obf_3b54cda26","sequence_number":6,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" word answer for the","obfuscation":"obf_4538453d7","sequence_number":7,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" color of the image","obfuscation":"obf_4f1bbcd88","sequence_number":8,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":". The image shows","obfuscation":"obf_58ff34739","sequence_number":9,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" a solid te","obfuscation":"obf_62e2ac0ea","sequence_number":10,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"al/d","obfuscation":"obf_6cc623a9b","sequence_number":11,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"ark cyan color.","obfuscation":"obf_76a99b44c","sequence_number":12,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" Looking at the RGB","obfuscation":"obf_808d12dfd","sequence_number":13,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" values","obfuscation":"obf_8a708a7ae","sequence_number":14,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" it","obfuscation":"obf_94540215f","sequence_number":15,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" appears to be a","obfuscation":"obf_9e3779b10","sequence_number":16,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" teal color -","obfuscation":"obf_a81af14c1","sequence_number":17,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" specifically a","obfuscation":"obf_b1fe68e72","sequence_number":18,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" dark cyan/teal","obfuscation":"obf_bbe1e0823","sequence_number":19,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":". The most accurate","obfuscation":"obf_c5c5581d4","sequence_number":20,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" single word would","obfuscation":"obf_cfa8cfb85","sequence_number":21,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" be \"T","obfuscation":"obf_d98c47536","sequence_number":22,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"eal\" or \"","obfuscation":"obf_e36fbeee7","sequence_number":23,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"C","obfuscation":"obf_ed5336898","sequence_number":24,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"yan\". The color","obfuscation":"obf_f736ae249","sequence_number":25,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" looks like a","obfuscation":"obf_1011a25bfa","sequence_number":26,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" dark cyan/teal","obfuscation":"obf_10afd9d5ab","sequence_number":27,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":", close to #","obfuscation":"obf_114e114f5c","sequence_number":28,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"008","obfuscation":"obf_11ec48c90d","sequence_number":29,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"080 which","obfuscation":"obf_128a8042be","sequence_number":30,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" is teal.","obfuscation":"obf_1328b7bc6f","sequence_number":31,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":" I'll answer \"","obfuscation":"obf_13c6ef3620","sequence_number":32,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"delta":"Teal\".","obfuscation":"obf_146526afd1","sequence_number":33,"content_index":0}
+
+data: {"type":"response.reasoning_text.done","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"text":"\nThe user wants a single word answer for the color of the image. The image shows a solid teal/dark cyan color. Looking at the RGB values it appears to be a teal color - specifically a dark cyan/teal. The most accurate single word would be \"Teal\" or \"Cyan\". The color looks like a dark cyan/teal, close to #008080 which is teal. I'll answer \"Teal\".","sequence_number":34,"content_index":0}
+
+data: {"type":"response.content_part.done","item_id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"\nThe user wants a single word answer for the color of the image. The image shows a solid teal/dark cyan color. Looking at the RGB values it appears to be a teal color - specifically a dark cyan/teal. The most accurate single word would be \"Teal\" or \"Cyan\". The color looks like a dark cyan/teal, close to #008080 which is teal. I'll answer \"Teal\".","annotations":[],"logprobs":[]},"sequence_number":35}
+
+data: {"type":"response.output_item.done","output_index":0,"item":{"id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","type":"reasoning","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user wants a single word answer for the color of the image. The image shows a solid teal/dark cyan color. Looking at the RGB values it appears to be a teal color - specifically a dark cyan/teal. The most accurate single word would be \"Teal\" or \"Cyan\". The color looks like a dark cyan/teal, close to #008080 which is teal. I'll answer \"Teal\"."}]},"sequence_number":36}
+
+data: {"type":"response.output_item.added","output_index":1,"item":{"id":"msg_0db7c363024941b695b23dc74df07e52","type":"message","status":"in_progress","role":"assistant","content":[]},"sequence_number":37}
+
+data: {"type":"response.content_part.added","item_id":"msg_0db7c363024941b695b23dc74df07e52","output_index":1,"content_index":0,"part":{"type":"output_text","text":"","annotations":[],"logprobs":[]},"sequence_number":38}
+
+data: {"type":"response.output_text.delta","item_id":"msg_0db7c363024941b695b23dc74df07e52","output_index":1,"content_index":0,"delta":"Teal","logprobs":[],"obfuscation":"obf_181a7389f7","sequence_number":39}
+
+data: {"type":"response.output_text.done","item_id":"msg_0db7c363024941b695b23dc74df07e52","output_index":1,"content_index":0,"text":"Teal","logprobs":[],"sequence_number":40}
+
+data: {"type":"response.content_part.done","item_id":"msg_0db7c363024941b695b23dc74df07e52","output_index":1,"content_index":0,"part":{"type":"output_text","text":"Teal","annotations":[],"logprobs":[]},"sequence_number":41}
+
+data: {"type":"response.output_item.done","output_index":1,"item":{"id":"msg_0db7c363024941b695b23dc74df07e52","type":"message","status":"completed","role":"assistant","content":[{"type":"output_text","text":"Teal","annotations":[],"logprobs":[]}]},"sequence_number":42}
+
+data: {"type":"response.completed","response":{"id":"resp_c5e60a6c6bd44081a8a09f93253e9c62","object":"response","created_at":1794040298,"status":"completed","background":false,"completed_at":1794040301,"max_output_tokens":384,"model":"LongCat-2.5","output":[{"type":"reasoning","id":"rs_resp_c5e60a6c6bd44081a8a09f93253e9c62","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user wants a single word answer for the color of the image. The image shows a solid teal/dark cyan color. Looking at the RGB values it appears to be a teal color - specifically a dark cyan/teal. The most accurate single word would be \"Teal\" or \"Cyan\". The color looks like a dark cyan/teal, close to #008080 which is teal. I'll answer \"Teal\"."}]},{"type":"message","id":"msg_0db7c363024941b695b23dc74df07e52","status":"completed","role":"assistant","content":[{"type":"output_text","text":"Teal","annotations":[],"logprobs":[]}]}],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"default","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","usage":{"input_tokens":103,"input_tokens_details":{"cached_tokens":0},"output_tokens":100,"output_tokens_details":{"reasoning_tokens":95},"total_tokens":203},"metadata":{}},"sequence_number":43}
+

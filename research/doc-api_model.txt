@@ -7,7 +7,7 @@ Authentication key, passed in the request header as Bearer YOUR_API_KEY.
 
 Path Parameters
 modelstringpathrequired
-Model identifier, e.g. LongCat-2.5-Preview.
+Model identifier, e.g. LongCat-2.5.
 
 Endpoints
 /openai/v1/models/{model}GEToptional

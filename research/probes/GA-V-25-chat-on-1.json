@@ -1,0 +1,80 @@
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040172,"model":"LongCat-2.5","choices":[{"delta":{"role":"assistant","content":""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040172,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040173,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040173,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" user is asking what"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040173,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" single color the image"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040173,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" is. Looking"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040173,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" at the image,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040174,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" it appears to be a solid light green"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040174,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"/m"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"int"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" green color. The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" hex"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" value looks"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" like it could be"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" around #8"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"8CC"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"99"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" or similar. The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" dominant"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" color is green."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" I need to answer"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" with one word.\n\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"The image shows"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" a uniform"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" light green color"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":". The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" most"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040175,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" accurate single word would"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" be \"Green"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"\" or perhaps"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" \"Mint"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"\". Given"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" the solid"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" color, \""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"Green\" is the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" safest answer."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{"content":"Green"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[{"delta":{},"index":0,"finish_reason":"stop","matched_stop":2,"logprobs":null}],"lastOne":false}
+
+data: {"id":"3fe71c9ba3b241aba5a337aa84d32ce2","object":"chat.completion.chunk","created":1794040176,"model":"LongCat-2.5","choices":[],"usage":{"completion_tokens":103,"prompt_tokens":102,"total_tokens":205,"completion_tokens_details":{"reasoning_tokens":99},"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}},"lastOne":true}
+
+data: [DONE]
+

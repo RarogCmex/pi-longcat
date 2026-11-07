@@ -116,20 +116,26 @@ export const LISTING_URL = `${BASE_URL}/models`;
  *     sessions and compaction on this surface remain unexercised).
  *   - "The off switch fails" — now precisely mapped: `effort:"none"` zeroes
  *     reasoning on LongCat-2.0 (0 tokens, re-measured 2026-10-24) and is
- *     ignored by LongCat-2.5-Preview (161 tokens; no other switch works
- *     either). The answer is honesty, not a fix the gateway does not offer:
+ *     ignored by every 2.5-family id. Re-measured on the GA model on
+ *     2026-11-07: no `reasoning` field → 13 reasoning tokens, `effort:"none"`
+ *     → 23, `effort:"low"` → 18 — one behaviour with noise on top, not a
+ *     scale. The answer is honesty, not a fix the gateway does not offer:
  *     the 2.5 family HIDES `off` on this surface
  *     (LONGCAT_THINKING_RESPONSES_25 in catalog.ts).
  *   - Still true and accepted with the switch: the cap oracle is dead here
  *     (`max_output_tokens: 131073` accepted for a 131072-capped model), so
- *     client-side bounds are the only bounds; validation failures can arrive
+ *     client-side bounds are the only bounds — and since 2026-11-07 the
+ *     validator stopped enforcing `max_tokens` for LongCat-2.0 on chat too
+ *     (131073 accepted; the catalog keeps the published 131072 clamp, see
+ *     catalog.ts); validation failures can arrive
  *     as HTTP 200 + an in-band `{"error":…}` body, which is why every
  *     registration — either surface — goes through
  *     `withGatewayErrorRemediation`; and the cache-reporting selling point is
  *     moot because the chat surface reports `cached_tokens` too (768 of 836
  *     measured).
  * `LONGCAT_SURFACE=chat` registers the chat surface instead; its thinking off
- * switch works on both models, and it enforces the output cap with a 400 that
+ * switch works on all three ids (re-measured on the GA model 2026-11-07: no
+ * reasoning tokens at all), and it enforces the output cap with a 400 that
  * names the ceiling.
  */
 export const DEFAULT_SURFACE: GatewayApi = "openai-responses";
@@ -334,6 +340,8 @@ export const UNKNOWN_MODEL_DEFAULTS = {
 
 /** Family heuristics: a new id inherits from the family it is named after. */
 export function guessContext(id: string): number {
+  // /^longcat-2\.5/ also matches the GA id `LongCat-2.5` itself, which is exactly
+  // right: 2026-11-07 measured the same 1M window and 262,144 cap as the Preview.
   if (/^longcat-2\.5/i.test(id)) return 1_048_576;
   if (/^longcat-2\./i.test(id)) return 1_048_576;
   if (/^longcat-/i.test(id)) return UNKNOWN_MODEL_DEFAULTS.contextWindow;
@@ -353,7 +361,10 @@ export function guessThinking(id: string): ThinkingControl | undefined {
 }
 
 export function guessInput(id: string): ("text" | "image")[] {
-  // Vision was measured on 2.5-Preview only; a new id is text until probed.
+  // Vision was measured on 2.5-Preview (2026-10-11) and on 2.5 (2026-11-07, both
+  // surfaces), and 2.0 accepted-and-dropped an image — but a NEW id is text until
+  // probed: inheriting "image" would let pi send billed image tokens to a model
+  // nobody checked.
   return ["text"];
 }
 

@@ -2,9 +2,9 @@ CopyModel Parameters ​
 Compare the default parameter values, adjustable ranges, and constraints of LongCat models.
 Model Capabilities ​
 Context length is the maximum total number of tokens (input + output) that a single request can process.
- | LongCat-2.5-Preview | LongCat-2.0 |
-Context length | 1,048,576 (1M) | 1,048,576 (1M) |
-max_tokens limit | 262,144 (256K) | 131,072 (128K) |
+ | LongCat-2.5 |
+Context length | 1,048,576 (1M) |
+max_tokens limit | 262,144 (256K) |
 Sampling & Generation Parameters ​
 Parameter | Type | Default | Range / Constraint |
 temperature | number | 1.0 (thinking on)

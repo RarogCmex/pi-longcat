@@ -556,3 +556,77 @@ the "valid JSON is never touched" invariant), `test/provider.test.ts`
 (`withToolArgumentRepair` — in-place fix, `result()`-only path, off switch, no
 pass-through layer), `test/tool-argument-repair-wire.test.ts` (a recorded SSE
 through the real Responses adapter, with a negative control).
+
+## 13. LongCat-2.5 GA round — 2026-11-07
+
+Trigger: `GET /openai/v1/models` grew a third id (`LongCat-2.5`,
+`["text","image","video"]`, `max_output_tokens: 262144`) and the change log
+gained "Version: 2026-11-02 — LongCat-2.5 Now Available". The docs were rewritten
+around it: quick start, `api/model-params`, the FAQ and both pricing pages now
+name LongCat-2.5 and no longer mention 2.5-Preview or 2.0, while **both are still
+served** (liveness: an 8-token call on each completed). A new docs page,
+`image-video-understanding`, documents images *and* video (`video_url`, URL only,
+≤100 MB, ≤10/request, <3600 s) — captured to `research/doc-image-video-understanding.*`.
+
+### 13.1 What the free sweep found, including by failing
+
+| probe | result | ledger |
+|---|---|---|
+| listing ×9 keys | identical three-id body — still account-global | `GA-A1` |
+| retrieve ×3 | 1M / 262144 / ¥2·¥8·¥0.04 / same seven `supported_parameters`; 2.5 adds `video` | `GA-A2` |
+| cap 2.5 @262145 | 400 naming 262144 | `GA-A3` |
+| cap 2.5-Preview @262145 | 400 naming 262144 (unchanged) | `GA-A4` |
+| cap 2.0 @262145 | 400 naming **262144** | `GA-A5` |
+| **cap 2.0 @131073** | **200, BILLED** — the old ceiling no longer rejects | harness `cap-sweep` row |
+| image floor 8×8 / 14×14 / 15×15 | 400 `>200px`, 400 `>200px`, **accepted** | `GA-A6/A7`, `GA-B12` |
+| `video_url`, bogus host, 2.5 + Preview | 400 `Failed to download video from URL` → the block is parsed on both | `GA-A8/A9` |
+
+So LongCat-2.0's published cap (131072) and its validator (262144) now disagree.
+The catalog keeps the published clamp and records the contradiction: an accepted
+request proves the *validator* gave way, not that the model emits 131,073 tokens,
+and only a 131k-token generation would settle it (≈¥1, not run).
+
+### 13.2 Thinking on the GA id
+
+Chat: `disabled` → 0 reasoning tokens, answer `ok`; `enabled` / field absent → 7
+(`GA-B1..B3`). Responses: no field → 13 reasoning tokens, `effort:"none"` → 23,
+`effort:"low"` → 18 (`GA-B5..B7`) — the off switch is still dead there, so the
+2.5-family exception in `LONGCAT_THINKING_RESPONSES_25` still applies to GA. Note
+the GA model spends **more** reasoning than the Preview on the same prompt: 47–160
+tokens for "what single colour is this", and at `max_tokens: 8` the answer is
+empty (`stop=length`). The harness's liveness check moved to cap 256 for this
+reason — a 200 with no first token proves nothing.
+
+### 13.3 Vision: the surface story is dead, the image is still read
+
+Three runs of `research/probe-25-vision.ts` (identical generated png bytes, cap
+256/384 so reasoning cannot truncate the answer):
+
+| cell | green named green |
+|---|---|
+| 2.5, chat, thinking on | 5/15 |
+| 2.5, chat, thinking off | 1/9 |
+| 2.5, Responses, low | 6/15 |
+| 2.5-Preview, chat | 2/6 (4/4 on 2026-10-24) |
+| 2.5, chat, solid RED png | 0/6 |
+| 2.5, chat, solid BLUE png | 2/6 |
+
+Controls that keep this honest: text-only runs of the same question answer
+"I don't see an image attached" (so the model is not guessing from the prompt);
+tokens are billed (19 → 102 at 256², 345 at 512²); a 512×512 white field with 2 or
+3 black bars is counted correctly **4/4** (`GA-V-bars*`); and the 512² green
+version of the same colour was read correctly in 5 of 7 runs — consistent with an
+aggressive resize/encode path, which stays a *hypothesis*, not a claim.
+
+Consequence for the plugin: `MIN_IMAGE_AREA_PX` 256 → 200, the vision caveat
+rewritten around *fine colour of small images* instead of *the Responses
+surface*, and the once-per-session warning now fires on both surfaces and no
+longer advises `LONGCAT_SURFACE=chat` (that advice stopped being true on
+2026-11-07). The harness asserts the bar count and only records the colour.
+
+### 13.4 End-to-end after the change
+
+`live/check.ts --billed` on the default Responses surface: **19/19**, ¥0.0059.
+Same on `LONGCAT_SURFACE=chat`: **18/18**, ¥0.0068. Offline **184/184**, `tsc`
+clean. Every claim above has a ledger row (`research/probe-ledger.jsonl`) and a
+body in `research/probes/GA-*`.

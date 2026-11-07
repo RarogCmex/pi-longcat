@@ -1,0 +1,72 @@
+data: {"type":"response.created","response":{"id":"resp_698ca23aa803401fb8cf7dab69549905","object":"response","created_at":1794038729,"status":"in_progress","background":false,"max_output_tokens":128,"model":"LongCat-2.5","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":0}
+
+data: {"type":"response.in_progress","response":{"id":"resp_698ca23aa803401fb8cf7dab69549905","object":"response","created_at":1794038729,"status":"in_progress","background":false,"max_output_tokens":128,"model":"LongCat-2.5","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":1}
+
+data: {"type":"response.output_item.added","output_index":0,"item":{"id":"rs_resp_698ca23aa803401fb8cf7dab69549905","type":"reasoning","summary":[],"content":[]},"sequence_number":2}
+
+data: {"type":"response.content_part.added","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"","annotations":[],"logprobs":[]},"sequence_number":3}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":"\n","obfuscation":"obf_278dde6c4","sequence_number":4,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":"The","obfuscation":"obf_317156075","sequence_number":5,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" user is asking what","obfuscation":"obf_3b54cda26","sequence_number":6,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" single color the","obfuscation":"obf_4538453d7","sequence_number":7,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" image is. Looking","obfuscation":"obf_4f1bbcd88","sequence_number":8,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" at the image,","obfuscation":"obf_58ff34739","sequence_number":9,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" it appears to be","obfuscation":"obf_62e2ac0ea","sequence_number":10,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" a solid dark","obfuscation":"obf_6cc623a9b","sequence_number":11,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" green","obfuscation":"obf_76a99b44c","sequence_number":12,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" color","obfuscation":"obf_808d12dfd","sequence_number":13,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":". The hex","obfuscation":"obf_8a708a7ae","sequence_number":14,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" code","obfuscation":"obf_94540215f","sequence_number":15,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" looks like it's","obfuscation":"obf_9e3779b10","sequence_number":16,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" around #0B","obfuscation":"obf_a81af14c1","sequence_number":17,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":"42","obfuscation":"obf_b1fe68e72","sequence_number":18,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":"14","obfuscation":"obf_bbe1e0823","sequence_number":19,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" or similar -","obfuscation":"obf_c5c5581d4","sequence_number":20,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" a deep green.","obfuscation":"obf_cfa8cfb85","sequence_number":21,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" The answer should","obfuscation":"obf_d98c47536","sequence_number":22,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" be one word:","obfuscation":"obf_e36fbeee7","sequence_number":23,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":" green","obfuscation":"obf_ed5336898","sequence_number":24,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"delta":".","obfuscation":"obf_f736ae249","sequence_number":25,"content_index":0}
+
+data: {"type":"response.reasoning_text.done","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid dark green color. The hex code looks like it's around #0B4214 or similar - a deep green. The answer should be one word: green.","sequence_number":26,"content_index":0}
+
+data: {"type":"response.content_part.done","item_id":"rs_resp_698ca23aa803401fb8cf7dab69549905","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid dark green color. The hex code looks like it's around #0B4214 or similar - a deep green. The answer should be one word: green.","annotations":[],"logprobs":[]},"sequence_number":27}
+
+data: {"type":"response.output_item.done","output_index":0,"item":{"id":"rs_resp_698ca23aa803401fb8cf7dab69549905","type":"reasoning","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid dark green color. The hex code looks like it's around #0B4214 or similar - a deep green. The answer should be one word: green."}]},"sequence_number":28}
+
+data: {"type":"response.output_item.added","output_index":1,"item":{"id":"msg_d3dcae0887364bfbbb4ab8c290ce04aa","type":"message","status":"in_progress","role":"assistant","content":[]},"sequence_number":29}
+
+data: {"type":"response.content_part.added","item_id":"msg_d3dcae0887364bfbbb4ab8c290ce04aa","output_index":1,"content_index":0,"part":{"type":"output_text","text":"","annotations":[],"logprobs":[]},"sequence_number":30}
+
+data: {"type":"response.output_text.delta","item_id":"msg_d3dcae0887364bfbbb4ab8c290ce04aa","output_index":1,"content_index":0,"delta":"green","logprobs":[],"obfuscation":"obf_1328b7bc6f","sequence_number":31}
+
+data: {"type":"response.output_text.done","item_id":"msg_d3dcae0887364bfbbb4ab8c290ce04aa","output_index":1,"content_index":0,"text":"green","logprobs":[],"sequence_number":32}
+
+data: {"type":"response.content_part.done","item_id":"msg_d3dcae0887364bfbbb4ab8c290ce04aa","output_index":1,"content_index":0,"part":{"type":"output_text","text":"green","annotations":[],"logprobs":[]},"sequence_number":33}
+
+data: {"type":"response.output_item.done","output_index":1,"item":{"id":"msg_d3dcae0887364bfbbb4ab8c290ce04aa","type":"message","status":"completed","role":"assistant","content":[{"type":"output_text","text":"green","annotations":[],"logprobs":[]}]},"sequence_number":34}
+
+data: {"type":"response.completed","response":{"id":"resp_698ca23aa803401fb8cf7dab69549905","object":"response","created_at":1794038729,"status":"completed","background":false,"completed_at":1794038732,"max_output_tokens":128,"model":"LongCat-2.5","output":[{"type":"reasoning","id":"rs_resp_698ca23aa803401fb8cf7dab69549905","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user is asking what single color the image is. Looking at the image, it appears to be a solid dark green color. The hex code looks like it's around #0B4214 or similar - a deep green. The answer should be one word: green."}]},{"type":"message","id":"msg_d3dcae0887364bfbbb4ab8c290ce04aa","status":"completed","role":"assistant","content":[{"type":"output_text","text":"green","annotations":[],"logprobs":[]}]}],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"default","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","usage":{"input_tokens":103,"input_tokens_details":{"cached_tokens":0},"output_tokens":62,"output_tokens_details":{"reasoning_tokens":58},"total_tokens":165},"metadata":{}},"sequence_number":35}
+

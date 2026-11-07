@@ -1,0 +1,32 @@
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"role":"assistant","content":""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" image"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" shows two"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" horizontal black bars,"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" one near the top"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" and one near the"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" bottom. I need"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" to count"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" them: "},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"2."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{"content":"2"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[{"delta":{},"index":0,"finish_reason":"stop","matched_stop":2,"logprobs":null}],"lastOne":false}
+
+data: {"id":"dfc8f0a3669d4e2e99f69fbccc6b0efb","object":"chat.completion.chunk","created":1794040651,"model":"LongCat-2.5","choices":[],"usage":{"completion_tokens":32,"prompt_tokens":348,"total_tokens":380,"completion_tokens_details":{"reasoning_tokens":28},"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}},"lastOne":true}
+
+data: [DONE]
+

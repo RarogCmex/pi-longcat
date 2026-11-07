@@ -16,31 +16,21 @@ Rules (pi-provider-plugin Phase 5, pitfalls L35/L41/L42):
 
 | | |
 |---|---|
-| ledger rows | 493 |
-| calls that generated (BILLED) | 334 |
-| input tokens bought | 193393 |
-| output tokens bought | 58943 |
-| **total spend** | **¥0.807917 ≈ $0.120133** |
-| accepted rows whose usage was never captured | 3 — C3b-microcoding-2.5-16k (classified `BILLED-uncaptured`), plus CAP2-chat-2.5-131073 and R2-IM-2.5-textonly, which were **client-side aborts/timeouts** but are classified `free (rejected/no inference)`; see the note below |
+| ledger rows | 676 |
+| calls that generated (BILLED) | 504 |
+| input tokens bought | 213324 |
+| output tokens bought | 73471 |
+| **total spend** | **¥0.957480 ≈ $0.142372** |
+| accepted rows whose usage was never captured | 3 — C3b-microcoding-2.5-16k, CAP2-chat-2.5-131073, R2-IM-2.5-textonly |
 | rows planned "free" that came back accepted and generated (L35 audit) | 6 — B4-bad-thinking-type-chat, B4-bad-thinking-type-anthropic, DD-A8-budget-over, DD-A9-temp-1.5, live-temperature-drift-run1, live-temperature-drift-run2 |
 
-The 3 "uncaptured" rows are named above and are **not** estimated — the house rule
-is "not captured" rather than a plausible number. Three classes produce them: a
-client-side abort guard firing mid-generation (the cap probes, and
-`C3b-microcoding-2.5-16k`, which a 120 s wall clock cut off while the model was
-still thinking — its class reads BILLED-uncaptured because the server kept
+Rows whose usage was never captured are named above and are **not** estimated —
+the house rule is "not captured" rather than a plausible number. Three classes
+produce them: a client-side abort guard firing mid-generation (the cap probes,
+and `C3b-microcoding-2.5-16k`, which a 120 s wall clock cut off while the model
+was still thinking — its class reads BILLED-uncaptured because the server kept
 generating after we hung up), a request timeout, and a stream that ended before
 the usage event. A row in this list is a hole in the accounting, not a free call.
-
-**Classification gap (re-read 2026-10-25):** two of the three are filed as
-`free (rejected/no inference)` although they never reached a verdict —
-`CAP2-chat-2.5-131073` (`http: ABORTED(3000ms)`) and `R2-IM-2.5-textonly`
-(`http: ERR:The operation was aborted due to timeout`) are client-side aborts, so
-"rejected" is not what happened. Their cost stays 0 either way (the abort means
-no usage event, and the house rule is "not captured"), but the label
-understates the uncertainty: an abort is not a rejection. Not rewritten here —
-flagged for the operator rather than silently reclassified.
-
 The 2 "suspicious" rows are the honest L35 misses from the first research round:
 an invalid `thinking.type` planned as a guaranteed rejection and accepted+billed.
 
@@ -48,17 +38,17 @@ an invalid `thinking.type` planned as a guaranteed rejection and accepted+billed
 
 | key | rows | billed rows | input tokens | output tokens | ¥ | ~$ |
 |---|---|---|---|---|---|---|
-| KEY4 | 25 | 24 | 108049 | 31065 | 0.463113 | 0.068862 |
-| KEY1 | 369 | 256 | 71143 | 25681 | 0.302907 | 0.045041 |
-| KEY3 | 5 | 5 | 4804 | 801 | 0.016354 | 0.002432 |
-| KEY2 | 21 | 21 | 3884 | 1117 | 0.012188 | 0.001812 |
-| KEY6 | 23 | 11 | 2460 | 125 | 0.005956 | 0.000886 |
-| KEY8 | 25 | 13 | 1879 | 140 | 0.004939 | 0.000734 |
-| KEY5 | 2 | 2 | 1146 | 6 | 0.002340 | 0.000348 |
-| KEY7 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
-| KEY9 | 13 | 1 | 14 | 4 | 0.000060 | 0.000009 |
+| KEY1 | 552 | 426 | 91074 | 40209 | 0.452470 | 0.067280 |
 | KEY1..KEY9 | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | KEY1/garbage/none | 1 | 0 | 0 | 0 | 0.000000 | 0.000000 |
+| KEY2 | 21 | 21 | 3884 | 1117 | 0.012188 | 0.001812 |
+| KEY3 | 5 | 5 | 4804 | 801 | 0.016354 | 0.002432 |
+| KEY4 | 25 | 24 | 108049 | 31065 | 0.463113 | 0.068862 |
+| KEY5 | 2 | 2 | 1146 | 6 | 0.002340 | 0.000348 |
+| KEY6 | 23 | 11 | 2460 | 125 | 0.005956 | 0.000886 |
+| KEY7 | 1 | 1 | 14 | 4 | 0.000060 | 0.000009 |
+| KEY8 | 25 | 13 | 1879 | 140 | 0.004939 | 0.000734 |
+| KEY9 | 13 | 1 | 14 | 4 | 0.000060 | 0.000009 |
 | garbage | 3 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 | none | 4 | 0 | 0 | 0 | 0.000000 | 0.000000 |
 
@@ -521,6 +511,233 @@ the two are never averaged together.
 | 0 | `live/cache-key-control-unkeyed` | KEY1 | openai-completions | 200 | BILLED | 756 | 2 | 0 | 0.00152800 |
 | 0 | `live/cache-warm` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
 | 0 | `live/cache-hit` | KEY1 | openai-completions | 200 | BILLED | 103 | 2 | 256 | 0.00023224 |
+| 210 | `DD-E1-pilot-low` | KEY1 | openai-responses | 200 | BILLED | 69 | 2048 | 0 | 0.01652200 |
+| 211 | `DD-E0-task-divcount` | KEY1 | openai-responses | 200 | BILLED | 43 | 647 | 0 | 0.00526200 |
+| 212 | `DD-E0-task-seats` | KEY1 | openai-responses | 200 | BILLED | 81 | 179 | 0 | 0.00159400 |
+| 213 | `DD-E0-task-lastdigit` | KEY1 | openai-responses | 200 | BILLED | 28 | 73 | 0 | 0.00064000 |
+| 214 | `DD-E0-task-banana` | KEY1 | openai-responses | 200 | BILLED | 37 | 153 | 0 | 0.00129800 |
+| 215 | `DD-E2-divcount-effort-none-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 331 | 0 | 0.00273400 |
+| 216 | `DD-E2-divcount-effort-none-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 272 | 0 | 0.00226200 |
+| 217 | `DD-E2-divcount-effort-none-r3` | KEY1 | openai-responses | 200 | BILLED | 43 | 546 | 0 | 0.00445400 |
+| 218 | `DD-E2-divcount-effort-minimal-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 552 | 0 | 0.00450200 |
+| 219 | `DD-E2-divcount-effort-minimal-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 434 | 0 | 0.00355800 |
+| 220 | `DD-E2-divcount-effort-minimal-r3` | KEY1 | openai-responses | 200 | BILLED | 43 | 259 | 0 | 0.00215800 |
+| 221 | `DD-E2-divcount-effort-low-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 320 | 0 | 0.00264600 |
+| 222 | `DD-E2-divcount-effort-low-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 542 | 0 | 0.00442200 |
+| 223 | `DD-E2-divcount-effort-low-r3` | KEY1 | openai-responses | 200 | BILLED | 43 | 717 | 0 | 0.00582200 |
+| 224 | `DD-E2-divcount-effort-medium-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 273 | 0 | 0.00227000 |
+| 225 | `DD-E2-divcount-effort-medium-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 882 | 0 | 0.00714200 |
+| 226 | `DD-E2-divcount-effort-medium-r3` | KEY1 | openai-responses | 200 | BILLED | 43 | 256 | 0 | 0.00213400 |
+| 227 | `DD-E2-divcount-effort-high-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 323 | 0 | 0.00267000 |
+| 228 | `DD-E2-divcount-effort-high-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 297 | 0 | 0.00246200 |
+| 229 | `DD-E2-divcount-effort-high-r3` | KEY1 | openai-responses | 200 | BILLED | 43 | 320 | 0 | 0.00264600 |
+| 230 | `DD-E2-divcount-effort-xhigh-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 449 | 0 | 0.00367800 |
+| 231 | `DD-E2-divcount-effort-xhigh-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 348 | 0 | 0.00287000 |
+| 232 | `DD-E2-divcount-effort-xhigh-r3` | KEY1 | openai-responses | 200 | BILLED | 43 | 272 | 0 | 0.00226200 |
+| 233 | `DD-E2-seats-effort-none-r1` | KEY1 | openai-responses | 200 | BILLED | 81 | 229 | 0 | 0.00199400 |
+| 234 | `DD-E2-seats-effort-none-r2` | KEY1 | openai-responses | 200 | BILLED | 81 | 225 | 0 | 0.00196200 |
+| 235 | `DD-E2-seats-effort-minimal-r1` | KEY1 | openai-responses | 200 | BILLED | 81 | 258 | 0 | 0.00222600 |
+| 236 | `DD-E2-seats-effort-minimal-r2` | KEY1 | openai-responses | 200 | BILLED | 81 | 345 | 0 | 0.00292200 |
+| 237 | `DD-E2-seats-effort-low-r1` | KEY1 | openai-responses | 200 | BILLED | 81 | 289 | 0 | 0.00247400 |
+| 238 | `DD-E2-seats-effort-low-r2` | KEY1 | openai-responses | 200 | BILLED | 81 | 313 | 0 | 0.00266600 |
+| 239 | `DD-E2-seats-effort-medium-r1` | KEY1 | openai-responses | 200 | BILLED | 81 | 277 | 0 | 0.00237800 |
+| 240 | `DD-E2-seats-effort-medium-r2` | KEY1 | openai-responses | 200 | BILLED | 81 | 321 | 0 | 0.00273000 |
+| 241 | `DD-E2-seats-effort-high-r1` | KEY1 | openai-responses | 200 | BILLED | 81 | 202 | 0 | 0.00177800 |
+| 242 | `DD-E2-seats-effort-high-r2` | KEY1 | openai-responses | 200 | BILLED | 81 | 220 | 0 | 0.00192200 |
+| 243 | `DD-E2-seats-effort-xhigh-r1` | KEY1 | openai-responses | 200 | BILLED | 81 | 289 | 0 | 0.00247400 |
+| 244 | `DD-E2-seats-effort-xhigh-r2` | KEY1 | openai-responses | 200 | BILLED | 81 | 304 | 0 | 0.00259400 |
+| 245 | `DD-E3-nofield-divcount-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 324 | 0 | 0.00267800 |
+| 246 | `DD-E3-nofield-divcount-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 352 | 0 | 0.00290200 |
+| 247 | `DD-E3-nofield-divcount-r3` | KEY1 | openai-responses | 200 | BILLED | 43 | 652 | 0 | 0.00530200 |
+| 248 | `DD-E4-summary-auto-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 650 | 0 | 0.00528600 |
+| 249 | `DD-E4-summary-auto-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 291 | 0 | 0.00241400 |
+| 250 | `DD-E4-summary-concise-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 569 | 0 | 0.00463800 |
+| 251 | `DD-E4-summary-concise-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 267 | 0 | 0.00222200 |
+| 252 | `DD-E4-summary-detailed-r1` | KEY1 | openai-responses | 200 | BILLED | 43 | 449 | 0 | 0.00367800 |
+| 253 | `DD-E4-summary-detailed-r2` | KEY1 | openai-responses | 200 | BILLED | 43 | 347 | 0 | 0.00286200 |
+| 254 | `GA-A1-listing` | KEY1 | GET | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 255 | `GA-A2-retrieve-LongCat-2.5` | KEY1 | GET | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 256 | `GA-A2-retrieve-LongCat-2.5-Preview` | KEY1 | GET | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 257 | `GA-A2-retrieve-LongCat-2.0` | KEY1 | GET | 200 | 200-no-generation (not billed) | – | – | – | 0 |
+| 258 | `GA-A3-cap-LongCat-2.5` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 259 | `GA-A4-cap-LongCat-2.5-Preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 260 | `GA-A5-cap-LongCat-2.0` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 261 | `GA-A6-floor-64px` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 262 | `GA-A7-floor-196px` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 263 | `GA-A8-video-2.5` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 264 | `GA-A9-video-2.5-preview` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 265 | `GA-A10-unknown-model` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 266 | `GA-A10-top_p` | KEY1 | openai-completions | 400 | free (rejected/no inference) | – | – | – | 0 |
+| 267 | `GA-B12-floor-225px` | KEY1 | openai-completions | 200 | BILLED | 76 | 8 | 0 | 0.00021600 |
+| 268 | `GA-B1-thinking` | KEY1 | openai-completions | 200 | BILLED | 14 | 8 | 0 | 0.00009200 |
+| 269 | `GA-B2-thinking` | KEY1 | openai-completions | 200 | BILLED | 17 | 2 | 0 | 0.00005000 |
+| 270 | `GA-B3-thinking` | KEY1 | openai-completions | 200 | BILLED | 14 | 8 | 0 | 0.00009200 |
+| 271 | `GA-B4-vision-chat` | KEY1 | openai-completions | 200 | BILLED | 102 | 51 | 0 | 0.00061200 |
+| 272 | `GA-B5-effort` | KEY1 | openai-responses | 200 | BILLED | 14 | 17 | 0 | 0.00016400 |
+| 273 | `GA-B6-effort` | KEY1 | openai-responses | 200 | BILLED | 14 | 27 | 0 | 0.00024400 |
+| 274 | `GA-B7-effort` | KEY1 | openai-responses | 200 | BILLED | 14 | 22 | 0 | 0.00020400 |
+| 275 | `GA-B8-vision-responses` | KEY1 | openai-responses | 200 | BILLED | 103 | 61 | 0 | 0.00069400 |
+| 276 | `GA-B9-vision-responses` | KEY1 | openai-responses | 200 | BILLED | 103 | 64 | 0 | 0.00071800 |
+| 277 | `GA-B10-tools` | KEY1 | openai-completions | 200 | BILLED | 169 | 44 | 0 | 0.00069000 |
+| 278 | `GA-B11-liveness-LongCat-2.5-Preview` | KEY1 | openai-completions | 200 | BILLED | 14 | 8 | 0 | 0.00009200 |
+| 279 | `GA-B11-liveness-LongCat-2.0` | KEY1 | openai-completions | 200 | BILLED | 14 | 8 | 0 | 0.00009200 |
+| 280 | `GA-V-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 51 | 0 | 0.00061200 |
+| 281 | `GA-V-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 56 | 0 | 0.00065200 |
+| 282 | `GA-V-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 54 | 0 | 0.00063600 |
+| 283 | `GA-V-chat-on-4` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 284 | `GA-V-chat-on-5` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 285 | `GA-V-chat-off-1` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 286 | `GA-V-chat-off-2` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 287 | `GA-V-chat-off-3` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 288 | `GA-V-responses-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 73 | 0 | 0.00079000 |
+| 289 | `GA-V-responses-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 54 | 0 | 0.00063800 |
+| 290 | `GA-V-responses-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 56 | 0 | 0.00065400 |
+| 291 | `GA-V-responses-4` | KEY1 | openai-responses | 200 | BILLED | 103 | 64 | 0 | 0.00071800 |
+| 292 | `GA-V-responses-5` | KEY1 | openai-responses | 200 | BILLED | 103 | 69 | 0 | 0.00075800 |
+| 293 | `GA-V-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 294 | `GA-V-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 295 | `GA-V-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 56 | 0 | 0.00065200 |
+| 296 | `GA-V-chat-on-4` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 297 | `GA-V-chat-on-5` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 298 | `GA-V-chat-off-1` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 299 | `GA-V-chat-off-2` | KEY1 | openai-completions | 200 | BILLED | 105 | 3 | 0 | 0.00023400 |
+| 300 | `GA-V-chat-off-3` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 301 | `GA-V-responses-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 128 | 0 | 0.00123000 |
+| 302 | `GA-V-responses-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 113 | 0 | 0.00111000 |
+| 303 | `GA-V-responses-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 51 | 0 | 0.00061400 |
+| 304 | `GA-V-responses-4` | KEY1 | openai-responses | 200 | BILLED | 103 | 62 | 0 | 0.00070200 |
+| 305 | `GA-V-responses-5` | KEY1 | openai-responses | 200 | BILLED | 103 | 94 | 0 | 0.00095800 |
+| 306 | `GA-V-red-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 307 | `GA-V-red-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 62 | 0 | 0.00070000 |
+| 308 | `GA-V-red-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 309 | `GA-V-blue-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 310 | `GA-V-blue-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 311 | `GA-V-blue-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 312 | `GA-V-25-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 61 | 0 | 0.00069200 |
+| 313 | `GA-V-25-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 103 | 0 | 0.00102800 |
+| 314 | `GA-V-25-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 123 | 0 | 0.00118800 |
+| 315 | `GA-V-25-chat-on-4` | KEY1 | openai-completions | 200 | BILLED | 102 | 164 | 0 | 0.00151600 |
+| 316 | `GA-V-25-chat-on-5` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 317 | `GA-V-25-chat-off-1` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 318 | `GA-V-25-chat-off-2` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 319 | `GA-V-25-chat-off-3` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 320 | `GA-V-25-resp-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 62 | 0 | 0.00070200 |
+| 321 | `GA-V-25-resp-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 37 | 0 | 0.00050200 |
+| 322 | `GA-V-25-resp-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 70 | 0 | 0.00076600 |
+| 323 | `GA-V-25-resp-4` | KEY1 | openai-responses | 200 | BILLED | 103 | 86 | 0 | 0.00089400 |
+| 324 | `GA-V-25-resp-5` | KEY1 | openai-responses | 200 | BILLED | 103 | 116 | 0 | 0.00113400 |
+| 325 | `GA-V-PREV-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 40 | 0 | 0.00052400 |
+| 326 | `GA-V-PREV-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 42 | 0 | 0.00054000 |
+| 327 | `GA-V-PREV-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 80 | 0 | 0.00084400 |
+| 328 | `GA-V-PREV-resp-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 73 | 0 | 0.00079000 |
+| 329 | `GA-V-PREV-resp-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 137 | 0 | 0.00130200 |
+| 330 | `GA-V-PREV-resp-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 90 | 0 | 0.00092600 |
+| 331 | `GA-V-red-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 84 | 0 | 0.00087600 |
+| 332 | `GA-V-red-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 110 | 0 | 0.00108400 |
+| 333 | `GA-V-red-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 78 | 0 | 0.00082800 |
+| 334 | `GA-V-blue-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 70 | 0 | 0.00076400 |
+| 335 | `GA-V-blue-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 65 | 0 | 0.00072400 |
+| 336 | `GA-V-blue-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 43 | 0 | 0.00054800 |
+| 337 | `GA-V-25-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 103 | 0 | 0.00102800 |
+| 338 | `GA-V-25-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 61 | 0 | 0.00069200 |
+| 339 | `GA-V-25-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 162 | 0 | 0.00150000 |
+| 340 | `GA-V-25-chat-on-4` | KEY1 | openai-completions | 200 | BILLED | 102 | 45 | 0 | 0.00056400 |
+| 341 | `GA-V-25-chat-on-5` | KEY1 | openai-completions | 200 | BILLED | 102 | 114 | 0 | 0.00111600 |
+| 342 | `GA-V-25-chat-off-1` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 343 | `GA-V-25-chat-off-2` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 344 | `GA-V-25-chat-off-3` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 345 | `GA-V-25-resp-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 58 | 0 | 0.00067000 |
+| 346 | `GA-V-25-resp-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 48 | 0 | 0.00059000 |
+| 347 | `GA-V-25-resp-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 62 | 0 | 0.00070200 |
+| 348 | `GA-V-25-resp-4` | KEY1 | openai-responses | 200 | BILLED | 103 | 304 | 0 | 0.00263800 |
+| 349 | `GA-V-25-resp-5` | KEY1 | openai-responses | 200 | BILLED | 103 | 63 | 0 | 0.00071000 |
+| 350 | `GA-V-PREV-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 40 | 0 | 0.00052400 |
+| 351 | `GA-V-PREV-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 64 | 0 | 0.00071600 |
+| 352 | `GA-V-PREV-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 112 | 0 | 0.00110000 |
+| 353 | `GA-V-PREV-resp-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 306 | 0 | 0.00265400 |
+| 354 | `GA-V-PREV-resp-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 92 | 0 | 0.00094200 |
+| 355 | `GA-V-PREV-resp-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 226 | 0 | 0.00201400 |
+| 356 | `GA-V-red-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 177 | 0 | 0.00162000 |
+| 357 | `GA-V-red-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 256 | 0 | 0.00225200 |
+| 358 | `GA-V-red-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 156 | 0 | 0.00145200 |
+| 359 | `GA-V-blue-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 80 | 0 | 0.00084400 |
+| 360 | `GA-V-blue-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 109 | 0 | 0.00107600 |
+| 361 | `GA-V-blue-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 256 | 0 | 0.00225200 |
+| 362 | `GA-V-noimage-1` | KEY1 | openai-completions | 200 | BILLED | 19 | 256 | 0 | 0.00208600 |
+| 363 | `GA-V-noimage-2` | KEY1 | openai-completions | 200 | BILLED | 19 | 256 | 0 | 0.00208600 |
+| 364 | `GA-V-noimage-3` | KEY1 | openai-completions | 200 | BILLED | 19 | 117 | 0 | 0.00097400 |
+| 365 | `GA-V-25-chat-512-1` | KEY1 | openai-completions | 200 | BILLED | 345 | 55 | 0 | 0.00113000 |
+| 366 | `GA-V-25-chat-512-2` | KEY1 | openai-completions | 200 | BILLED | 345 | 105 | 256 | 0.00102824 |
+| 367 | `GA-V-25-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 94 | 0 | 0.00095600 |
+| 368 | `GA-V-25-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 193 | 0 | 0.00174800 |
+| 369 | `GA-V-25-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 114 | 0 | 0.00111600 |
+| 370 | `GA-V-25-chat-on-4` | KEY1 | openai-completions | 200 | BILLED | 102 | 60 | 0 | 0.00068400 |
+| 371 | `GA-V-25-chat-on-5` | KEY1 | openai-completions | 200 | BILLED | 102 | 106 | 0 | 0.00105200 |
+| 372 | `GA-V-25-chat-off-1` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 373 | `GA-V-25-chat-off-2` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 374 | `GA-V-25-chat-off-3` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 375 | `GA-V-25-resp-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 58 | 0 | 0.00067000 |
+| 376 | `GA-V-25-resp-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 38 | 0 | 0.00051000 |
+| 377 | `GA-V-25-resp-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 64 | 0 | 0.00071800 |
+| 378 | `GA-V-25-resp-4` | KEY1 | openai-responses | 200 | BILLED | 103 | 50 | 0 | 0.00060600 |
+| 379 | `GA-V-25-resp-5` | KEY1 | openai-responses | 200 | BILLED | 103 | 79 | 0 | 0.00083800 |
+| 380 | `GA-V-PREV-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 142 | 0 | 0.00134000 |
+| 381 | `GA-V-PREV-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 57 | 0 | 0.00066000 |
+| 382 | `GA-V-PREV-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 62 | 0 | 0.00070000 |
+| 383 | `GA-V-PREV-resp-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 41 | 0 | 0.00053400 |
+| 384 | `GA-V-PREV-resp-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 88 | 0 | 0.00091000 |
+| 385 | `GA-V-PREV-resp-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 34 | 0 | 0.00047800 |
+| 386 | `GA-V-red-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 94 | 0 | 0.00095600 |
+| 387 | `GA-V-red-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 244 | 0 | 0.00215600 |
+| 388 | `GA-V-red-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 196 | 0 | 0.00177200 |
+| 389 | `GA-V-blue-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 60 | 0 | 0.00068400 |
+| 390 | `GA-V-blue-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 20 | 0 | 0.00036400 |
+| 391 | `GA-V-blue-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 85 | 0 | 0.00088400 |
+| 392 | `GA-V-noimage-1` | KEY1 | openai-completions | 200 | BILLED | 19 | 256 | 0 | 0.00208600 |
+| 393 | `GA-V-noimage-2` | KEY1 | openai-completions | 200 | BILLED | 19 | 256 | 0 | 0.00208600 |
+| 394 | `GA-V-noimage-3` | KEY1 | openai-completions | 200 | BILLED | 19 | 247 | 0 | 0.00201400 |
+| 395 | `GA-V-25-chat-512-1` | KEY1 | openai-completions | 200 | BILLED | 345 | 213 | 256 | 0.00189224 |
+| 396 | `GA-V-25-chat-512-2` | KEY1 | openai-completions | 200 | BILLED | 345 | 159 | 256 | 0.00146024 |
+| 397 | `GA-V-25-chat-512-3` | KEY1 | openai-completions | 200 | BILLED | 345 | 103 | 256 | 0.00101224 |
+| 398 | `GA-V-25-chat-512-4` | KEY1 | openai-completions | 200 | BILLED | 345 | 65 | 256 | 0.00070824 |
+| 399 | `GA-V-25-chat-512-5` | KEY1 | openai-completions | 200 | BILLED | 345 | 129 | 256 | 0.00122024 |
+| 400 | `GA-V-25-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 103 | 0 | 0.00102800 |
+| 401 | `GA-V-25-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 147 | 0 | 0.00138000 |
+| 402 | `GA-V-25-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 110 | 0 | 0.00108400 |
+| 403 | `GA-V-25-chat-on-4` | KEY1 | openai-completions | 200 | BILLED | 102 | 110 | 0 | 0.00108400 |
+| 404 | `GA-V-25-chat-on-5` | KEY1 | openai-completions | 200 | BILLED | 102 | 78 | 0 | 0.00082800 |
+| 405 | `GA-V-25-chat-off-1` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 406 | `GA-V-25-chat-off-2` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 407 | `GA-V-25-chat-off-3` | KEY1 | openai-completions | 200 | BILLED | 105 | 2 | 0 | 0.00022600 |
+| 408 | `GA-V-25-resp-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 101 | 0 | 0.00101400 |
+| 409 | `GA-V-25-resp-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 100 | 0 | 0.00100600 |
+| 410 | `GA-V-25-resp-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 116 | 0 | 0.00113400 |
+| 411 | `GA-V-25-resp-4` | KEY1 | openai-responses | 200 | BILLED | 103 | 66 | 0 | 0.00073400 |
+| 412 | `GA-V-25-resp-5` | KEY1 | openai-responses | 200 | BILLED | 103 | 89 | 0 | 0.00091800 |
+| 413 | `GA-V-PREV-chat-on-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 148 | 0 | 0.00138800 |
+| 414 | `GA-V-PREV-chat-on-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 51 | 0 | 0.00061200 |
+| 415 | `GA-V-PREV-chat-on-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 106 | 0 | 0.00105200 |
+| 416 | `GA-V-PREV-resp-1` | KEY1 | openai-responses | 200 | BILLED | 103 | 72 | 0 | 0.00078200 |
+| 417 | `GA-V-PREV-resp-2` | KEY1 | openai-responses | 200 | BILLED | 103 | 62 | 0 | 0.00070200 |
+| 418 | `GA-V-PREV-resp-3` | KEY1 | openai-responses | 200 | BILLED | 103 | 106 | 0 | 0.00105400 |
+| 419 | `GA-V-red-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 256 | 0 | 0.00225200 |
+| 420 | `GA-V-red-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 127 | 0 | 0.00122000 |
+| 421 | `GA-V-red-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 81 | 0 | 0.00085200 |
+| 422 | `GA-V-blue-1` | KEY1 | openai-completions | 200 | BILLED | 102 | 70 | 0 | 0.00076400 |
+| 423 | `GA-V-blue-2` | KEY1 | openai-completions | 200 | BILLED | 102 | 60 | 0 | 0.00068400 |
+| 424 | `GA-V-blue-3` | KEY1 | openai-completions | 200 | BILLED | 102 | 48 | 0 | 0.00058800 |
+| 425 | `GA-V-noimage-1` | KEY1 | openai-completions | 200 | BILLED | 19 | 256 | 0 | 0.00208600 |
+| 426 | `GA-V-noimage-2` | KEY1 | openai-completions | 200 | BILLED | 19 | 256 | 0 | 0.00208600 |
+| 427 | `GA-V-noimage-3` | KEY1 | openai-completions | 200 | BILLED | 19 | 256 | 0 | 0.00208600 |
+| 428 | `GA-V-25-chat-512-1` | KEY1 | openai-completions | 200 | BILLED | 345 | 40 | 256 | 0.00050824 |
+| 429 | `GA-V-25-chat-512-2` | KEY1 | openai-completions | 200 | BILLED | 345 | 100 | 256 | 0.00098824 |
+| 430 | `GA-V-25-chat-512-3` | KEY1 | openai-completions | 200 | BILLED | 345 | 93 | 256 | 0.00093224 |
+| 431 | `GA-V-25-chat-512-4` | KEY1 | openai-completions | 200 | BILLED | 345 | 65 | 256 | 0.00070824 |
+| 432 | `GA-V-25-chat-512-5` | KEY1 | openai-completions | 200 | BILLED | 345 | 99 | 256 | 0.00098024 |
+| 433 | `GA-V-bars2-1` | KEY1 | openai-completions | 200 | BILLED | 348 | 32 | 0 | 0.00095200 |
+| 434 | `GA-V-bars2-2` | KEY1 | openai-completions | 200 | BILLED | 348 | 55 | 256 | 0.00063424 |
+| 435 | `GA-V-bars3-1` | KEY1 | openai-completions | 200 | BILLED | 348 | 36 | 0 | 0.00098400 |
+| 436 | `GA-V-bars3-2` | KEY1 | openai-completions | 200 | BILLED | 348 | 33 | 256 | 0.00045824 |
 
 ## What each row was for
 
@@ -973,12 +1190,230 @@ the two are never averaged together.
 - **0 `live/cache-key-control-unkeyed`** (cap asked: 16) — live/check.ts --billed run
 - **0 `live/cache-warm`** (cap asked: 4) — live/check.ts --billed run
 - **0 `live/cache-hit`** (cap asked: 4) — live/check.ts --billed run
-- **0 `DD-E0-task-divcount`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot: does the divcount task (smallest n divisible by 12 with 12 divisors, answer 60) reason moderately instead of saturating the cap?
-- **0 `DD-E0-task-seats`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot: the 4-people/4-chairs deduction task (answer 3) — second candidate
-- **0 `DD-E0-task-lastdigit`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot: last digit of 7^2024 (answer 1) — rejected: only 69 reasoning tokens
-- **0 `DD-E0-task-banana`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot: BANANA arrangements with no two A's adjacent (answer 12) — rejected: only 148 tokens
-- **0 `DD-E1-pilot-low`** (max_output_tokens 2048, 300 s timeout) — FIRST candidate (enumeration, answer 38) at effort=low: reasoning_tokens 2047/2048, finish=incomplete, answer lost — the task saturated the cap, so it was abandoned (kept as evidence)
-- **0 `DD-E2-divcount-effort-{none,minimal,low,medium,high,xhigh}-r{1,2,3}`** (max_output_tokens 2048, 300 s timeout) — the scale: does effort move reasoning_tokens on divcount? 18 rows, medians 324/323/450/268/315/338, Kruskal–Wallis p=0.713 — no
-- **0 `DD-E2-seats-effort-{none,minimal,low,medium,high,xhigh}-r{1,2}`** (max_output_tokens 2048, 300 s timeout) — the same scale on a second task (12 rows, medians 222/298/297/295/207/293) — high is the LOWEST; conclusion not an artefact of one prompt
-- **0 `DD-E3-nofield-divcount-r{1,2,3}`** (max_output_tokens 2048, 300 s timeout) — baseline: NO reasoning field (what pi sends for 2.5×Responses with no level), medians 327 — mid-pack against the six levels
-- **0 `DD-E4-summary-{auto,concise,detailed}-r{1,2}`** (max_output_tokens 2048, 300 s timeout) — the OTHER half of pi's shipped bytes: does summary move reasoning_tokens at effort=high? 6 rows, medians 330/366/321 — no
+- **210 `DD-E1-pilot-low`** (max_output_tokens 2048, enumeration task, 300 s timeout) — effort=low} on 2.5-Preview: does the level move reasoning_tokens?
+- **211 `DD-E0-task-divcount`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot for the effort grid: does divcount reason moderately (not saturate 2048) and solve?
+- **212 `DD-E0-task-seats`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot for the effort grid: does seats reason moderately (not saturate 2048) and solve?
+- **213 `DD-E0-task-lastdigit`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot for the effort grid: does lastdigit reason moderately (not saturate 2048) and solve?
+- **214 `DD-E0-task-banana`** (max_output_tokens 2048, 300 s timeout) — task-selection pilot for the effort grid: does banana reason moderately (not saturate 2048) and solve?
+- **215 `DD-E2-divcount-effort-none-r1`** (max_output_tokens 2048, 300 s timeout) — effort=none on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **216 `DD-E2-divcount-effort-none-r2`** (max_output_tokens 2048, 300 s timeout) — effort=none on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **217 `DD-E2-divcount-effort-none-r3`** (max_output_tokens 2048, 300 s timeout) — effort=none on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **218 `DD-E2-divcount-effort-minimal-r1`** (max_output_tokens 2048, 300 s timeout) — effort=minimal on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **219 `DD-E2-divcount-effort-minimal-r2`** (max_output_tokens 2048, 300 s timeout) — effort=minimal on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **220 `DD-E2-divcount-effort-minimal-r3`** (max_output_tokens 2048, 300 s timeout) — effort=minimal on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **221 `DD-E2-divcount-effort-low-r1`** (max_output_tokens 2048, 300 s timeout) — effort=low on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **222 `DD-E2-divcount-effort-low-r2`** (max_output_tokens 2048, 300 s timeout) — effort=low on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **223 `DD-E2-divcount-effort-low-r3`** (max_output_tokens 2048, 300 s timeout) — effort=low on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **224 `DD-E2-divcount-effort-medium-r1`** (max_output_tokens 2048, 300 s timeout) — effort=medium on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **225 `DD-E2-divcount-effort-medium-r2`** (max_output_tokens 2048, 300 s timeout) — effort=medium on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **226 `DD-E2-divcount-effort-medium-r3`** (max_output_tokens 2048, 300 s timeout) — effort=medium on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **227 `DD-E2-divcount-effort-high-r1`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **228 `DD-E2-divcount-effort-high-r2`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **229 `DD-E2-divcount-effort-high-r3`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **230 `DD-E2-divcount-effort-xhigh-r1`** (max_output_tokens 2048, 300 s timeout) — effort=xhigh on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **231 `DD-E2-divcount-effort-xhigh-r2`** (max_output_tokens 2048, 300 s timeout) — effort=xhigh on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **232 `DD-E2-divcount-effort-xhigh-r3`** (max_output_tokens 2048, 300 s timeout) — effort=xhigh on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **233 `DD-E2-seats-effort-none-r1`** (max_output_tokens 2048, 300 s timeout) — effort=none on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **234 `DD-E2-seats-effort-none-r2`** (max_output_tokens 2048, 300 s timeout) — effort=none on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **235 `DD-E2-seats-effort-minimal-r1`** (max_output_tokens 2048, 300 s timeout) — effort=minimal on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **236 `DD-E2-seats-effort-minimal-r2`** (max_output_tokens 2048, 300 s timeout) — effort=minimal on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **237 `DD-E2-seats-effort-low-r1`** (max_output_tokens 2048, 300 s timeout) — effort=low on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **238 `DD-E2-seats-effort-low-r2`** (max_output_tokens 2048, 300 s timeout) — effort=low on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **239 `DD-E2-seats-effort-medium-r1`** (max_output_tokens 2048, 300 s timeout) — effort=medium on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **240 `DD-E2-seats-effort-medium-r2`** (max_output_tokens 2048, 300 s timeout) — effort=medium on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **241 `DD-E2-seats-effort-high-r1`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **242 `DD-E2-seats-effort-high-r2`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **243 `DD-E2-seats-effort-xhigh-r1`** (max_output_tokens 2048, 300 s timeout) — effort=xhigh on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **244 `DD-E2-seats-effort-xhigh-r2`** (max_output_tokens 2048, 300 s timeout) — effort=xhigh on 2.5-Preview, task=seats: does the level move reasoning_tokens?
+- **245 `DD-E3-nofield-divcount-r1`** (max_output_tokens 2048, 300 s timeout) — effort=(omitted) on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **246 `DD-E3-nofield-divcount-r2`** (max_output_tokens 2048, 300 s timeout) — effort=(omitted) on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **247 `DD-E3-nofield-divcount-r3`** (max_output_tokens 2048, 300 s timeout) — effort=(omitted) on 2.5-Preview, task=divcount: does the level move reasoning_tokens?
+- **248 `DD-E4-summary-auto-r1`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens? (summary:auto)
+- **249 `DD-E4-summary-auto-r2`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens? (summary:auto)
+- **250 `DD-E4-summary-concise-r1`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens? (summary:concise)
+- **251 `DD-E4-summary-concise-r2`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens? (summary:concise)
+- **252 `DD-E4-summary-detailed-r1`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens? (summary:detailed)
+- **253 `DD-E4-summary-detailed-r2`** (max_output_tokens 2048, 300 s timeout) — effort=high on 2.5-Preview, task=divcount: does the level move reasoning_tokens? (summary:detailed)
+- **254 `GA-A1-listing`** (no inference) — does the listing now carry LongCat-2.5 (3 ids)?
+- **255 `GA-A2-retrieve-LongCat-2.5`** (no inference) — window / modalities / price / contract
+- **256 `GA-A2-retrieve-LongCat-2.5-Preview`** (no inference) — window / modalities / price / contract
+- **257 `GA-A2-retrieve-LongCat-2.0`** (no inference) — window / modalities / price / contract
+- **258 `GA-A3-cap-LongCat-2.5`** (max_tokens 262145 (rejection expected)) — LongCat-2.5: does 262145 name the ceiling?
+- **259 `GA-A4-cap-LongCat-2.5-Preview`** (max_tokens 262145 (rejection expected)) — LongCat-2.5-Preview: does 262145 name the ceiling?
+- **260 `GA-A5-cap-LongCat-2.0`** (max_tokens 262145 (rejection expected)) — LongCat-2.0: does 262145 name the ceiling?
+- **261 `GA-A6-floor-64px`** (max_tokens 4 (rejection expected)) — 8×8 / 64 px: the floor is still rejected and named
+- **262 `GA-A7-floor-196px`** (max_tokens 4 (rejection expected)) — 14×14 / 196 px: is 196 still under the 200 px floor?
+- **263 `GA-A8-video-2.5`** (max_tokens 4 (rejection expected)) — video_url on 2.5: a failed download proves the block was parsed
+- **264 `GA-A9-video-2.5-preview`** (max_tokens 4 (rejection expected)) — video_url on 2.5-Preview: parsed too, though its listing still says text+image
+- **265 `GA-A10-unknown-model`** (max_tokens 4 (rejection expected)) — unchanged guard: unknown id is 400 invalid_parameter
+- **266 `GA-A10-top_p`** (max_tokens 4 (rejection expected)) — unchanged guard: top_p is range-checked
+- **267 `GA-B12-floor-225px`** (max_tokens 8, 120 s) — 15×15 / 225 px: accepted ⇒ the floor really is 200, not higher
+- **268 `GA-B1-thinking`** (max_tokens 8, 120 s) — chat 2.5 thinking enabled
+- **269 `GA-B2-thinking`** (max_tokens 8, 120 s) — chat 2.5 thinking disabled
+- **270 `GA-B3-thinking`** (max_tokens 8, 120 s) — chat 2.5 thinking absent (default)
+- **271 `GA-B4-vision-chat`** (max_tokens 64, 120 s) — chat surface vision control on the GA model
+- **272 `GA-B5-effort`** (max_output_tokens 256, 120 s) — responses 2.5 no reasoning field
+- **273 `GA-B6-effort`** (max_output_tokens 256, 120 s) — responses 2.5 effort none
+- **274 `GA-B7-effort`** (max_output_tokens 256, 120 s) — responses 2.5 effort low
+- **275 `GA-B8-vision-responses`** (max_output_tokens 64, 120 s) — DD3 re-check: base64 green png on Responses
+- **276 `GA-B9-vision-responses`** (max_output_tokens 64, 120 s) — DD3 re-check: base64 green png on Responses
+- **277 `GA-B10-tools`** (max_tokens 200, 120 s) — native tool calling on the GA model
+- **278 `GA-B11-liveness-LongCat-2.5-Preview`** (max_tokens 8, 120 s) — LongCat-2.5-Preview is undocumented but still served
+- **279 `GA-B11-liveness-LongCat-2.0`** (max_tokens 8, 120 s) — LongCat-2.0 is undocumented but still served
+- **280 `GA-V-chat-on-1`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **281 `GA-V-chat-on-2`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **282 `GA-V-chat-on-3`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **283 `GA-V-chat-on-4`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **284 `GA-V-chat-on-5`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **285 `GA-V-chat-off-1`** (max_tokens 64, 120 s) — chat vision, thinking off (N=3)
+- **286 `GA-V-chat-off-2`** (max_tokens 64, 120 s) — chat vision, thinking off (N=3)
+- **287 `GA-V-chat-off-3`** (max_tokens 64, 120 s) — chat vision, thinking off (N=3)
+- **288 `GA-V-responses-1`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **289 `GA-V-responses-2`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **290 `GA-V-responses-3`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **291 `GA-V-responses-4`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **292 `GA-V-responses-5`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **293 `GA-V-chat-on-1`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **294 `GA-V-chat-on-2`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **295 `GA-V-chat-on-3`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **296 `GA-V-chat-on-4`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **297 `GA-V-chat-on-5`** (max_tokens 64, 120 s) — chat vision, thinking on (N=5)
+- **298 `GA-V-chat-off-1`** (max_tokens 64, 120 s) — chat vision, thinking off (N=3)
+- **299 `GA-V-chat-off-2`** (max_tokens 64, 120 s) — chat vision, thinking off (N=3)
+- **300 `GA-V-chat-off-3`** (max_tokens 64, 120 s) — chat vision, thinking off (N=3)
+- **301 `GA-V-responses-1`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **302 `GA-V-responses-2`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **303 `GA-V-responses-3`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **304 `GA-V-responses-4`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **305 `GA-V-responses-5`** (max_output_tokens 128, 120 s) — Responses vision, effort low (N=5)
+- **306 `GA-V-red-1`** (max_tokens 64, 120 s) — colour control: solid RED png, chat, thinking on
+- **307 `GA-V-red-2`** (max_tokens 64, 120 s) — colour control: solid RED png, chat, thinking on
+- **308 `GA-V-red-3`** (max_tokens 64, 120 s) — colour control: solid RED png, chat, thinking on
+- **309 `GA-V-blue-1`** (max_tokens 64, 120 s) — colour control: solid BLUE png, chat, thinking on
+- **310 `GA-V-blue-2`** (max_tokens 64, 120 s) — colour control: solid BLUE png, chat, thinking on
+- **311 `GA-V-blue-3`** (max_tokens 64, 120 s) — colour control: solid BLUE png, chat, thinking on
+- **312 `GA-V-25-chat-on-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **313 `GA-V-25-chat-on-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **314 `GA-V-25-chat-on-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **315 `GA-V-25-chat-on-4`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **316 `GA-V-25-chat-on-5`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **317 `GA-V-25-chat-off-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **318 `GA-V-25-chat-off-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **319 `GA-V-25-chat-off-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **320 `GA-V-25-resp-1`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **321 `GA-V-25-resp-2`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **322 `GA-V-25-resp-3`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **323 `GA-V-25-resp-4`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **324 `GA-V-25-resp-5`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **325 `GA-V-PREV-chat-on-1`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **326 `GA-V-PREV-chat-on-2`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **327 `GA-V-PREV-chat-on-3`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **328 `GA-V-PREV-resp-1`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **329 `GA-V-PREV-resp-2`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **330 `GA-V-PREV-resp-3`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **331 `GA-V-red-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **332 `GA-V-red-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **333 `GA-V-red-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **334 `GA-V-blue-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **335 `GA-V-blue-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **336 `GA-V-blue-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **337 `GA-V-25-chat-on-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **338 `GA-V-25-chat-on-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **339 `GA-V-25-chat-on-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **340 `GA-V-25-chat-on-4`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **341 `GA-V-25-chat-on-5`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **342 `GA-V-25-chat-off-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **343 `GA-V-25-chat-off-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **344 `GA-V-25-chat-off-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **345 `GA-V-25-resp-1`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **346 `GA-V-25-resp-2`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **347 `GA-V-25-resp-3`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **348 `GA-V-25-resp-4`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **349 `GA-V-25-resp-5`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **350 `GA-V-PREV-chat-on-1`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **351 `GA-V-PREV-chat-on-2`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **352 `GA-V-PREV-chat-on-3`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **353 `GA-V-PREV-resp-1`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **354 `GA-V-PREV-resp-2`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **355 `GA-V-PREV-resp-3`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **356 `GA-V-red-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **357 `GA-V-red-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **358 `GA-V-red-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **359 `GA-V-blue-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **360 `GA-V-blue-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **361 `GA-V-blue-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **362 `GA-V-noimage-1`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **363 `GA-V-noimage-2`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **364 `GA-V-noimage-3`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **365 `GA-V-25-chat-512-1`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **366 `GA-V-25-chat-512-2`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **367 `GA-V-25-chat-on-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **368 `GA-V-25-chat-on-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **369 `GA-V-25-chat-on-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **370 `GA-V-25-chat-on-4`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **371 `GA-V-25-chat-on-5`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **372 `GA-V-25-chat-off-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **373 `GA-V-25-chat-off-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **374 `GA-V-25-chat-off-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **375 `GA-V-25-resp-1`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **376 `GA-V-25-resp-2`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **377 `GA-V-25-resp-3`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **378 `GA-V-25-resp-4`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **379 `GA-V-25-resp-5`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **380 `GA-V-PREV-chat-on-1`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **381 `GA-V-PREV-chat-on-2`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **382 `GA-V-PREV-chat-on-3`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **383 `GA-V-PREV-resp-1`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **384 `GA-V-PREV-resp-2`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **385 `GA-V-PREV-resp-3`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **386 `GA-V-red-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **387 `GA-V-red-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **388 `GA-V-red-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **389 `GA-V-blue-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **390 `GA-V-blue-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **391 `GA-V-blue-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **392 `GA-V-noimage-1`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **393 `GA-V-noimage-2`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **394 `GA-V-noimage-3`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **395 `GA-V-25-chat-512-1`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **396 `GA-V-25-chat-512-2`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **397 `GA-V-25-chat-512-3`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **398 `GA-V-25-chat-512-4`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **399 `GA-V-25-chat-512-5`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **400 `GA-V-25-chat-on-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **401 `GA-V-25-chat-on-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **402 `GA-V-25-chat-on-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **403 `GA-V-25-chat-on-4`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **404 `GA-V-25-chat-on-5`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid green png
+- **405 `GA-V-25-chat-off-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **406 `GA-V-25-chat-off-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **407 `GA-V-25-chat-off-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking disabled, solid green png
+- **408 `GA-V-25-resp-1`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **409 `GA-V-25-resp-2`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **410 `GA-V-25-resp-3`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **411 `GA-V-25-resp-4`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **412 `GA-V-25-resp-5`** (max_output_tokens 384, 120 s) — LongCat-2.5 Responses vision, effort low, solid green png
+- **413 `GA-V-PREV-chat-on-1`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **414 `GA-V-PREV-chat-on-2`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **415 `GA-V-PREV-chat-on-3`** (max_tokens 256, 120 s) — LongCat-2.5-Preview chat vision, thinking enabled, solid green png
+- **416 `GA-V-PREV-resp-1`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **417 `GA-V-PREV-resp-2`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **418 `GA-V-PREV-resp-3`** (max_output_tokens 384, 120 s) — LongCat-2.5-Preview Responses vision, effort low, solid green png
+- **419 `GA-V-red-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **420 `GA-V-red-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **421 `GA-V-red-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid red png
+- **422 `GA-V-blue-1`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **423 `GA-V-blue-2`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **424 `GA-V-blue-3`** (max_tokens 256, 120 s) — LongCat-2.5 chat vision, thinking enabled, solid blue png
+- **425 `GA-V-noimage-1`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **426 `GA-V-noimage-2`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **427 `GA-V-noimage-3`** (max_tokens 256, 120 s) — control: the same question with no image attached
+- **428 `GA-V-25-chat-512-1`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **429 `GA-V-25-chat-512-2`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **430 `GA-V-25-chat-512-3`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **431 `GA-V-25-chat-512-4`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **432 `GA-V-25-chat-512-5`** (max_tokens 256, 120 s) — 512×512 green png: does image size change the answer?
+- **433 `GA-V-bars2-1`** (max_tokens 256, 120 s) — structure control: 2 black bars on white, can it count them?
+- **434 `GA-V-bars2-2`** (max_tokens 256, 120 s) — structure control: 2 black bars on white, can it count them?
+- **435 `GA-V-bars3-1`** (max_tokens 256, 120 s) — structure control: 3 black bars on white, can it count them?
+- **436 `GA-V-bars3-2`** (max_tokens 256, 120 s) — structure control: 3 black bars on white, can it count them?

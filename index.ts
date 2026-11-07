@@ -2,10 +2,13 @@
  * LongCat (Meituan) provider for pi.
  *
  * Registers `longcat` as a first-class pi-ai provider: the curated
- * LongCat-2.5-Preview / LongCat-2.0 catalog (1M context, measured output caps,
- * CNY-derived USD pricing), a measured thinking on/off switch, `/login` with a
- * zero-inference key check, an additive live overlay from `GET /models`, and
- * readable messages for the gateway's auth and balance failures.
+ * LongCat-2.5 / LongCat-2.5-Preview / LongCat-2.0 catalog (1M context, measured
+ * output caps, CNY-derived USD pricing), a measured thinking on/off switch,
+ * `/login` with a zero-inference key check, an additive live overlay from
+ * `GET /models`, and readable messages for the gateway's auth and balance
+ * failures. LongCat-2.5 is the id the platform documents since its 2026-11-02
+ * change-log entry; the other two are still served and stay registered (see
+ * catalog.ts).
  *
  * Wire surfaces. The gateway serves three (all probed live 2026-10-10/11,
  * re-checked 2026-10-24):
@@ -15,11 +18,13 @@
  *     ledger DD2-M1/M2). Buys typed reasoning items and replay. Two measured
  *     caveats ride along: it does not enforce the output cap (131073 accepted),
  *     it answers some failures with HTTP 200 + an in-band error body (hence
- *     `withGatewayErrorRemediation`), and LongCat-2.5-Preview has NO working
- *     thinking-off switch on it (measured) — so that model×surface pair offers
- *     only the `low` level instead of selling a dead "off". Its vision through
- *     base64 images is also measured unreliable (1/6 vs 4/4 on chat, DD3), so a
- *     run that starts with images gets a once-per-session warning (below).
+ *     `withGatewayErrorRemediation`), and the 2.5 family has NO working
+ *     thinking-off switch on it (measured) — so those model×surface pairs offer
+ *     only the `low` level instead of selling a dead "off" (re-measured on the
+ *     GA model 2026-11-07). Its vision through base64 images is also measured
+ *     unreliable for colour/fine detail (both surfaces, DD3 plus the 2026-11-07
+ *     round), so a run that starts with images gets a once-per-session warning
+ *     (below).
  *   - `POST /openai/v1/chat/completions` — `LONGCAT_SURFACE=chat`. Documented,
  *     enforces the output cap (131073 → 400 naming 131072), answers failures
  *     with real HTTP statuses, and its `thinking:{"type":"disabled"}` switch is
@@ -218,19 +223,23 @@ export default function (pi: ExtensionAPI) {
     buildLongCatProvider(api, withToolArgumentRepair(withGatewayErrorRemediation(streams))),
   );
 
-  // The vision caveat surfaced where it bites (operator request, 2026-10-24):
-  // image reading on the Responses surface is measured UNRELIABLE (DD3: a green
-  // 256×256 png read correctly 1/6 vs 4/4 on chat — "Blue", "teal", truncations),
-  // so a run that starts with attached images gets told — once per session —
-  // that the readout is suspect and how to get reliable vision. Registered ONLY
-  // when the Responses surface is active: on chat the same probe is 4/4 and a
-  // warning there would train the user to ignore warnings. before_agent_start is
-  // the one pre-request event that carries the user's images (messageType union
-  // since pi 1.2.0; on an older host the guard simply never matches, and the
-  // plugin's verified floor is 1.4.0). hasUI-gated like every notification path
-  // here (print/json stay silent — P51), session-id-deduped so an image-heavy
-  // session is not a wall of toasts.
-  if (api === "openai-responses") {
+  // The vision caveat surfaced where it bites (operator request 2026-10-24,
+  // re-scoped 2026-11-07). The defect is no longer surface-specific: on
+  // 2026-10-24 the Responses surface read a green 256×256 png as blue/teal in 5
+  // of 6 runs while chat read it 4/4, and the warning was Responses-only. The
+  // 2026-11-07 re-measurement (research/probe-25-vision.ts, ledger GA-V-*) found
+  // the same wobble everywhere — 256×256 green named green in 5/15 chat runs on
+  // LongCat-2.5, 6/15 on Responses, 2/6 on the Preview, 0/6 for a solid red png —
+  // while structure still reads correctly (2 and 3 black bars counted 4/4 on the
+  // GA model) and image tokens are still billed. So the warning now fires on
+  // BOTH surfaces, and it no longer tells the user to switch to chat, because
+  // that advice stopped being true.
+  // before_agent_start is the one pre-request event that carries the user's
+  // images (messageType union since pi 1.2.0; on an older host the guard simply
+  // never matches, and the plugin's verified floor is 1.4.0). hasUI-gated like
+  // every notification path here (print/json stay silent — P51),
+  // session-id-deduped so an image-heavy session is not a wall of toasts.
+  {
     const imageWarnedSessions = new Set<string>();
     pi.on("before_agent_start", (event, ctx) => {
       if (event.messageType !== "user") return;
@@ -238,16 +247,16 @@ export default function (pi: ExtensionAPI) {
       // before_agent_start fires for EVERY run, whatever model is active: a
       // user who switched to another provider must not get LongCat's warning.
       if (ctx.model?.provider !== PROVIDER_ID) return;
-      if (ctx.model?.api !== "openai-responses") return; // chat reads images 4/4 — nothing to warn about
       if (!ctx.hasUI) return;
       const session = ctx.sessionManager?.getSessionId() ?? "(no session id)";
       if (imageWarnedSessions.has(session)) return;
       imageWarnedSessions.add(session);
       ctx.ui.notify(
-        "LongCat: image reading on the Responses surface is measured unreliable " +
-          "(a green image read as blue/teal in 5 of 6 runs; chat reads it 4/4). " +
-          "Treat the model's description of attached images as suspect — for " +
-          "image-heavy work, restart with LONGCAT_SURFACE=chat.",
+        "LongCat: images are read (they are billed as input and structural " +
+          "questions answered correctly), but naming the colour or fine detail of a " +
+          "SMALL image is measured unreliable on this platform — a green 256×256 png " +
+          "was called cyan/teal/blue in most runs on both surfaces and both models " +
+          "(2026-11-07). Treat colour/detail claims about small images as suspect.",
         "warning",
       );
     });

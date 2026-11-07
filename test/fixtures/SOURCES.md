@@ -13,9 +13,13 @@ key, HTTP status and cost class of the call that produced it.
 | `retrieve-2.5-preview.json` | JSON body, recorded 2026-10-10/11 | GET /models/LongCat-2.5-Preview — image modality + pricing |
 | `CAP1-chat-2.0-131073.json` | JSON body, recorded 2026-10-10/11 | cap oracle: 131073 rejected naming 131072 (LongCat-2.0) |
 | `CAP3-chat-2.5-262145.json` | JSON body, recorded 2026-10-10/11 | cap oracle: 262145 rejected naming 262144 (2.5-Preview) |
+| `key1-models-2026-11-07.json` | JSON body, recorded 2026-11-07 | GET /openai/v1/models with KEY1 after the GA release — THREE ids, and the body the catalog is checked against |
+| `retrieve-2.5-ga.json` | JSON body, recorded 2026-11-07 | GET /models/LongCat-2.5 — 1M window, 262144 cap, text+image+video, CNY pricing |
+| `CAP7-chat-2.0-262145.json` | JSON body, recorded 2026-11-07 | cap oracle 2026-11-07: 262145 rejected naming 262144 — for LongCat-2.0, whose ceiling moved |
+| `CAP8-chat-2.0-131073-accepted.json` | JSON body, recorded 2026-11-07 | cap oracle 2026-11-07: 131073 ACCEPTED and billed — the old 2.0 ceiling is gone while the listing still advertises it |
 | `CAP4-chat-window-plus-1.json` | JSON body, recorded 2026-10-10/11 | the max_tokens check fires before any context check |
 | `neg-max_tokens-2.0.json` | JSON body, recorded 2026-10-10/11 | the validator discloses no upper bound for a negative value |
-| `PA3-temperature-range.json` | JSON body, recorded 2026-10-10/11 | HISTORICAL as of 2026-10-24: temperature was range-checked to <= 1 when recorded; the gateway now ACCEPTS and overrides out-of-range values (api/model-params). Kept because errors.test.ts classifies the recorded body, and a 400 of this shape is still what top_p/top_k/repetition_penalty produce |
+| `PA3-temperature-range.json` | JSON body, recorded 2026-10-10/11 | temperature is range-checked to <= 1 (documented 0~1) |
 | `unknown-model-chat.json` | JSON body, recorded 2026-10-10/11 | unknown id dialect: 400 invalid_parameter, not 404 |
 | `badkey-chat.json` | JSON body, recorded 2026-10-10/11 | 401 invalid_api_key / incorrect api key |
 | `nokey-chat.json` | JSON body, recorded 2026-10-10/11 | 401 invalid_api_key / missing_api_key |
@@ -30,7 +34,7 @@ key, HTTP status and cost class of the call that produced it.
 | `order-model-vs-params.json` | JSON body, recorded 2026-10-10/11 | validation order: an unknown model beats an invalid parameter |
 | `badkey-unknownmodel.json` | JSON body, recorded 2026-10-10/11 | a bad key + an unknown model still answers 401 (auth precedes model lookup) |
 | `malformed-json.json` | JSON body, recorded 2026-10-10/11 | the non-OpenAI envelope used for unparseable bodies |
-| `IM1-image-2.5-chat.json` | JSON body, recorded 2026-10-10/11 | the measured image floor: area must exceed 256 px |
+| `IM1-image-2.5-chat.json` | JSON body, recorded 2026-10-10/11 | HISTORICAL floor row (2026-10-11): area had to exceed 256 px; the platform relaxed it to 200 by 2026-11-07 |
 | `free-stream-invalid-openai_v1_responses.json` | SSE stream, recorded 2026-10-10/11 | a streaming Responses failure arrives as response.failed (SSE), not as an in-band 200 |
 | `S1-chat-stream.json` | SSE stream, recorded 2026-10-10/11 | chat SSE dialect, incl. the final usage chunk and data: [DONE] |
 | `S2-responses-stream.json` | SSE stream, recorded 2026-10-10/11 | Responses SSE dialect (response.created …) |

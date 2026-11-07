@@ -262,7 +262,7 @@ export function longcatApiKeyAuth(
  * `surface` decides every model's `api` field and its compat flags; `streams`
  * must be the matching pi-ai adapter, wrapped in `withGatewayErrorRemediation`.
  * Only one surface is registered per process (`LONGCAT_SURFACE`, default
- * `openai-completions`) so the picker shows 2 ids rather than 4, and so a model
+ * `openai-responses`) so the picker shows 3 ids rather than 6, and so a model
  * can never end up pointing at an adapter that was never constructed.
  *
  * `models` is the curated baseline, always present and never network-dependent.
@@ -270,6 +270,19 @@ export function longcatApiKeyAuth(
  * persists it through its own ModelsStore and restores it offline, so a new
  * LongCat release shows up without a catalog edit while a dead key or no network
  * degrades to the baseline.
+ *
+ * **`filterModels` exists because that merge is one-way** (measured 2026-11-07).
+ * pi's `createProvider` restores the persisted overlay into its dynamic list and
+ * `currentModels()` REPLACES a baseline row with any overlay row sharing its id
+ * (`pi-ai/dist/models.js:559-568`). So an id that was once unknown — `LongCat-2.5`
+ * was exactly that between the platform's 2026-11-02 release and this catalog
+ * update — keeps the conservative shape discovery gave it (`input:["text"]`,
+ * `cost: 0`) on every later start, offline included, until a network refresh
+ * overwrites the store. Observed live: `pi --list-models` printed `images: no` for
+ * `LongCat-2.5` while the catalog said `["text","image"]`. The fix cannot be
+ * "persist curated rows too" (that would freeze a stale copy of every number the
+ * catalog owns — pitfalls C28); it is to canonicalise at the availability filter,
+ * which is the one hook pi applies to the list it shows *and* resolves from.
  */
 export function buildLongCatProvider(
   surface: GatewayApi,
@@ -277,17 +290,24 @@ export function buildLongCatProvider(
   env: EnvReader = processEnv,
   baseUrl: string = resolveBaseUrl(surface, env),
 ): Provider<GatewayApi> {
+  const models = buildModels(surface, baseUrl, cnyPerUsd(env));
+  const curated = new Map(models.map((model) => [model.id, model]));
   return createProvider<GatewayApi>({
     id: "longcat",
     name: "LongCat (Meituan)",
     baseUrl,
     auth: { apiKey: longcatApiKeyAuth(fetch, () => resolveBaseUrl(surface, env)) },
-    models: buildModels(surface, baseUrl, cnyPerUsd(env)),
+    models,
     fetchModels: (context) =>
       fetchLongCatModels(
         { listingBaseUrl: resolveBaseUrl("openai-completions", env), baseUrl, api: surface },
         context,
       ),
+    // A curated id is ALWAYS served from the catalog, whatever a restored overlay
+    // remembers about it. Unknown ids pass through untouched, so discovery keeps
+    // working; nothing is dropped, so a persisted id the catalog has never heard
+    // of stays visible.
+    filterModels: (available) => available.map((model) => curated.get(model.id) ?? model),
     api: streams,
   });
 }

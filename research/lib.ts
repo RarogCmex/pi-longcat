@@ -40,7 +40,14 @@ export const CNY_PER_USD = 6.7252; // dated house rate, 2026-09-15 (models.ts)
 export const ORIGIN = "https://api.longcat.chat";
 
 export const M20 = "LongCat-2.0";
+/** The Preview id — every 2026-10 row in the ledger labelled M25 measured THIS. */
 export const M25 = "LongCat-2.5-Preview";
+/**
+ * The GA id, live since the 2026-11-02 change log. Deliberately a separate
+ * constant from `M25`: relabelling the October rows with the GA id would claim
+ * measurements that were never taken on it.
+ */
+export const M25_GA = "LongCat-2.5";
 
 export function loadKeys(): Record<string, string> {
   const env: Record<string, string> = {};

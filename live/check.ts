@@ -10,7 +10,7 @@
  *
  * ── Cost classes (pi-provider-plugin Phase 5; the class is a claim about the
  *    RESPONSE, not about the intention) ────────────────────────────────────────
- *  This platform has **no zero-priced id**: both models are ¥2/1M uncached input,
+ *  This platform has **no zero-priced id**: all three ids are ¥2/1M uncached input,
  *  ¥0.04/1M cached, ¥8/1M output, and only a 2xx that generated is billed. So the
  *  usual "free because the id is free-tier" class does not exist here and the
  *  default run is limited to class 1:
@@ -46,15 +46,19 @@
  * ── What it verifies ─────────────────────────────────────────────────────────
  *   1. the live listing still equals the curated catalog (drift detector);
  *   2. each model's published pricing/modalities still equal the catalog;
- *   3. the output caps are still the measured ones, from rejections;
+ *   3. the ENFORCED output caps are still the measured ones, from rejections
+ *      (since 2026-11-07 the probe value is per id, not the catalog clamp: 2.0's
+ *      validator accepts 131073 while its listing still says 131072, so probing
+ *      the clamp bills — see catalog.ts);
  *   4. auth: a garbage key is a 401 end-to-end through the production wrapper,
  *      and the message a user sees is actionable and non-retryable;
  *   5. the in-band HTTP-200 error paths are re-statused by our fetch wrapper;
  *   6. the top_p range and the image-area floor are still enforced;
  *   7. (billed) liveness, the thinking switch measured by its OUTPUT, a tool
- *      round trip, image consumption with a non-guessable colour (CHAT surface
- *      only since 2026-10-24 — vision through base64 data-url images is
- *      measured unreliable on Responses: 1/6 correct vs 4/4 on chat, DD3),
+ *      round trip, image consumption proven by a STRUCTURAL question (2 black
+ *      bars counted on a white field, 4/4 measured 2026-11-07) with the colour
+ *      readout recorded but never asserted — the colour probe is a coin flip on
+ *      both surfaces since 2026-11-07 (research/probe-25-vision.ts),
  *      cache accounting proven with exactly two requests, and — since
  *      2026-10-24 — the temperature override policy (an out-of-range
  *      temperature is ACCEPTED and generates; it was a 400 until the gateway
@@ -416,6 +420,57 @@ function solidPng(size: number, rgb: [number, number, number]): string {
   ]).toString("base64");
 }
 
+/**
+ * 512×512 white field with N black horizontal bars — the structural counterpart
+ * to `solidPng`. Built at run time for the same reason (a pasted blob rots), and
+ * drawn here rather than imported so the harness stays self-contained.
+ */
+function barsPng(n: number): string {
+  const size = 512;
+  const table = Array.from({ length: 256 }, (_, k) => {
+    let c = k;
+    for (let j = 0; j < 8; j++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    return c >>> 0;
+  });
+  const crc32 = (buf: Buffer) => {
+    let c = 0xffffffff;
+    for (const b of buf) c = table[(c ^ b) & 0xff] ^ (c >>> 8);
+    return (c ^ 0xffffffff) >>> 0;
+  };
+  const chunk = (type: string, data: Buffer) => {
+    const len = Buffer.alloc(4);
+    len.writeUInt32BE(data.length);
+    const body = Buffer.concat([Buffer.from(type, "ascii"), data]);
+    const crc = Buffer.alloc(4);
+    crc.writeUInt32BE(crc32(body));
+    return Buffer.concat([len, body, crc]);
+  };
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(size, 0);
+  ihdr.writeUInt32BE(size, 4);
+  ihdr[8] = 8;
+  ihdr[9] = 2;
+  const raw = Buffer.alloc(size * (1 + size * 3), 0xff); // everything white…
+  for (let y = 0; y < size; y++) raw[y * (1 + size * 3)] = 0; // …with filter 0 per row
+  for (let b = 0; b < n; b++) {
+    const top = Math.floor(((b + 0.5) * size) / n) - 12;
+    for (let y = top; y < top + 24; y++) {
+      for (let x = 40; x < size - 40; x++) {
+        const o = y * (1 + size * 3) + 1 + x * 3;
+        raw[o] = 0;
+        raw[o + 1] = 0;
+        raw[o + 2] = 0;
+      }
+    }
+  }
+  return Buffer.concat([
+    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+    chunk("IHDR", ihdr),
+    chunk("IDAT", deflateSync(raw)),
+    chunk("IEND", Buffer.alloc(0)),
+  ]).toString("base64");
+}
+
 // ── 1. free checks: catalog drift, caps, auth, limits ─────────────────────────
 
 test("live/free: the probe origin is derived correctly (a stray slash would read as a gateway change)", { skip: SKIP }, () => {
@@ -435,7 +490,11 @@ test("live/free: GET /models/{id} still agrees with the catalog on window, modal
     const { status, json } = await get(`/openai/v1/models/${entry.id}`, { check: `retrieve/${entry.id}` });
     assert.equal(status, 200);
     assert.equal(json.context_length, entry.contextWindow, `${entry.id}: context_length drifted`);
-    assert.deepEqual(json.architecture.input_modalities, entry.input, `${entry.id}: modalities drifted`);
+    // Video is the one deliberate disagreement: LongCat-2.5 lists it and the
+    // catalog cannot claim it (pi has no video modality), so compare the two
+    // modalities pi can express.
+    const expressible = (json.architecture.input_modalities ?? []).filter((m: string) => m === "text" || m === "image");
+    assert.deepEqual(expressible, entry.input, `${entry.id}: modalities drifted`);
     assert.equal(Number(json.pricing.prompt), entry.cny.input, `${entry.id}: input price drifted`);
     assert.equal(Number(json.pricing.completion), entry.cny.output, `${entry.id}: output price drifted`);
     assert.equal(Number(json.pricing.cached_tokens), entry.cny.cacheRead, `${entry.id}: cache price drifted`);
@@ -443,18 +502,30 @@ test("live/free: GET /models/{id} still agrees with the catalog on window, modal
   }
 });
 
-test("live/free: the output caps are still the measured ones (cap sweep, from rejections)", { skip: SKIP }, async () => {
+test("live/free: the ENFORCED output caps are still the measured ones (cap sweep, from rejections)", { skip: SKIP }, async () => {
+  // The sweep probes the enforced ceiling, which is no longer the same thing as
+  // the catalog's clamp for every id (2026-11-07): LongCat-2.0's validator now
+  // accepts 131073 and only rejects at 262145, while GET /models still advertises
+  // 131072 for it — see catalog.ts and test/catalog.test.ts. Probing each id at
+  // its own catalog clamp would therefore BILL the 2.0 probe, which is exactly how
+  // this drift announced itself on 2026-11-07 (a 200 in a ¥0 sweep).
+  const ENFORCED_CAP: Record<string, number> = {
+    "LongCat-2.5": 262_144,
+    "LongCat-2.5-Preview": 262_144,
+    "LongCat-2.0": 262_144,
+  };
   for (const entry of CATALOG) {
-    const over = entry.maxTokens + 1;
+    const enforced = ENFORCED_CAP[entry.id] ?? entry.maxTokens;
     const { status, json } = await post(
       "/openai/v1/chat/completions",
-      { model: entry.id, messages: [{ role: "user", content: "Reply with exactly one word: ok" }], max_tokens: over },
+      { model: entry.id, messages: [{ role: "user", content: "Reply with exactly one word: ok" }], max_tokens: enforced + 1 },
       { check: `cap-sweep/${entry.id}`, expect: 400 },
     );
     // Let an accepted rejection-probe fail loudly: a 200 here means the probe was
     // billed AND disclosed nothing (pitfalls L41.4 / testing.md).
     assert.equal(status, 400, `${entry.id}: cap probe was ACCEPTED (${status}) — billed, and no cap disclosed`);
-    assert.match(String(json?.error?.message), new RegExp(String(entry.maxTokens)), `${entry.id}: the rejection no longer names ${entry.maxTokens}`);
+    assert.match(String(json?.error?.message), new RegExp(String(enforced)), `${entry.id}: the rejection no longer names ${enforced}`);
+    assert.ok(entry.maxTokens <= enforced, `${entry.id}: the catalog clamp ${entry.maxTokens} exceeds the enforced ceiling ${enforced}`);
   }
 });
 
@@ -485,12 +556,14 @@ test("live/free: top_p is range-checked to (0, 1]", { skip: SKIP }, async () => 
 });
 
 test("live/free: an image under the measured area floor is rejected with the floor named", { skip: SKIP }, async () => {
-  // 8x8 = 64 px area, under the >256 px floor recorded in MIN_IMAGE_AREA_PX.
+  // 8x8 = 64 px area, under the >200 px floor recorded in MIN_IMAGE_AREA_PX
+  // (relaxed from >256 on 2026-11-07; the other half of the bracket — 225 px
+  // ACCEPTED — costs money and lives in research/probe-25-ga.ts cell B12).
   const tiny = solidPng(8, [0xe0, 0x10, 0x10]);
   const { status, json } = await post(
     "/openai/v1/chat/completions",
     {
-      model: "LongCat-2.5-Preview",
+      model: "LongCat-2.5",
       max_tokens: 4,
       messages: [{ role: "user", content: [{ type: "text", text: "What colour?" }, { type: "image_url", image_url: { url: `data:image/png;base64,${tiny}` } }] }],
     },
@@ -569,8 +642,16 @@ test("live/free: an oversized-prompt overflow probe is DELIBERATELY not run", { 
 const skipBilled = !KEY ? SKIP : !BILLED_MODE ? "pass --billed to run the accepted-call checks (each is itemized in the ledger)" : false;
 
 test("live/billed: the registered surface completes through the shipped adapter", { skip: skipBilled }, async () => {
-  const model = modelById("LongCat-2.0");
-  const { message, status } = await ask("liveness", model, "Reply with exactly one word: ok", { maxTokens: 8, reasoning: undefined });
+  // LongCat-2.5, the id the platform documents since 2026-11-02 — the point of
+  // this check is that the model a new user picks works end-to-end.
+  const model = modelById("LongCat-2.5");
+  // Budget 256, not 8: the GA model spends 30-200 reasoning tokens before it
+  // emits the first character on the Responses surface, and that surface's off
+  // switch does not work for the 2.5 family (see the next check) — at cap 8 the
+  // run stops with `length` and no text at all (measured 2026-11-07, this
+  // harness's own first run against LongCat-2.5). A liveness check that cannot
+  // see a first token proves nothing.
+  const { message, status } = await ask("liveness", model, "Reply with exactly one word: ok", { maxTokens: 256, reasoning: undefined });
   assert.equal(status, 200);
   assert.equal(message.stopReason, "stop", `expected a clean stop, got ${message.stopReason}: ${message.errorMessage ?? ""}`);
   assert.equal(message.model, model.id, "the echoed model must be the one we asked for (a reroute would be silent otherwise)");
@@ -580,13 +661,25 @@ test("live/billed: the registered surface completes through the shipped adapter"
 });
 
 test("live/billed: the thinking switch is honoured, measured by OUTPUT not by status", { skip: skipBilled }, async () => {
-  const model = modelById("LongCat-2.0");
-  const off = await ask("thinking-off", model, "Reply with exactly one word: ok", { maxTokens: 8, reasoning: undefined });
-  const on = await ask("thinking-on", model, "Reply with exactly one word: ok", { maxTokens: 64, reasoning: "low" });
+  // Surface-aware since 2026-11-07, because "off" exists on exactly one of them
+  // for this model: chat's `thinking:{"type":"disabled"}` zeroes reasoning on
+  // every id (re-measured on LongCat-2.5: 0 reasoning tokens, answer "ok"),
+  // while on Responses no token does (effort:none → 23 reasoning tokens), which
+  // is why the catalog HIDES `off` there and sends no reasoning field at all.
+  const model = modelById("LongCat-2.5");
+  const off = await ask("thinking-off", model, "Reply with exactly one word: ok", { maxTokens: 256, reasoning: undefined });
+  const on = await ask("thinking-on", model, "Reply with exactly one word: ok", { maxTokens: 256, reasoning: "low" });
   const thinkingBlocks = (m: AssistantMessage) => m.content.filter((c: any) => c.type === "thinking").length;
-  assert.equal(thinkingBlocks(off.message), 0, "thinking off must produce no reasoning");
+  if (SURFACE === "openai-completions") {
+    assert.equal(thinkingBlocks(off.message), 0, "chat's disabled token must zero the reasoning");
+  } else {
+    assert.ok(
+      thinkingBlocks(off.message) > 0,
+      "on Responses the 2.5 family has no off switch — a request with no level must still reason (if this is now 0, effort:none started working and LONGCAT_THINKING_RESPONSES_25 can go)",
+    );
+  }
   assert.ok(thinkingBlocks(on.message) > 0, "thinking on must produce reasoning (pi parses reasoning_content into thinking blocks)");
-  assert.ok(off.message.content.some((c: any) => c.type === "text"), "with thinking off the answer must fit in 8 tokens");
+  assert.ok(off.message.content.some((c: any) => c.type === "text"), "the answer must fit in the budget");
 });
 
 test("live/billed: an out-of-range temperature is ACCEPTED and overridden (2026-10-24 drift)", { skip: skipBilled }, async () => {
@@ -602,7 +695,7 @@ test("live/billed: an out-of-range temperature is ACCEPTED and overridden (2026-
 });
 
 test("live/billed: a tool round trip returns stopReason toolUse with usable arguments", { skip: skipBilled }, async () => {
-  const model = modelById("LongCat-2.0");
+  const model = modelById("LongCat-2.5");
   const tool = {
     name: "get_current_time",
     description: "Return the current time for a timezone.",
@@ -621,43 +714,48 @@ test("live/billed: a tool round trip returns stopReason toolUse with usable argu
   assert.equal(typeof call.arguments.zone, "string", "arguments must arrive parsed, not as a string blob");
 });
 
-test("live/billed: 2.5-Preview consumes an image and names a colour the prompt cannot suggest (chat surface only)", {
-  skip:
-    skipBilled || SURFACE !== "openai-completions"
-      ? SURFACE !== "openai-completions"
-        ? "image-colour is chat-only since 2026-10-24: vision through data-url images is measured UNRELIABLE on the Responses surface (1/6 correct colour reads vs 4/4 on chat, same png bytes — ledger DD3-IR*, live/image-colour; a check that flakes by gateway design is worse than a recorded defect)"
-        : skipBilled
-      : false,
-}, async () => {
-  const model = modelById("LongCat-2.5-Preview");
-  // GREEN, 256x256 (above the measured floor). "Green" cannot come from the
-  // prompt, and the text-only control for this exact question answered "Red"
-  // (2026-10-11) — so a correct answer is evidence of seeing, not of guessing.
-  // Thinking must be ON: measured, the same probe with thinking off answers
-  // "White" (catalog.ts LONGCAT_VISION_CAVEAT).
-  const green = solidPng(256, [0x18, 0xc8, 0x28]);
-  // Budget 64 → 128 on 2026-10-24: reasoning shares max_tokens with the answer,
-  // and a Responses-surface run truncated at 64 (out=64, stop=length, text="";
-  // ledger live/image-colour 10:33Z). The check is chat-ONLY since the same day:
-  // on Responses the SAME png bytes misread green as "Blue"/"teal" or truncated
-  // in 5 of 6 runs (1/6 correct vs 4/4 on chat — DD3-IR*, verdict rule
-  // pre-registered in research/probe-image-responses.ts). Asserting a colour
-  // there would be asserting a coin flip, so the defect is recorded, not tested.
-  // pi's transcript vocabulary is `{type:"image", data, mimeType}` — NOT the
-  // OpenAI wire shape. Sending the wire shape produced `400 Invalid base64 image
-  // data` on the first run of this harness, because pi re-serialized a part it
-  // did not recognize. The wire shape pi actually emits (`image_url:{url}`) is
-  // asserted offline in test/wire-format.test.ts.
+test("live/billed: an image is consumed and a STRUCTURAL fact about it is read correctly", { skip: skipBilled }, async () => {
+  const model = modelById("LongCat-2.5");
+  // What this check asserts, and why it changed shape on 2026-11-07:
+  //  - The old version asserted the model names the colour of a solid green
+  //    png, on the chat surface only, because chat read it 4/4 while Responses
+  //    read it 1/6 (DD3, 2026-10-24). The 2026-11-07 re-measurement
+  //    (research/probe-25-vision.ts, ledger GA-V-*) found that assertion to be a
+  //    coin flip on BOTH surfaces and BOTH models: green named green in 5/15
+  //    chat runs on LongCat-2.5, 6/15 on Responses, 2/6 on 2.5-Preview, and a
+  //    solid RED png 0/6 ("Magenta", "lavender", "Yellow"). A check that
+  //    asserts a coin flip is worse than no check.
+  //  - What IS robust — and is what a coding agent actually needs from an image
+  //    — is that the pixels are read at all: two black bars on a white field
+  //    were counted correctly 4/4 on the same day, on the same surface, with the
+  //    same reasoning budget. So the assertion is the count, the colour is
+  //    recorded, and the tokenized-image invariant stays.
+  const bars = barsPng(2);
+  const COLOUR_Q = "What single colour is this image? Answer with one word.";
   const { message } = await ask(
-    "image-colour",
+    "image-structure",
     model,
-    [{ type: "text", text: "What single colour is this image? Answer with one word." }, { type: "image", data: green, mimeType: "image/png" }],
-    { maxTokens: 128, reasoning: "low" },
+    [
+      { type: "text", text: "How many horizontal black bars are in this image? Answer with one number." },
+      { type: "image", data: bars, mimeType: "image/png" },
+    ],
+    { maxTokens: 256, reasoning: "low" },
   );
   const answer = message.content.filter((c: any) => c.type === "text").map((c: any) => c.text).join(" ");
   assert.equal(message.stopReason, "stop", `image request failed: ${message.errorMessage ?? message.stopReason}`);
   assert.ok((message.usage?.input ?? 0) > 40, `the image was not tokenized: input ${message.usage?.input}`);
-  assert.match(answer, /green/i, `vision readout failed: ${JSON.stringify(answer)}`);
+  assert.match(answer, /\b2\b/, `the image was not read: ${JSON.stringify(answer)}`);
+  // Recorded, never asserted: the colour readout on the same model+surface. It
+  // is the measurement that retired the old assertion, and keeping it in the
+  // ledger is how the next round sees whether the encoder changed.
+  const colour = await ask(
+    "image-colour (recorded, not asserted)",
+    model,
+    [{ type: "text", text: COLOUR_Q }, { type: "image", data: solidPng(256, [0x18, 0xc8, 0x28]), mimeType: "image/png" }],
+    { maxTokens: 256, reasoning: "low" },
+  );
+  const said = colour.message.content.filter((c: any) => c.type === "text").map((c: any) => c.text).join(" ").trim();
+  console.log(`      colour readout (recorded, not asserted): ${JSON.stringify(said)}`);
 });
 
 test("live/billed: the injected prompt_cache_key makes a CHANGED-TAIL request hit the warm prefix", { skip: skipBilled }, async () => {

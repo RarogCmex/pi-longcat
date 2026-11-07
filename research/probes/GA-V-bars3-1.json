@@ -1,0 +1,32 @@
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040676,"model":"LongCat-2.5","choices":[{"delta":{"role":"assistant","content":""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040676,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" image shows three horizontal"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" black bars stacked"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" vertically with"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" white space between them"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":". I need to"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" count them: top"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":", middle, bottom"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" = 3 bars"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{"content":"3"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[{"delta":{},"index":0,"finish_reason":"stop","matched_stop":2,"logprobs":null}],"lastOne":false}
+
+data: {"id":"606cc341eaaf41eb9701c2009748f440","object":"chat.completion.chunk","created":1794040677,"model":"LongCat-2.5","choices":[],"usage":{"completion_tokens":36,"prompt_tokens":348,"total_tokens":384,"completion_tokens_details":{"reasoning_tokens":32},"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}},"lastOne":true}
+
+data: [DONE]
+

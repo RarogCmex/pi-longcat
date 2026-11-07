@@ -16,9 +16,10 @@
  *     rewrite (pitfalls P51), and why the entry is gated on `ctx.hasUI`
  *     (appending an entry after the errored assistant message makes `pi -p`
  *     print nothing at all);
- *  4. the image-vision warning (added 2026-10-24, Responses surface only) is
- *     gated the same way and deduped per session — the DD3 measurement says
- *     vision there is unreliable, and the warning is how a user learns it
+ *  4. the image-vision warning (added 2026-10-24 on the Responses surface only,
+ *     re-scoped to BOTH surfaces on 2026-11-07) is gated the same way and deduped
+ *     per session — the measurement says naming the colour of a small image is
+ *     unreliable on this platform, and the warning is how a user learns it
  *     without reading the README first.
  */
 import assert from "node:assert/strict";
@@ -26,6 +27,7 @@ import test, { describe, beforeEach } from "node:test";
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { CATALOG } from "../catalog.ts";
 
 type Handler = (event: any, ctx?: any) => any;
 
@@ -128,8 +130,8 @@ describe("registration", () => {
       assert.equal(loaded.pi.registered.length, 1);
       const provider = loaded.pi.registered[0];
       assert.equal(provider.id, "longcat");
-      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-responses", "openai-responses"]);
-      assert.deepEqual(provider.getModels().map((m: any) => m.id), ["LongCat-2.5-Preview", "LongCat-2.0"]);
+      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-responses", "openai-responses", "openai-responses"]);
+      assert.deepEqual(provider.getModels().map((m: any) => m.id), ["LongCat-2.5", "LongCat-2.5-Preview", "LongCat-2.0"]);
     } finally { loaded.restore(); }
   });
 
@@ -137,8 +139,8 @@ describe("registration", () => {
     loaded = await load({ LONGCAT_SURFACE: "chat" });
     try {
       const provider = loaded.pi.registered[0];
-      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-completions", "openai-completions"]);
-      assert.equal(provider.getModels().length, 2, "one surface per process: 2 ids, not 4");
+      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-completions", "openai-completions", "openai-completions"]);
+      assert.equal(provider.getModels().length, CATALOG.length, "one surface per process: every curated id once, not twice");
     } finally { loaded.restore(); }
   });
 
@@ -146,7 +148,7 @@ describe("registration", () => {
     loaded = await load({ LONGCAT_SURFACE: "respones" });
     try {
       const provider = loaded.pi.registered[0];
-      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-responses", "openai-responses"]);
+      assert.deepEqual(provider.getModels().map((m: any) => m.api), ["openai-responses", "openai-responses", "openai-responses"]);
       assert.equal(loaded.pi.handlers.get("session_start")?.length, 1, "a typo must not pass silently (P52)");
       loaded.pi.emit("session_start", {}, UI_CTX(loaded.notified));
       assert.equal(loaded.notified.length, 1);
@@ -164,7 +166,7 @@ describe("registration", () => {
       loaded.pi.emit("session_start", {}, UI_CTX(loaded.notified));
       assert.match(loaded.notified[0] ?? "", /x-api-key/);
       assert.match(loaded.notified[0] ?? "", /401 missing_api_key/);
-      assert.deepEqual(loaded.pi.registered[0].getModels().map((m: any) => m.api), ["openai-responses", "openai-responses"]);
+      assert.deepEqual(loaded.pi.registered[0].getModels().map((m: any) => m.api), ["openai-responses", "openai-responses", "openai-responses"]);
     } finally { loaded.restore(); }
   });
 
@@ -179,8 +181,10 @@ describe("registration", () => {
     loaded = await load();
     try {
       const events = [...loaded.pi.handlers.keys()].sort();
-      // before_agent_start is registered ONLY on the Responses surface (default
-      // since 2026-10-24), where it carries the image-vision warning.
+      // before_agent_start carries the image-vision warning. It used to be
+      // Responses-only (the defect was surface-specific on 2026-10-24); the
+      // 2026-11-07 re-measurement found the wobble on BOTH surfaces, so it is
+      // registered either way now.
       assert.deepEqual(events, ["before_agent_start", "before_provider_request", "message_end", "turn_end"]);
       assert.equal(loaded.pi.handlers.get("before_provider_request")?.length, 1, "exactly one payload handler");
       assert.equal(loaded.pi.handlers.get("before_agent_start")?.length, 1, "exactly one image-warning handler");
@@ -188,11 +192,15 @@ describe("registration", () => {
     } finally { loaded.restore(); }
   });
 
-  test("the image-warning hook is NOT registered on the chat surface (vision is reliable there)", async () => {
+  test("the image-warning hook is registered on the chat surface TOO (the defect is not surface-specific)", async () => {
+    // 2026-10-24 registered this hook on Responses only, because chat read the
+    // probe 4/4 while Responses did not. On 2026-11-07 chat read it 5/15 and
+    // Responses 6/15 — same wobble, so the surface distinction was retired.
     loaded = await load({ LONGCAT_SURFACE: "chat" });
     try {
       const events = [...loaded.pi.handlers.keys()].sort();
-      assert.deepEqual(events, ["before_provider_request", "message_end", "turn_end"], "no before_agent_start on chat");
+      assert.deepEqual(events, ["before_agent_start", "before_provider_request", "message_end", "turn_end"]);
+      assert.equal(loaded.pi.handlers.get("before_agent_start")?.length, 1);
     } finally { loaded.restore(); }
   });
 
@@ -451,7 +459,7 @@ describe("turn_end persistent help", () => {
   });
 });
 
-describe("the image-vision warning (Responses surface only, operator request 2026-10-24)", () => {
+describe("the image-vision warning (both surfaces since 2026-11-07)", () => {
   let loaded: Awaited<ReturnType<typeof load>>;
   beforeEach(() => { loaded?.restore(); });
 
@@ -470,16 +478,18 @@ describe("the image-vision warning (Responses surface only, operator request 202
       sessionManager: opts.sessionId === undefined ? undefined : { getSessionId: () => opts.sessionId },
     }) as any;
 
-  test("an attached image warns once per session on the default surface, naming the chat escape hatch", async () => {
+  test("an attached image warns once per session, names what is unreliable, and no longer sells a surface switch", async () => {
     loaded = await load();
     try {
-      const model = loaded.pi.registered[0].getModels()[0]; // LongCat-2.5-Preview on openai-responses
+      const model = loaded.pi.registered[0].getModels()[0]; // LongCat-2.5 on openai-responses
       assert.equal(model.api, "openai-responses");
       loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "sess-a" }));
       assert.equal(loaded.notified.length, 1);
       assert.match(loaded.notified[0]!, /^\[warning\]/);
-      assert.match(loaded.notified[0]!, /LONGCAT_SURFACE=chat/, "the escape hatch must be named");
       assert.match(loaded.notified[0]!, /unreliable/i, "the measured verdict, not a vague hedge");
+      assert.match(loaded.notified[0]!, /colour/i, "the warning names what is actually unreliable");
+      assert.match(loaded.notified[0]!, /both surfaces/i, "the surface story that motivated the old advice is gone");
+      assert.doesNotMatch(loaded.notified[0]!, /LONGCAT_SURFACE=chat/, "switching surface no longer changes the outcome — do not advise it");
       // Deduped: a second image run in the same session stays silent…
       loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "sess-a" }));
       assert.equal(loaded.notified.length, 1, "once per session — an image-heavy session must not be a wall of toasts");
@@ -489,7 +499,7 @@ describe("the image-vision warning (Responses surface only, operator request 202
     } finally { loaded.restore(); }
   });
 
-  test("silent exactly when it must be: no images, custom runs, other providers, chat surface, no UI", async () => {
+  test("silent exactly when it must be: no images, custom runs, other providers, no UI", async () => {
     loaded = await load();
     try {
       const model = loaded.pi.registered[0].getModels()[0];
@@ -498,7 +508,6 @@ describe("the image-vision warning (Responses surface only, operator request 202
       loaded.pi.emit("before_agent_start", imageEvent([]), ctxFor(loaded.notified, model, { sessionId: "s1" }));
       loaded.pi.emit("before_agent_start", { type: "before_agent_start", messageType: "custom", message: {} }, ctxFor(loaded.notified, model, { sessionId: "s1" }));
       loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, otherProvider, { sessionId: "s1" }));
-      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, { ...model, api: "openai-completions" }, { sessionId: "s1" }));
       loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "s1", hasUI: false }));
       assert.deepEqual(loaded.notified, [], "none of these may warn");
       // And none of them consumed the session dedupe: the real case still warns.
@@ -517,14 +526,14 @@ describe("the image-vision warning (Responses surface only, operator request 202
     } finally { loaded.restore(); }
   });
 
-  test("a chat-surface registration has no handler at all — silence by construction", async () => {
+  test("a chat-surface registration warns too — the same caveat, not a promise the other surface is better", async () => {
     loaded = await load({ LONGCAT_SURFACE: "chat" });
     try {
       const model = loaded.pi.registered[0].getModels()[0];
       assert.equal(model.api, "openai-completions");
-      const result = loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "s" }));
-      assert.equal(result, undefined);
-      assert.deepEqual(loaded.notified, []);
+      loaded.pi.emit("before_agent_start", imageEvent([PNG]), ctxFor(loaded.notified, model, { sessionId: "s" }));
+      assert.equal(loaded.notified.length, 1, "chat is no longer the safe harbour the 2026-10-24 measurement promised");
+      assert.match(loaded.notified[0]!, /^\[warning\]/);
     } finally { loaded.restore(); }
   });
 });

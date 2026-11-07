@@ -168,10 +168,12 @@ describe("model building", () => {
 
   test("carries the measured caps, windows and modalities", () => {
     const byId = new Map(buildModels("openai-completions", BASE_URL).map((m) => [m.id, m]));
-    assert.equal(byId.get("LongCat-2.0")?.maxTokens, 131_072);
+    assert.equal(byId.get("LongCat-2.0")?.maxTokens, 131_072, "the published clamp, though the validator now allows 262144");
     assert.equal(byId.get("LongCat-2.5-Preview")?.maxTokens, 262_144);
+    assert.equal(byId.get("LongCat-2.5")?.maxTokens, 262_144, "cap re-measured by rejection 2026-11-07");
     for (const model of byId.values()) assert.equal(model.contextWindow, 1_048_576);
     assert.deepEqual(byId.get("LongCat-2.5-Preview")?.input, ["text", "image"]);
+    assert.deepEqual(byId.get("LongCat-2.5")?.input, ["text", "image"], "video is advertised by the gateway, not expressible in pi");
     assert.deepEqual(byId.get("LongCat-2.0")?.input, ["text"]);
   });
 
@@ -195,11 +197,13 @@ describe("thinking levels, as pi's own functions see them", () => {
     // (nor does any other token). Offering an "off" that silently bills
     // reasoning is the exact lie the picker must not tell.
     const models = buildModels("openai-responses", BASE_URL);
-    const preview = models.find((m) => m.id === "LongCat-2.5-Preview")!;
     const two = models.find((m) => m.id === "LongCat-2.0")!;
-    assert.deepEqual(getSupportedThinkingLevels(preview), ["low"], "2.5 on Responses: only low is honest");
+    for (const id of ["LongCat-2.5", "LongCat-2.5-Preview"]) {
+      const family = models.find((m) => m.id === id)!;
+      assert.deepEqual(getSupportedThinkingLevels(family), ["low"], `${id} on Responses: only low is honest`);
+      assert.equal(clampThinkingLevel(family, "off"), "low", `${id}: an explicit off request clamps UP — reasoning is billed either way on that pair`);
+    }
     assert.deepEqual(getSupportedThinkingLevels(two), ["off", "low"], "2.0 on Responses: effort:none is measured to work");
-    assert.equal(clampThinkingLevel(preview, "off"), "low", "an explicit off request clamps UP — reasoning is billed either way on that pair");
     assert.equal(clampThinkingLevel(two, "off"), "off", "2.0's off switch cannot be clamped away");
   });
 

@@ -114,7 +114,7 @@ Choose based on which format you prefer to use
 Q: How do I enable streaming responses?
 A: Set "stream": true in your request body. The response will be returned as Server-Sent Events (SSE).
 Q: What's the maximum token limit?
-A: LongCat-2.5-Preview outputs tokens up to 128k; LongCat-2.0 outputs tokens up to 128k
+A: LongCat-2.5 outputs up to 256K tokens
 Error Handling ​
 Q: What causes a 401 Unauthorized error?
 A: This typically means:
@@ -179,7 +179,7 @@ Monitor error rates
 Set up alerts for quota limits
 Billing ​
 Q: Which models does the Token Resource Pack currently support?
-A: It currently supports LongCat-2.0 and LongCat-2.5-Preview.
+A: It currently supports LongCat-2.5.
 Q: Will failed API requests consume tokens from my Token Pack or pay-as-you-go balance?
 A: No. Failed responses — including HTTP 401, 403, 429, and 500 — will not be charged. Only successful requests (HTTP 200) are billed based on actual token usage.
 Q: Does the API Pay-As-You-Go prepaid balance expire?

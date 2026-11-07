@@ -1,0 +1,46 @@
+data: {"type":"response.created","response":{"id":"resp_87e93884b8e343cb93b5334d0a2ba761","object":"response","created_at":1794038292,"status":"in_progress","background":false,"max_output_tokens":256,"model":"LongCat-2.5","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":0}
+
+data: {"type":"response.in_progress","response":{"id":"resp_87e93884b8e343cb93b5334d0a2ba761","object":"response","created_at":1794038292,"status":"in_progress","background":false,"max_output_tokens":256,"model":"LongCat-2.5","output":[],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"auto","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","metadata":{}},"sequence_number":1}
+
+data: {"type":"response.output_item.added","output_index":0,"item":{"id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","type":"reasoning","summary":[],"content":[]},"sequence_number":2}
+
+data: {"type":"response.content_part.added","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"","annotations":[],"logprobs":[]},"sequence_number":3}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":"\n","obfuscation":"obf_278dde6c4","sequence_number":4,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":"The","obfuscation":"obf_317156075","sequence_number":5,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":" user wants","obfuscation":"obf_3b54cda26","sequence_number":6,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":" exactly","obfuscation":"obf_4538453d7","sequence_number":7,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":" one word: \"","obfuscation":"obf_4f1bbcd88","sequence_number":8,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":"ok\".","obfuscation":"obf_58ff34739","sequence_number":9,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":" I should reply","obfuscation":"obf_62e2ac0ea","sequence_number":10,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":" with","obfuscation":"obf_6cc623a9b","sequence_number":11,"content_index":0}
+
+data: {"type":"response.reasoning_text.delta","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"delta":" just that.","obfuscation":"obf_76a99b44c","sequence_number":12,"content_index":0}
+
+data: {"type":"response.reasoning_text.done","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"text":"\nThe user wants exactly one word: \"ok\". I should reply with just that.","sequence_number":13,"content_index":0}
+
+data: {"type":"response.content_part.done","item_id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","output_index":0,"content_index":0,"part":{"type":"reasoning_text","text":"\nThe user wants exactly one word: \"ok\". I should reply with just that.","annotations":[],"logprobs":[]},"sequence_number":14}
+
+data: {"type":"response.output_item.done","output_index":0,"item":{"id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","type":"reasoning","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user wants exactly one word: \"ok\". I should reply with just that."}]},"sequence_number":15}
+
+data: {"type":"response.output_item.added","output_index":1,"item":{"id":"msg_96aaeceb06a642949ac11f453c1bb453","type":"message","status":"in_progress","role":"assistant","content":[]},"sequence_number":16}
+
+data: {"type":"response.content_part.added","item_id":"msg_96aaeceb06a642949ac11f453c1bb453","output_index":1,"content_index":0,"part":{"type":"output_text","text":"","annotations":[],"logprobs":[]},"sequence_number":17}
+
+data: {"type":"response.output_text.delta","item_id":"msg_96aaeceb06a642949ac11f453c1bb453","output_index":1,"content_index":0,"delta":"ok","logprobs":[],"obfuscation":"obf_b1fe68e72","sequence_number":18}
+
+data: {"type":"response.output_text.done","item_id":"msg_96aaeceb06a642949ac11f453c1bb453","output_index":1,"content_index":0,"text":"ok","logprobs":[],"sequence_number":19}
+
+data: {"type":"response.content_part.done","item_id":"msg_96aaeceb06a642949ac11f453c1bb453","output_index":1,"content_index":0,"part":{"type":"output_text","text":"ok","annotations":[],"logprobs":[]},"sequence_number":20}
+
+data: {"type":"response.output_item.done","output_index":1,"item":{"id":"msg_96aaeceb06a642949ac11f453c1bb453","type":"message","status":"completed","role":"assistant","content":[{"type":"output_text","text":"ok","annotations":[],"logprobs":[]}]},"sequence_number":21}
+
+data: {"type":"response.completed","response":{"id":"resp_87e93884b8e343cb93b5334d0a2ba761","object":"response","created_at":1794038292,"status":"completed","background":false,"completed_at":1794038294,"max_output_tokens":256,"model":"LongCat-2.5","output":[{"type":"reasoning","id":"rs_resp_87e93884b8e343cb93b5334d0a2ba761","summary":[],"content":[{"type":"reasoning_text","text":"\nThe user wants exactly one word: \"ok\". I should reply with just that."}]},{"type":"message","id":"msg_96aaeceb06a642949ac11f453c1bb453","status":"completed","role":"assistant","content":[{"type":"output_text","text":"ok","annotations":[],"logprobs":[]}]}],"parallel_tool_calls":true,"reasoning":{"effort":"low","summary":null},"service_tier":"default","store":true,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"truncation":"disabled","usage":{"input_tokens":14,"input_tokens_details":{"cached_tokens":0},"output_tokens":22,"output_tokens_details":{"reasoning_tokens":18},"total_tokens":36},"metadata":{}},"sequence_number":22}
+

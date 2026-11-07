@@ -1,0 +1,34 @@
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"role":"assistant","content":""},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":"The"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" user is"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" asking what single color"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" the image is."},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" Looking at the image"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":", it appears to"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" be a solid light"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" blue color"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":". The answer"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" should be one"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"reasoning_content":" word: blue.\n"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{"content":"blue"},"index":0,"finish_reason":null,"matched_stop":null,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[{"delta":{},"index":0,"finish_reason":"stop","matched_stop":2,"logprobs":null}],"lastOne":false}
+
+data: {"id":"9e416fb275d94f889192561a63519f71","object":"chat.completion.chunk","created":1794040583,"model":"LongCat-2.5","choices":[],"usage":{"completion_tokens":40,"prompt_tokens":345,"total_tokens":385,"completion_tokens_details":{"reasoning_tokens":36},"prompt_tokens_details":{"cached_tokens":256,"audio_tokens":0,"image_tokens":0,"video_tokens":0,"text_tokens":0,"cache_write_tokens":0}},"lastOne":true}
+
+data: [DONE]
+

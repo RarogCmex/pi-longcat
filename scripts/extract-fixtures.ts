@@ -25,6 +25,17 @@ const SRC = join(ROOT, "research", "probes");
 const OUT = join(ROOT, "test", "fixtures");
 mkdirSync(OUT, { recursive: true });
 
+/**
+ * Fixtures recorded on a date other than the 2026-10-10/11 batch. Kept as data so
+ * the SOURCES table cannot claim a date the bytes were not recorded on.
+ */
+const RECORDED: Record<string, string> = {
+  "key1-models-2026-11-07.json": "2026-11-07",
+  "retrieve-2.5-ga.json": "2026-11-07",
+  "CAP7-chat-2.0-262145.json": "2026-11-07",
+  "CAP8-chat-2.0-131073-accepted.json": "2026-11-07",
+};
+
 /** Fixtures the offline suite actually reads, with the claim each one supports. */
 const WANTED: Record<string, string> = {
   "key1-models.json": "GET /openai/v1/models with KEY1 — the curated catalog must equal the live listing",
@@ -33,6 +44,10 @@ const WANTED: Record<string, string> = {
   "retrieve-2.5-preview.json": "GET /models/LongCat-2.5-Preview — image modality + pricing",
   "CAP1-chat-2.0-131073.json": "cap oracle: 131073 rejected naming 131072 (LongCat-2.0)",
   "CAP3-chat-2.5-262145.json": "cap oracle: 262145 rejected naming 262144 (2.5-Preview)",
+  "key1-models-2026-11-07.json": "GET /openai/v1/models with KEY1 after the GA release — THREE ids, and the body the catalog is checked against",
+  "retrieve-2.5-ga.json": "GET /models/LongCat-2.5 — 1M window, 262144 cap, text+image+video, CNY pricing",
+  "CAP7-chat-2.0-262145.json": "cap oracle 2026-11-07: 262145 rejected naming 262144 — for LongCat-2.0, whose ceiling moved",
+  "CAP8-chat-2.0-131073-accepted.json": "cap oracle 2026-11-07: 131073 ACCEPTED and billed — the old 2.0 ceiling is gone while the listing still advertises it",
   "CAP4-chat-window-plus-1.json": "the max_tokens check fires before any context check",
   "neg-max_tokens-2.0.json": "the validator discloses no upper bound for a negative value",
   "PA3-temperature-range.json": "temperature is range-checked to <= 1 (documented 0~1)",
@@ -50,7 +65,7 @@ const WANTED: Record<string, string> = {
   "order-model-vs-params.json": "validation order: an unknown model beats an invalid parameter",
   "badkey-unknownmodel.json": "a bad key + an unknown model still answers 401 (auth precedes model lookup)",
   "malformed-json.json": "the non-OpenAI envelope used for unparseable bodies",
-  "IM1-image-2.5-chat.json": "the measured image floor: area must exceed 256 px",
+  "IM1-image-2.5-chat.json": "HISTORICAL floor row (2026-10-11): area had to exceed 256 px; the platform relaxed it to 200 by 2026-11-07",
   "free-stream-invalid-openai_v1_responses.json": "a streaming Responses failure arrives as response.failed (SSE), not as an in-band 200",
   "S1-chat-stream.json": "chat SSE dialect, incl. the final usage chunk and data: [DONE]",
   "S2-responses-stream.json": "Responses SSE dialect (response.created …)",
@@ -109,7 +124,7 @@ for (const [name, claim] of Object.entries(WANTED)) {
   }
   writeFileSync(join(OUT, name), cleaned.endsWith("\n") ? cleaned : cleaned + "\n");
   const kind = isSse ? "SSE stream" : "JSON body";
-  lines.push(`| \`${name}\` | ${kind}, recorded 2026-10-10/11 | ${claim} |`);
+  lines.push(`| \`${name}\` | ${kind}, recorded ${RECORDED[name] ?? "2026-10-10/11"} | ${claim} |`);
   written++;
 }
 writeFileSync(join(OUT, "SOURCES.md"), lines.join("\n") + "\n");

@@ -65,12 +65,33 @@ describe("buildLongCatProvider", () => {
     assert.equal(provider.name, "LongCat (Meituan)");
     assert.equal(provider.baseUrl, BASE_URL);
     const models = provider.getModels();
-    assert.deepEqual(models.map((m) => m.id), ["LongCat-2.5-Preview", "LongCat-2.0"]);
+    assert.deepEqual(models.map((m) => m.id), ["LongCat-2.5", "LongCat-2.5-Preview", "LongCat-2.0"]);
     for (const model of models) {
       assert.equal(model.api, "openai-completions");
       assert.equal(model.provider, PROVIDER_ID);
       assert.equal(model.baseUrl, BASE_URL);
     }
+  });
+
+  test("a restored overlay row cannot shadow a curated id (measured 2026-11-07)", () => {
+    // pi restores the persisted discovery overlay and merges it OVER the baseline
+    // by id (pi-ai/dist/models.js:559-568). LongCat-2.5 was an unknown id between
+    // the platform's 2026-11-02 release and this catalog update, so anyone who ran
+    // the plugin in that window has a stored row saying input:["text"], cost:0 —
+    // and pi would serve that over the catalog forever, offline included.
+    // Observed: `pi --list-models` printed `images: no` for LongCat-2.5.
+    const provider = buildLongCatProvider("openai-responses", openAICompletionsApi(), () => undefined, BASE_URL);
+    const curated = provider.getModels().find((m) => m.id === "LongCat-2.5")!;
+    // The exact shape `unknownModelToModel` produced for it before this update:
+    // text-only input and zero cost (guessInput never inherits vision).
+    const stale = { ...curated, input: ["text"] as ("text" | "image")[], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 } };
+    const unknown = { ...curated, id: "LongCat-9.9", input: ["text"] as ("text" | "image")[] };
+    const passed = provider.filterModels?.([stale, unknown], undefined) ?? [];
+    assert.equal(passed.length, 2, "nothing may be dropped — an unknown persisted id stays visible");
+    assert.deepEqual(passed[0]!.input, ["text", "image"], "the curated row wins for a curated id");
+    assert.deepEqual(passed[0]!.cost, curated.cost, "including the price the catalog measured");
+    assert.equal(passed[1]!.id, "LongCat-9.9", "an id the catalog never heard of passes through untouched");
+    assert.deepEqual(passed[1]!.input, ["text"]);
   });
 
   test("the Responses registration stamps the other api and its own compat", () => {

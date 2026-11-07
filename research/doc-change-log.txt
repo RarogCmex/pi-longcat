@@ -1,4 +1,10 @@
 CopyLongCat API Platform Change Log ​
+Version: 2026-11-02 ​
+LongCat-2.5 Now Available ​
+LongCat-2.5's core features include:
+Native Multimodality, Beyond Text: Combines visual understanding with agentic coding for visual coding, creative design, and 3D tasks.
+Long-Horizon Agents for Complex Engineering: Tackles complex codebases and full-project builds through multi-step reasoning, tool use, and end-to-end task execution.
+Works Across Agent Harnesses: Compatible with Claude Code, Codex, Hermes, and other agent harnesses, with flexible integration into your development tools and workflows.
 Version: 2026-09-25 ​
 LongCat-2.5-Preview Now Available ​
 LongCat-2.5-Preview's core features include:
@@ -14,6 +20,12 @@ Invoicing: Self‑service invoicing is now available to verified enterprise user
 
 Exclusive Benefits: Enterprise users can enjoy tiered discounts on Pay-As-You-Go usage alongside other dedicated services. For details, see FAQ-Account Verification & Benefits.
 
+Version: 2026-11-02 ​
+LongCat-2.5 Now Available ​
+LongCat-2.5's core features include:
+Native Multimodality, Beyond Text: Combines visual understanding with agentic coding for visual coding, creative design, and 3D tasks.
+Long-Horizon Agents for Complex Engineering: Tackles complex codebases and full-project builds through multi-step reasoning, tool use, and end-to-end task execution.
+Works Across Agent Harnesses: Compatible with Claude Code, Codex, Hermes, and other agent harnesses, with flexible integration into your development tools and workflows.
 Version: 2026-09-25 ​
 LongCat-2.5-Preview Now Available ​
 LongCat-2.5-Preview's core features include:
